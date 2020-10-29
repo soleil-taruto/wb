@@ -116,6 +116,14 @@ namespace Charlotte
 					)
 					SCommon.DeletePath(file);
 			}
+			foreach (string file in Common.GetAllFiles(dir))
+			{
+				if (
+					SCommon.ContainsIgnoreCase(file, "\\tmp\\") ||
+					SCommon.ContainsIgnoreCase(file, "\\tmp_")
+					)
+					SCommon.DeletePath(file);
+			}
 		}
 
 		private void SolveGameResource(string dir)
