@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Charlotte
 {
-	public class Consts
+	public static class Consts
 	{
 		public const string REPOSITORIES_ROOT_DIR = @"C:\be\GitHubRepositories";
 	}

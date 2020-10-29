@@ -26,6 +26,8 @@ namespace Charlotte
 
 		private void Solve(string dir)
 		{
+			SolveForFactory(dir);
+			SolveGameResource(dir);
 			SolveNonAsciiCharactersPaths(dir);
 			SolveEmptyFolders(dir);
 		}
@@ -34,7 +36,7 @@ namespace Charlotte
 		{
 			foreach (string subDir in Directory.GetDirectories(dir))
 			{
-				if (Path.GetFileName(subDir) == ".git")
+				if (SCommon.EqualsIgnoreCase(Path.GetFileName(subDir), ".git"))
 					continue;
 
 				SolveNonAsciiCharactersPaths(subDir);
@@ -51,7 +53,7 @@ namespace Charlotte
 			string localPath = Path.GetFileName(path);
 			string localPathNew = ToAsciiCharactersLocalPath(localPath);
 
-			if (localPath != localPathNew)
+			if (!SCommon.EqualsIgnoreCase(localPath, localPathNew))
 			{
 				string pathNew = Path.Combine(Path.GetDirectoryName(path), localPathNew);
 
@@ -95,11 +97,66 @@ namespace Charlotte
 
 			foreach (string subDir in Directory.GetDirectories(dir))
 			{
-				if (Path.GetFileName(subDir) == ".git")
+				if (SCommon.EqualsIgnoreCase(Path.GetFileName(subDir), ".git"))
 					continue;
 
 				SolveEmptyFolders(subDir);
 			}
+		}
+
+		private void SolveForFactory(string dir)
+		{
+			foreach (string file in Common.GetAllFiles(dir))
+			{
+				string lwrExt = Path.GetExtension(file).ToLower();
+
+				if (
+					lwrExt == ".exe" ||
+					lwrExt == ".obj"
+					)
+					SCommon.DeletePath(file);
+			}
+		}
+
+		private void SolveGameResource(string dir)
+		{
+			foreach (string file in Common.GetAllFiles(dir))
+			{
+				if (
+					SCommon.ContainsIgnoreCase(file, "\\dat\\") ||
+					SCommon.ContainsIgnoreCase(file, "\\res\\") ||
+					SCommon.ContainsIgnoreCase(file, ".rum\\files\\") // .rum には dat, res 配下のファイルも収録されている。
+					)
+					SGR_Mask(file);
+			}
+		}
+
+		private const string SGR_MASKED_FILE_SUFFIX = "_ghrs-secret.txt";
+
+		private void SGR_Mask(string file)
+		{
+			if (SCommon.EndsWithIgnoreCase(file, SGR_MASKED_FILE_SUFFIX)) // ? マスク済み
+				return;
+
+			if (IsLikeASourceFile(file)) // ? ソースファイルっぽい -> 除外
+				return;
+
+			SCommon.DeletePath(file);
+			File.WriteAllText(file + SGR_MASKED_FILE_SUFFIX, "//// ghrs-secret ////");
+		}
+
+		private bool IsLikeASourceFile(string file)
+		{
+			// .cs ファイルの想定開始パターン
+			// -- BOM + "using System;" + 改行 + "using "
+			byte[] csStPtn = new byte[] { 0xef, 0xbb, 0xbf, 0x75, 0x73, 0x69, 0x6e, 0x67, 0x20, 0x53, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x3b, 0x0d, 0x0a, 0x75, 0x73, 0x69, 0x6e, 0x67, 0x20 };
+
+			using (FileStream reader = new FileStream(file, FileMode.Open, FileAccess.Read))
+				foreach (byte bChr in csStPtn)
+					if ((int)bChr != reader.ReadByte())
+						return false;
+
+			return true;
 		}
 	}
 }
