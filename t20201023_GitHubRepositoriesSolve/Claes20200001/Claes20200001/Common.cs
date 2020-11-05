@@ -9,12 +9,12 @@ namespace Charlotte
 {
 	public static class Common
 	{
-		public static string[] GetAllFiles(string dir)
+		public static string[] GetRepositoryFiles(string dir)
 		{
-			return E_GetAllFiles(dir).ToArray();
+			return E_GetRepositoryFiles(dir).ToArray();
 		}
 
-		private static IEnumerable<string> E_GetAllFiles(string dir)
+		private static IEnumerable<string> E_GetRepositoryFiles(string dir)
 		{
 			foreach (string subDir in Directory.GetDirectories(dir))
 			{

@@ -55,6 +55,8 @@ namespace Charlotte.Tests
 				DDPrint.SetPrint();
 				DDPrint.PrintLine("現在の再生位置：" + DX.GetCurrentPositionSoundMem(music.Sound.GetHandle(0)));
 				DDPrint.PrintLine("曲の長さ：" + DX.GetSoundTotalSample(music.Sound.GetHandle(0)));
+				DDPrint.PrintLine("");
+				DDPrint.PrintLine("Z or A-Button == リスタート");
 
 				DDEngine.EachFrame();
 			}

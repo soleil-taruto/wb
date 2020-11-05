@@ -10,7 +10,7 @@ namespace Charlotte
 	{
 		//public DDMusic Dummy = new DDMusic("Dummy.mp3");
 
-		public DDMusic MUS_BOSS_01 = new DDMusic(@"e20201018_TateShoot\Mirror of ES\nc213704.mp3");
+		public DDMusic MUS_BOSS_01 = new DDMusic(@"e20200003_dat\Mirror of ES\nc213704.mp3");
 
 		public ResourceMusic()
 		{
