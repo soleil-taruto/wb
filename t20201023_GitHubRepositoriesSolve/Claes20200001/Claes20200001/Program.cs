@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using Charlotte.Commons;
+using Charlotte.Tests;
 
 namespace Charlotte
 {
@@ -16,6 +17,31 @@ namespace Charlotte
 		}
 
 		private void Main2(ArgsReader ar)
+		{
+			// -- choose one --
+
+			//TestMain(); // テスト
+			ProductMain(); // 本番
+
+			// --
+		}
+
+		private void TestMain()
+		{
+			// -- choose one --
+
+			//new Test0001().Test01();
+			//new Test0001().Test02();
+			//new Test0001().Test03();
+			new Test0001().Test01();
+
+			// --
+
+			Console.WriteLine("Press ENTER key.");
+			Console.ReadLine();
+		}
+
+		private void ProductMain()
 		{
 			if (!Directory.Exists(Consts.REPOSITORIES_ROOT_DIR))
 				throw new Exception("リポジトリのルート・ディレクトリが見つかりません。");
@@ -179,6 +205,45 @@ namespace Charlotte
 		}
 
 		private bool IsLikeASourceFile(string file)
+		{
+			return
+				IsLikeASourceFile_C(file) ||
+				IsLikeASourceFile_CS(file);
+		}
+
+		public bool IsLikeASourceFile_C(string file)
+		{
+			bool insideOfComment = false;
+			int lineCount = 0;
+
+			foreach (string line in Common.ReadAllLines_SJIS(file))
+			{
+				if (line != "")
+				{
+					if (insideOfComment)
+					{
+						if (line == "*/")
+							insideOfComment = false;
+					}
+					else
+					{
+						if (line == "/*")
+							insideOfComment = true;
+						else if (line.StartsWith("#include <"))
+							return true;
+						else if (line.StartsWith("#include \""))
+							return true;
+					}
+				}
+				lineCount++;
+
+				if (1000 <= lineCount) // ? #include までの行が多すぎる。
+					break;
+			}
+			return false;
+		}
+
+		private bool IsLikeASourceFile_CS(string file)
 		{
 			// .cs ファイルの想定開始パターン
 			// -- BOM + "using "
