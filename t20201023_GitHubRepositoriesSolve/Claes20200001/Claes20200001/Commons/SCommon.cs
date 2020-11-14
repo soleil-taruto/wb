@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace Charlotte.Commons
 {
@@ -1171,6 +1172,86 @@ namespace Charlotte.Commons
 				remaining -= (long)count;
 				writer(buff, offset, count);
 			};
+		}
+
+		public static string[] Batch(string[] commands, string workingDir = "", StartProcessWindowStyle_e winStyle = StartProcessWindowStyle_e.INVISIBLE)
+		{
+			using (WorkingDir wd = new WorkingDir())
+			{
+				string batFile = wd.GetPath("Run.bat");
+				string outFile = wd.GetPath("Run.out");
+				string callBatFile = wd.GetPath("Call.bat");
+
+				File.WriteAllLines(batFile, commands, ENCODING_SJIS);
+				File.WriteAllText(callBatFile, "> " + outFile + " CALL " + batFile, ENCODING_SJIS);
+
+				StartProcess("cmd", "/c " + callBatFile, workingDir, winStyle).WaitForExit();
+
+				// batFile 終了待ち
+				// -- どうやら MSBuild が終わる前に WaitForExit() が制御を返しているっぽい。@ 2020.11.10 -- t20201110_ConfuserElsa
+				{
+					//int millis = 0;
+					int millis = 100;
+
+					for (; ; )
+					{
+						try
+						{
+							File.ReadAllBytes(outFile); // 読み込みテスト
+							break;
+						}
+						catch
+						{ }
+
+						Console.WriteLine("プロセス終了待ち");
+
+						if (millis < 2000)
+							//millis++;
+							millis += 100;
+
+						Thread.Sleep(millis);
+					}
+				}
+
+				return File.ReadAllLines(outFile, ENCODING_SJIS);
+			}
+		}
+
+		public enum StartProcessWindowStyle_e
+		{
+			INVISIBLE = 1,
+			MINIMIZED,
+			NORMAL,
+		};
+
+		public static Process StartProcess(string file, string args, string workingDir = "", StartProcessWindowStyle_e winStyle = StartProcessWindowStyle_e.INVISIBLE)
+		{
+			ProcessStartInfo psi = new ProcessStartInfo();
+
+			psi.FileName = file;
+			psi.Arguments = args;
+			psi.WorkingDirectory = workingDir; // 既定値 == ""
+
+			switch (winStyle)
+			{
+				case StartProcessWindowStyle_e.INVISIBLE:
+					psi.CreateNoWindow = true;
+					psi.UseShellExecute = false;
+					break;
+
+				case StartProcessWindowStyle_e.MINIMIZED:
+					psi.CreateNoWindow = false;
+					psi.UseShellExecute = true;
+					psi.WindowStyle = ProcessWindowStyle.Minimized;
+					break;
+
+				case StartProcessWindowStyle_e.NORMAL:
+					break;
+
+				default:
+					throw null;
+			}
+			return Process.Start(psi);
 		}
 	}
 }

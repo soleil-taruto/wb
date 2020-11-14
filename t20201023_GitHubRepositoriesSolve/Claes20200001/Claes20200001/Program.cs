@@ -30,10 +30,9 @@ namespace Charlotte
 		{
 			// -- choose one --
 
-			//new Test0001().Test01();
+			new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0001().Test03();
-			new Test0001().Test01();
 
 			// --
 
@@ -48,15 +47,31 @@ namespace Charlotte
 
 			foreach (string dir in Directory.GetDirectories(Consts.REPOSITORIES_ROOT_DIR))
 				Solve(dir);
+
+			Console.WriteLine("圧縮しています...");
+			SCommon.Batch(new string[]
+			{
+				"Compact.exe /C /S:\"" + Consts.REPOSITORIES_ROOT_DIR + "\"",
+			},
+			"",
+			SCommon.StartProcessWindowStyle_e.MINIMIZED
+			);
+			Console.WriteLine("圧縮完了");
 		}
 
 		private void Solve(string dir)
 		{
+			Console.WriteLine("*1"); // test
 			SolveForVS2019(dir);
+			Console.WriteLine("*2"); // test
 			SolveForFactory(dir);
+			Console.WriteLine("*3"); // test
 			SolveGameResource(dir);
+			Console.WriteLine("*4"); // test
 			SolveNonAsciiCharactersPaths(dir);
+			Console.WriteLine("*5"); // test
 			SolveEmptyFolders(dir);
+			Console.WriteLine("*6"); // test
 		}
 
 		private void SolveForVS2019(string dir)
