@@ -48,6 +48,11 @@ namespace Charlotte
 			foreach (string dir in Directory.GetDirectories(Consts.REPOSITORIES_ROOT_DIR))
 				Solve(dir);
 
+			//CompactRRD(); // やたら時間掛かることがあるので、抑止
+		}
+
+		private void CompactRRD()
+		{
 			Console.WriteLine("圧縮しています...");
 			SCommon.Batch(new string[]
 			{
