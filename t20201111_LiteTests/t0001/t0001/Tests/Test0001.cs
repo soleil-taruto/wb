@@ -53,5 +53,26 @@ namespace Charlotte.Tests
 			Console.WriteLine(string.Join(", ", arr));
 			Console.WriteLine(string.Join(", ", arr2));
 		}
+
+		public void Test05()
+		{
+			bool flag;
+
+			flag = false;
+			flag |= false;
+			Console.WriteLine(flag); // False
+
+			flag = false;
+			flag |= true;
+			Console.WriteLine(flag); // True
+
+			flag = true;
+			flag |= false;
+			Console.WriteLine(flag); // True
+
+			flag = true;
+			flag |= true;
+			Console.WriteLine(flag); // True
+		}
 	}
 }

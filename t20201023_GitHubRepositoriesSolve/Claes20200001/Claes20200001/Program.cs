@@ -217,6 +217,11 @@ namespace Charlotte
 			if (SCommon.EndsWithIgnoreCase(file, FILE_SUFFIX)) // ? マスク済み
 				return;
 
+			// ____EMPTY____ を処理してしまわないように @ 2020.12.8
+			//
+			if (new FileInfo(file).Length == 0) // ? 空のファイル -> 除外
+				return;
+
 			if (IsLikeASourceFile(file)) // ? ソースファイルっぽい -> 除外
 				return;
 
