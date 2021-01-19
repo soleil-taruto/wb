@@ -8,15 +8,15 @@ namespace Charlotte
 {
 	public class ResourceMusic
 	{
-		//public DDMusic Dummy = new DDMusic("Dummy.mp3");
+		//public DDMusic Dummy = new DDMusic(@"dat\General\muon.wav");
 
-		public DDMusic MUS_BOSS_01 = new DDMusic(@"e20200003_dat\Mirror of ES\nc213704.mp3");
-		public DDMusic MUS_BOSS_01_v300 = new DDMusic(@"e20200003_dat\Mirror of ES\nc213704_v300.mp3");
-		public DDMusic MUS_BOSS_02 = new DDMusic(@"e20200003_dat\Reda\nc136551.mp3");
+		public DDMusic MUS_BOSS_01 = new DDMusic(@"dat\Mirror of ES\nc213704.mp3");
+		public DDMusic MUS_BOSS_01_v300 = new DDMusic(@"dat\Mirror of ES\nc213704_v300.mp3");
+		public DDMusic MUS_BOSS_02 = new DDMusic(@"dat\Reda\nc136551.mp3");
 
 		public ResourceMusic()
 		{
-			//this.Dummy.Volume = 0.1;
+			//this.Dummy.Volume = 0.1; // 非推奨
 		}
 	}
 }

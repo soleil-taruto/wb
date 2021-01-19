@@ -8,11 +8,11 @@ namespace Charlotte
 {
 	public class ResourceSE
 	{
-		//public DDSE Dummy = new DDSE("Dummy.mp3");
+		//public DDSE Dummy = new DDSE(@"dat\General\muon.wav");
 
 		public ResourceSE()
 		{
-			//this.Dummy.Volume = 0.1;
+			//this.Dummy.Volume = 0.1; // 非推奨
 		}
 	}
 }

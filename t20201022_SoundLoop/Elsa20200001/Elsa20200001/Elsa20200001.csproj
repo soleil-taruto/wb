@@ -85,7 +85,6 @@
     <Compile Include="GameCommons\DDFont.cs" />
     <Compile Include="GameCommons\DDFontRegister.cs" />
     <Compile Include="GameCommons\DDFontUtils.cs" />
-    <Compile Include="GameCommons\DDGeneralResource.cs" />
     <Compile Include="GameCommons\DDGround.cs" />
     <Compile Include="GameCommons\DDInput.cs" />
     <Compile Include="GameCommons\DDJammer.cs" />
