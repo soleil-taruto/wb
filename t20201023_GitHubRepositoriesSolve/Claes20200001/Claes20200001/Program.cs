@@ -298,7 +298,7 @@ namespace Charlotte
 						SCommon.Comp(SCommon.ENCODING_SJIS.GetBytes(SCommon.ToJString(bText, false, true, true, true).Replace("\n", "\r\n")), bText) != 0 // ? bText != ASCII
 						)
 					{
-						byte[] bTextNew = Encoding.UTF8.GetBytes(SCommon.ENCODING_SJIS.GetString(bText)); // SJIS -> UTF-8
+						byte[] bTextNew = Common.PutUTF8Bom(Encoding.UTF8.GetBytes(SCommon.ENCODING_SJIS.GetString(bText))); // SJIS -> UTF-8
 
 						File.WriteAllBytes(file, bTextNew);
 					}

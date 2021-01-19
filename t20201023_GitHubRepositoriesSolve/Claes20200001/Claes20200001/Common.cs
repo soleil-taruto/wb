@@ -20,7 +20,7 @@ namespace Charlotte
 
 			for (int index = 0; index < files.Length; index++)
 			{
-				int targStar = (index * STAR_MAX) / (files.Length - 1);
+				int targStar = ((index + 1) * STAR_MAX) / files.Length;
 
 				while (star < targStar)
 				{
@@ -101,6 +101,27 @@ namespace Charlotte
 			endLoop:
 				;
 			}
+		}
+
+		public static byte[] PutUTF8Bom(byte[] bText)
+		{
+			byte[] BOM = new byte[] { 0xef, 0xbb, 0xbf };
+
+			// ? bText has BOM
+			if (
+				3 <= bText.Length &&
+				bText[0] == BOM[0] &&
+				bText[1] == BOM[1] &&
+				bText[2] == BOM[2]
+				)
+			{
+				// noop
+			}
+			else
+			{
+				bText = BOM.Concat(bText).ToArray();
+			}
+			return bText;
 		}
 	}
 }
