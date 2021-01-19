@@ -9,7 +9,30 @@ namespace Charlotte
 {
 	public static class Common
 	{
-		public static string[] GetRepositoryFiles(string dir)
+		public static IEnumerable<string> GetRepositoryFiles(string dir)
+		{
+			string[] files = P_GetRepositoryFiles(dir);
+
+			Console.Write("[*");
+
+			const int STAR_MAX = 76;
+			int star = 0;
+
+			for (int index = 0; index < files.Length; index++)
+			{
+				int targStar = (index * STAR_MAX) / (files.Length - 1);
+
+				while (star < targStar)
+				{
+					Console.Write("*");
+					star++;
+				}
+				yield return files[index];
+			}
+			Console.WriteLine("]");
+		}
+
+		private static string[] P_GetRepositoryFiles(string dir)
 		{
 			return E_GetRepositoryFiles(dir).ToArray();
 		}

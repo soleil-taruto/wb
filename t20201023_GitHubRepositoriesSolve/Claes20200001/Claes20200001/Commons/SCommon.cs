@@ -73,6 +73,9 @@ namespace Charlotte.Commons
 
 		public static int Comp(byte a, byte b)
 		{
+#if true
+			return (int)a - (int)b;
+#else
 			if (a < b)
 				return -1;
 
@@ -80,6 +83,7 @@ namespace Charlotte.Commons
 				return 1;
 
 			return 0;
+#endif
 		}
 
 		public static int Comp(byte[] a, byte[] b)

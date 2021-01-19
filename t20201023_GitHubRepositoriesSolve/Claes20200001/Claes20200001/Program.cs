@@ -66,17 +66,20 @@ namespace Charlotte
 
 		private void Solve(string dir)
 		{
-			Console.WriteLine("*1"); // test
+			Console.WriteLine("dir: " + dir); // cout
+			Console.WriteLine("*1"); // cout
 			SolveForVS2019(dir);
-			Console.WriteLine("*2"); // test
+			Console.WriteLine("*2"); // cout
 			SolveForFactory(dir);
-			Console.WriteLine("*3"); // test
+			Console.WriteLine("*3"); // cout
 			SolveGameResource(dir);
-			Console.WriteLine("*4"); // test
+			Console.WriteLine("*4"); // cout
 			SolveNonAsciiCharactersPaths(dir);
-			Console.WriteLine("*5"); // test
+			Console.WriteLine("*5"); // cout
 			SolveEmptyFolders(dir);
-			Console.WriteLine("*6"); // test
+			Console.WriteLine("*6"); // cout
+			SolveTextEncoding(dir);
+			Console.WriteLine("*7"); // cout
 		}
 
 		private void SolveForVS2019(string dir)
@@ -280,6 +283,27 @@ namespace Charlotte
 						return false;
 
 			return true;
+		}
+
+		private void SolveTextEncoding(string dir)
+		{
+			foreach (string file in Common.GetRepositoryFiles(dir))
+			{
+				if (SCommon.EqualsIgnoreCase(Path.GetExtension(file), ".txt"))
+				{
+					byte[] bText = File.ReadAllBytes(file);
+
+					if (
+						SCommon.Comp(SCommon.ENCODING_SJIS.GetBytes(SCommon.ToJString(bText, true, true, true, true).Replace("\n", "\r\n")), bText) == 0 && // ? bText == SJIS(CP932)
+						SCommon.Comp(SCommon.ENCODING_SJIS.GetBytes(SCommon.ToJString(bText, false, true, true, true).Replace("\n", "\r\n")), bText) != 0 // ? bText != ASCII
+						)
+					{
+						byte[] bTextNew = Encoding.UTF8.GetBytes(SCommon.ENCODING_SJIS.GetString(bText)); // SJIS -> UTF-8
+
+						File.WriteAllBytes(file, bTextNew);
+					}
+				}
+			}
 		}
 	}
 }
