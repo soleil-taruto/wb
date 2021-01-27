@@ -13,6 +13,8 @@ namespace Charlotte
 		{
 			string[] lines = File.ReadAllLines(file, SCommon.ENCODING_SJIS).Where(line => line != "" && line[0] != ';').ToArray();
 
+			// memo: 項目を増やせるように＆ベリファイとして項目数自体を設定ファイルに記述した。
+
 			// 有効設定項目数のチェック
 			//
 			if (int.Parse(lines[0]) != lines.Length)

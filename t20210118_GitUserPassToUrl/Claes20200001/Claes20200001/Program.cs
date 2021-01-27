@@ -44,7 +44,12 @@ namespace Charlotte
 
 		private void ProductMain()
 		{
-			PasswordConfig = new PasswordConfig();
+			// -- choose one --
+
+			//PasswordConfig = new PasswordConfig();
+			PasswordConfig = null; // 解除
+
+			// --
 
 			string[] repoDirs = Directory.GetDirectories(Consts.ROOT_DIR);
 
@@ -102,7 +107,14 @@ namespace Charlotte
 						else
 							q++; // Skip '@'
 
-						value = value.Substring(0, p) + PasswordConfig.UserName + ":" + PasswordConfig.Password + "@" + value.Substring(q);
+						string authPart;
+
+						if (PasswordConfig == null) // ? 解除
+							authPart = "";
+						else
+							authPart = PasswordConfig.UserName + ":" + PasswordConfig.Password + "@";
+
+						value = value.Substring(0, p) + authPart + value.Substring(q);
 						line = key + "=" + value;
 						lines[index] = line;
 					}
