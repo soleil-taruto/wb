@@ -20,7 +20,7 @@ namespace Charlotte
 
 			for (int index = 0; index < files.Length; index++)
 			{
-				int targStar = ((index + 1) * STAR_MAX) / files.Length;
+				int targStar = (index * STAR_MAX) / files.Length;
 
 				while (star < targStar)
 				{
@@ -28,6 +28,11 @@ namespace Charlotte
 					star++;
 				}
 				yield return files[index];
+			}
+			while (star < STAR_MAX)
+			{
+				Console.Write("*");
+				star++;
 			}
 			Console.WriteLine("]");
 		}
