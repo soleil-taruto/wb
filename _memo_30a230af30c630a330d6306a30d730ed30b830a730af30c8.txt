@@ -1,0 +1,17 @@
+﻿----
+自分用ツール
+
+t20201022_SoundLoop
+	曲ループ開始終了位置探し用
+
+t20210103_ScreenshotToGameImage
+	画面スクリーンショットから(Elsa-系)ゲームのスクリーンショットを生成
+
+t20210105_SolveUUIDCollision
+	UUIDの衝突を解消する。
+
+----
+リリース用ツール
+
+t20210125_MapConverter
+	(Elsa-系)マップデータと Platinum v1.81 用マップデータの相互変換
