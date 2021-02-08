@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
-using Charlotte.Commons;
-using System.Drawing.Imaging;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+using Charlotte.Commons;
 
-namespace Charlotte.MakeWallPictures
+namespace Charlotte
 {
 	public class MakeWallPicture
 	{

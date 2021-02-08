@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Charlotte.Commons;
 
-namespace Charlotte.MakePictures
+namespace Charlotte
 {
 	public class MakePicture
 	{

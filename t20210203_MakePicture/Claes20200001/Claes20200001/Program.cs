@@ -9,7 +9,6 @@ using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using Charlotte.Commons;
 using Charlotte.Tests;
-using Charlotte.MakePictures;
 
 namespace Charlotte
 {
