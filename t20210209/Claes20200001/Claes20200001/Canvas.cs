@@ -190,24 +190,6 @@ namespace Charlotte
 		}
 
 		/// <summary>
-		/// 矩形領域を塗り潰す。
-		/// </summary>
-		/// <param name="rect">塗り潰す領域</param>
-		/// <param name="a_fill">塗り潰しアクション</param>
-		public void FillRect(I4Rect rect, Func<I4Color, I4Color> a_fill)
-		{
-			for (int x = rect.L; x < rect.R; x++)
-			{
-				for (int y = rect.T; y < rect.B; y++)
-				{
-					I4Color color = this[x, y];
-					color = a_fill(color);
-					this[x, y] = color;
-				}
-			}
-		}
-
-		/// <summary>
 		/// 円を描画する。
 		/// 中心：
 		/// -- (100.0, 200.0) を指定した場合、座標 (100, 200) にあるピクセルの左上を指す。
