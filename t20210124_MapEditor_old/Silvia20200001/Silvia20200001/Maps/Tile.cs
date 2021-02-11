@@ -11,6 +11,6 @@ namespace Charlotte.Maps
 		public string Name;
 		public Bitmap Picture;
 
-		// <---- prm
+		// <---- prm // HACK: abolished !!!
 	}
 }

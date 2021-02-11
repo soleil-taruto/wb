@@ -13,7 +13,7 @@ namespace Charlotte.Platinums
 		public int[,] Cells;
 		public Tile[] Tiles;
 
-		// <---- prm
+		// <---- prm // HACK: abolished !!!
 
 		public Tile GetTile(int x, int y)
 		{
