@@ -11,6 +11,9 @@ namespace Charlotte.GameCommons
 		{
 			public int BtnId = -1; // -1 == 未割り当て
 			public int KeyId = -1; // -1 == 未割り当て
+
+			// <---- prm
+
 			public int Status = 0;
 
 			public int GetInput()
