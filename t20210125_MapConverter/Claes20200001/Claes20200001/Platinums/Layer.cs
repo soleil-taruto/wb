@@ -9,11 +9,16 @@ namespace Charlotte.Platinums
 {
 	public class Layer
 	{
-		public CsvData Parent;
-		public int[,] Cells;
-		public Tile[] Tiles;
+		private CsvData Parent;
+		public int[,] Cells { get; private set; }
+		public Tile[] Tiles { get; private set; }
 
-		// <---- prm // HACK: abolished !!!
+		public Layer(CsvData parent, int[,] cells, Tile[] tiles)
+		{
+			this.Parent = parent;
+			this.Cells = cells;
+			this.Tiles = tiles;
+		}
 
 		public Tile GetTile(int x, int y)
 		{

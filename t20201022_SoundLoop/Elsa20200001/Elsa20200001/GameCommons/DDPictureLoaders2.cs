@@ -14,14 +14,15 @@ namespace Charlotte.GameCommons
 	{
 		private class PictureWrapper : DDPicture
 		{
-			public Func<int> Func_GetHandle;
-			public DDPicture.PictureInfo Info;
+			private Func<int> Func_GetHandle;
+			private DDPicture.PictureInfo Info;
 
-			// <---- prm // HACK: abolished !!!
-
-			public PictureWrapper()
+			public PictureWrapper(Func<int> getHandle, DDPicture.PictureInfo info)
 				: base(() => null, v => { }, v => { })
-			{ }
+			{
+				this.Func_GetHandle = getHandle;
+				this.Info = info;
+			}
 
 			protected override DDPicture.PictureInfo GetInfo()
 			{
@@ -39,11 +40,7 @@ namespace Charlotte.GameCommons
 				H = h,
 			};
 
-			return new PictureWrapper()
-			{
-				Func_GetHandle = getHandle,
-				Info = info,
-			};
+			return new PictureWrapper(getHandle, info);
 		}
 
 		public static DDPicture Wrapper(Func<int> getHandle, I2Size size)

@@ -33,11 +33,7 @@ namespace Charlotte.Platinums
 
 		private Layer LFM_LoadLayer(Func<int, int, string> getCellName, List<Tile> tiles)
 		{
-			Layer layer = new Layer();
-
-			layer.Parent = this;
-			layer.Cells = new int[this.W, this.H];
-			layer.Tiles = tiles.ToArray();
+			int[,] cells = new int[this.W, this.H];
 
 			for (int x = 0; x < this.W; x++)
 			{
@@ -49,9 +45,16 @@ namespace Charlotte.Platinums
 					if (cell == -1)
 						throw new Exception("no Tile: " + name);
 
-					layer.Cells[x, y] = cell;
+					cells[x, y] = cell;
 				}
 			}
+
+			Layer layer = new Layer(
+				this,
+				cells,
+				tiles.ToArray()
+				);
+
 			return layer;
 		}
 
@@ -177,30 +180,34 @@ namespace Charlotte.Platinums
 
 		private Layer LFD_LoadLayer(CsvFileReader reader, string palletFile, string nameListFile)
 		{
-			Layer layer = new Layer();
-
-			layer.Parent = this;
-			layer.Cells = new int[this.W, this.H];
+			int[,] cells = new int[this.W, this.H];
 
 			for (int y = 0; y < this.H; y++)
 			{
 				string[] row = reader.ReadRow();
 
 				for (int x = 0; x < this.W; x++)
-					layer.Cells[x, y] = int.Parse(row[x]);
+					cells[x, y] = int.Parse(row[x]);
 			}
 			reader.ReadRow(); // レイヤーの直後の空行
+
+			Tile[] tiles;
 
 			{
 				string[] names = File.ReadAllLines(nameListFile, SCommon.ENCODING_SJIS);
 
-				layer.Tiles = names.Select(name => new Tile()
-				{
-					Name = name,
-					Picture = LFD_DummyPicture, // 注意：タイル画像はダミーなので、これを SaveToDir すると、パレットは壊れる。
-				})
-				.ToArray();
+				tiles = names.Select(name => new Tile(
+					name,
+					LFD_DummyPicture // 注意：タイル画像はダミーなので、これを SaveToDir すると、パレットは壊れる。
+					))
+					.ToArray();
 			}
+
+			Layer layer = new Layer(
+				this,
+				cells,
+				tiles
+				);
 
 			return layer;
 		}

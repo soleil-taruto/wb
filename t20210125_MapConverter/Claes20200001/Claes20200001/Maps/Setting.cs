@@ -67,10 +67,10 @@ namespace Charlotte.Maps
 				string[] tokens = SCommon.Tokenize(line, "\t", false, true);
 				int d = 0;
 
-				Tile tile = new Tile();
-
-				tile.Name = tokens[d++];
-				tile.Picture = this.GetPicture(tokens.Skip(d).ToArray());
+				Tile tile = new Tile(
+					tokens[d++],
+					this.GetPicture(tokens.Skip(d).ToArray())
+					);
 
 				dest.Add(tile);
 			}

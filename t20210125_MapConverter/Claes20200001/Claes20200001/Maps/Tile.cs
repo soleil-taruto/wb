@@ -8,9 +8,13 @@ namespace Charlotte.Maps
 {
 	public class Tile
 	{
-		public string Name;
-		public Bitmap Picture;
+		public string Name { get; private set; }
+		public Bitmap Picture { get; private set; }
 
-		// <---- prm // HACK: abolished !!!
+		public Tile(string name, Bitmap picture)
+		{
+			this.Name = name;
+			this.Picture = picture;
+		}
 	}
 }
