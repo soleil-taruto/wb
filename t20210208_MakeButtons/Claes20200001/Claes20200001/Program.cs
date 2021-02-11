@@ -110,73 +110,6 @@ namespace Charlotte
 			MakeButtons_20210209_a(2400, color, "戻る", 675);
 		}
 
-		private void MakeButtons_20210209_002()
-		{
-			I4Color behindColor = new I4Color(192, 255, 255, 100);
-			I4Color frontColor = new I4Color(192, 255, 255, 255);
-
-			MakeFrame(
-				"基本設定",
-				behindColor,
-				frontColor,
-				new I2Point[]
-				{
-					new I2Point(550, 50),
-					new I2Point(1050, 50),
-					new I2Point(1050, 150),
-				},
-				new I2Point[]
-				{
-					new I2Point(50, 50),
-					new I2Point(550, 50),
-					new I2Point(550, 150),
-					new I2Point(1870, 150),
-					new I2Point(1870, 1030),
-					new I2Point(50, 1030),
-					new I2Point(50, 50),
-				}
-				);
-
-			MakeFrame(
-				"拡張設定",
-				behindColor,
-				frontColor,
-				new I2Point[]
-				{
-					new I2Point(50, 150),
-					new I2Point(50, 50),
-					new I2Point(550, 50),
-				},
-				new I2Point[]
-				{
-					new I2Point(50, 150),
-					new I2Point(550, 150),
-					new I2Point(550, 50),
-					new I2Point(1050, 50),
-					new I2Point(1050, 150),
-					new I2Point(1870, 150),
-					new I2Point(1870, 1030),
-					new I2Point(50, 1030),
-					new I2Point(50, 150),
-				}
-				);
-
-			MakeFrame(
-				"詳細設定",
-				behindColor,
-				frontColor,
-				new I2Point[] { },
-				new I2Point[]
-				{
-					new I2Point(50, 50),
-					new I2Point(1870, 50),
-					new I2Point(1870, 1030),
-					new I2Point(50, 1030),
-					new I2Point(50, 50),
-				}
-				);
-		}
-
 		private void MakeButtons_20210209_a(int w, I4Color frameColor, string text, int text_x)
 		{
 			//int w = 2400;
@@ -216,11 +149,114 @@ namespace Charlotte
 			canvas.Save(Path.Combine(Consts.OUTPUT_DIR, Common.ZenToHan(text) + ".png"));
 		}
 
-		private void MakeFrame(string name, I4Color color1, I4Color color2, I2Point[] pts1, I2Point[] pts2)
+		private void MakeButtons_20210209_002()
+		{
+			I2Size canvasSize = new I2Size(1920, 1080);
+			I4Color behindColor = new I4Color(192, 255, 255, 100);
+			I4Color frontColor = new I4Color(192, 255, 255, 255);
+
+			MakeFrame(
+				"基本設定",
+				canvasSize,
+				behindColor,
+				frontColor,
+				new I2Point[]
+				{
+					new I2Point(550, 50),
+					new I2Point(1050, 50),
+					new I2Point(1050, 150),
+				},
+				new I2Point[]
+				{
+					new I2Point(50, 50),
+					new I2Point(550, 50),
+					new I2Point(550, 150),
+					new I2Point(1870, 150),
+					new I2Point(1870, 1030),
+					new I2Point(50, 1030),
+					new I2Point(50, 50),
+				}
+				);
+
+			MakeFrame(
+				"拡張設定",
+				canvasSize,
+				behindColor,
+				frontColor,
+				new I2Point[]
+				{
+					new I2Point(50, 150),
+					new I2Point(50, 50),
+					new I2Point(550, 50),
+				},
+				new I2Point[]
+				{
+					new I2Point(50, 150),
+					new I2Point(550, 150),
+					new I2Point(550, 50),
+					new I2Point(1050, 50),
+					new I2Point(1050, 150),
+					new I2Point(1870, 150),
+					new I2Point(1870, 1030),
+					new I2Point(50, 1030),
+					new I2Point(50, 150),
+				}
+				);
+
+			MakeFrame(
+				"詳細設定",
+				canvasSize,
+				behindColor,
+				frontColor,
+				new I2Point[] { },
+				new I2Point[]
+				{
+					new I2Point(50, 50),
+					new I2Point(1870, 50),
+					new I2Point(1870, 1030),
+					new I2Point(50, 1030),
+					new I2Point(50, 50),
+				}
+				);
+
+			MakeFrame(
+				"TrackBar",
+				new I2Size(600, 80),
+				behindColor,
+				frontColor,
+				new I2Point[] { },
+				new I2Point[]
+				{
+					new I2Point(10, 10),
+					new I2Point(585, 10),
+					new I2Point(585, 65),
+					new I2Point(10, 65),
+					new I2Point(10, 10),
+				}
+				);
+
+			MakeFrame(
+				"TrackBar_つまみ",
+				new I2Size(80, 80),
+				behindColor,
+				frontColor,
+				new I2Point[] { },
+				new I2Point[]
+				{
+					new I2Point(20, 20),
+					new I2Point(55, 20),
+					new I2Point(55, 55),
+					new I2Point(20, 55),
+					new I2Point(20, 20),
+				}
+				);
+		}
+
+		private void MakeFrame(string name, I2Size canvasSize, I4Color color1, I4Color color2, I2Point[] pts1, I2Point[] pts2)
 		{
 			int LINE_WIDTH = 5;
 
-			Canvas canvas = new Canvas(1920, 1080);
+			Canvas canvas = new Canvas(canvasSize.W, canvasSize.H);
 
 			canvas.Fill(new I4Color(255, 255, 255, 0));
 
