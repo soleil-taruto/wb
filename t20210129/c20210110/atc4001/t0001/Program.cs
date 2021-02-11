@@ -66,11 +66,11 @@ namespace Charlotte
 		public int C;
 		public int[][] Services;
 
-		// <---- prm // HACK: abolished !!!
+		// <---- prm
 
 		public long TotalPay;
 
-		// <---- ret // HACK: abolished !!!
+		// <---- ret
 
 		public class EdgeInfo
 		{

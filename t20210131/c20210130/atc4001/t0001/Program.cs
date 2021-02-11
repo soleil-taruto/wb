@@ -60,11 +60,11 @@ namespace Charlotte
 	{
 		public long N;
 
-		// <---- prm // HACK: abolished !!!
+		// <---- prm
 
 		public long Ans;
 
-		// <---- ret // HACK: abolished !!!
+		// <---- ret
 
 		public void Perform()
 		{

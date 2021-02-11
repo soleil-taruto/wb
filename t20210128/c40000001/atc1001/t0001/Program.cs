@@ -79,11 +79,11 @@ namespace Charlotte
 		public int N;
 		public Func<int, int, int> P_Ask;
 
-		// <---- prm // HACK: abolished !!!
+		// <---- prm
 
 		public int[] Ans;
 
-		// <---- ret // HACK: abolished !!!
+		// <---- ret
 
 		public List<int> Sq = new List<int>();
 		public int AskedCount;
