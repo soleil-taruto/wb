@@ -22,7 +22,7 @@ namespace Charlotte
 		{
 			Ground.I = new Ground();
 
-			if (ar.ArgIs("//D"))
+			if (ProcMain.DEBUG)
 			{
 				TestMain(); // テスト
 			}

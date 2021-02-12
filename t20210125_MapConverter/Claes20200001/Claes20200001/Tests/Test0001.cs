@@ -12,7 +12,7 @@ namespace Charlotte.Tests
 	{
 		public void Test01()
 		{
-			Test01_a(@"C:\Dev\Elsa\e20210212_DoremyRockman\dat\res\Worlds\Stage_Raimu_v001\Map\Start.txt");
+			Test01_a(@"C:\Dev\Elsa2\e20210212_DoremyRockman\dat\res\Worlds\Stage_Raimu_v001\Map\Start.txt");
 		}
 
 		private void Test01_a(string mapFile)
@@ -30,7 +30,7 @@ namespace Charlotte.Tests
 
 		public void Test02()
 		{
-			Test02_a(@"C:\Dev\Elsa\e20210212_DoremyRockman\dat\res\Worlds\Stage_Raimu_v001\Map\Start.txt", @"C:\temp\CsvData_0000");
+			Test02_a(@"C:\Dev\Elsa2\e20210212_DoremyRockman\dat\res\Worlds\Stage_Raimu_v001\Map\Start.txt", @"C:\temp\CsvData_0000");
 		}
 
 		private void Test02_a(string mapFile, string csvDataDir)
