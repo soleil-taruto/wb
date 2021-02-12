@@ -27,8 +27,8 @@ namespace Charlotte
 			// -- choose one --
 
 			//MakeButtons_20210208();
-			//MakeButtons_20210209();
-			MakeButtons_20210209_002();
+			MakeButtons_20210209_ボタン();
+			//MakeButtons_20210209_枠();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -77,7 +77,7 @@ namespace Charlotte
 			canvas.Save(Path.Combine(Consts.OUTPUT_DIR, Common.ZenToHan(text) + ".png"));
 		}
 
-		private void MakeButtons_20210209()
+		private void MakeButtons_20210209_ボタン()
 		{
 			I4Color color = new I4Color(255, 64, 128, 255);
 
@@ -88,8 +88,6 @@ namespace Charlotte
 
 			color = new I4Color(168, 192, 64, 255);
 
-			MakeButtons_20210209_a(2400, color, "フルスクリーン", 50);
-			MakeButtons_20210209_a(2400, color, "ウィンドウ", 300);
 			MakeButtons_20210209_a(2400, color, "960 x 540", 300);
 			MakeButtons_20210209_a(2400, color, "1080 x 607", 225);
 			MakeButtons_20210209_a(2400, color, "1200 x 675", 225);
@@ -101,12 +99,23 @@ namespace Charlotte
 			MakeButtons_20210209_a(2400, color, "1920 x 1080", 150);
 			MakeButtons_20210209_a(2400, color, "2040 x 1147", 150);
 			MakeButtons_20210209_a(2400, color, "2160 x 1215", 150);
+			MakeButtons_20210209_a(2400, color, "2280 x 1282", 150);
+			MakeButtons_20210209_a(2400, color, "ウィンドウ", 300);
+			MakeButtons_20210209_a(2400, color, "フルスクリーン", 50);
 			MakeButtons_20210209_a(5220, color, "フルスクリーン 画面に合わせる (非推奨)", 50);
 			MakeButtons_20210209_a(5220, color, "フルスクリーン 縦横比を維持する (推奨)", 50);
+
+			color = new I4Color(255, 222, 64, 255);
+
+			MakeButtons_20210209_a(3630, color, "ウィンドウサイズ設定", 300);
+			MakeButtons_20210209_a(3630, color, "キーボードのキー設定", 300);
+			MakeButtons_20210209_a(3630, color, "ゲームパッドのボタン設定", 50);
 
 			color = new I4Color(64, 192, 192, 255);
 
 			MakeButtons_20210209_a(2700, color, "デフォルトに戻す", 50);
+			MakeButtons_20210209_a(2400, color, "キャンセル", 300);
+			MakeButtons_20210209_a(2400, color, "変更", 675);
 			MakeButtons_20210209_a(2400, color, "戻る", 675);
 		}
 
@@ -149,7 +158,7 @@ namespace Charlotte
 			canvas.Save(Path.Combine(Consts.OUTPUT_DIR, Common.ZenToHan(text) + ".png"));
 		}
 
-		private void MakeButtons_20210209_002()
+		private void MakeButtons_20210209_枠()
 		{
 			I2Size canvasSize = new I2Size(1920, 1080);
 			I4Color behindColor = new I4Color(192, 255, 255, 100);
