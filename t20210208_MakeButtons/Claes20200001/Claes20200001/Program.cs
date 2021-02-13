@@ -27,8 +27,8 @@ namespace Charlotte
 			// -- choose one --
 
 			//MakeButtons_20210208();
-			MakeButtons_20210209_ボタン();
-			//MakeButtons_20210209_枠();
+			//MakeButtons_20210209_ボタン();
+			MakeButtons_20210209_枠();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -230,15 +230,15 @@ namespace Charlotte
 
 			MakeFrame(
 				"TrackBar",
-				new I2Size(600, 80),
+				new I2Size(800, 80),
 				behindColor,
 				frontColor,
 				new I2Point[] { },
 				new I2Point[]
 				{
 					new I2Point(10, 10),
-					new I2Point(585, 10),
-					new I2Point(585, 65),
+					new I2Point(785, 10),
+					new I2Point(785, 65),
 					new I2Point(10, 65),
 					new I2Point(10, 10),
 				}
