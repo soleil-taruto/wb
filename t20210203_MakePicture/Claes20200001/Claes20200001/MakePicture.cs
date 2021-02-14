@@ -14,7 +14,7 @@ namespace Charlotte
 		public void Make01()
 		{
 			const int BMP_W = 960;
-			const int BMP_H = 500;
+			const int BMP_H = 1000;
 
 			using (Bitmap bmp = new Bitmap(BMP_W, BMP_H))
 			{
