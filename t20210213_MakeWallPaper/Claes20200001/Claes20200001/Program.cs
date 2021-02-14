@@ -26,7 +26,8 @@ namespace Charlotte
 
 			// -- choose one --
 
-			MakeWallPapers_20210213();
+			//MakeWallPapers_20210213();
+			MakeWallPapers_20210213_02();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -53,6 +54,71 @@ namespace Charlotte
 			const int H = 1080;
 
 			Canvas src = Canvas.Load(file);
+			Canvas dest = new Canvas(W, H);
+
+			I4Rect interior;
+			I4Rect exterior;
+
+			Common.AdjustRect(src.Size, new I4Rect(new I2Point(0, 0), dest.Size), out interior, out exterior);
+
+			{
+				Canvas canvas = src.Expand(exterior.Size);
+
+				canvas = canvas.Cut(new I4Rect(
+					(canvas.W - dest.W) / 2,
+					(canvas.H - dest.H) / 2,
+					dest.W,
+					dest.H
+					));
+
+				dest.DrawImage(canvas, 0, 0);
+			}
+
+			dest.Fill(color => new I4Color(
+				color.R / 3,
+				color.G / 3,
+				color.B / 3,
+				color.A
+				));
+
+			{
+				Canvas canvas = src.Expand(interior.Size);
+
+				dest.DrawImage(
+					canvas,
+					(dest.W - canvas.W) / 2,
+					(dest.H - canvas.H) / 2
+					);
+			}
+
+			dest.Save(Path.Combine(Consts.OUTPUT_DIR, Path.GetFileNameWithoutExtension(file) + ".png"));
+		}
+
+		private void MakeWallPapers_20210213_02()
+		{
+			MakeWallPaper_02(@"C:\etc\画像\1-160G5160232-50.jpg");
+			MakeWallPaper_02(@"C:\etc\画像\58745223_p0.png", 100);
+			MakeWallPaper_02(@"C:\etc\画像\81609917_p0.jpg", 100);
+		}
+
+		private void MakeWallPaper_02(string file, int almostDarkLevel = 30)
+		{
+			const int W = 1920;
+			const int H = 1080;
+
+			Canvas src = Canvas.Load(file);
+
+			// 外周の黒い部分を切り取る。
+			{
+				I4Rect rect = src.GetEntityRect(color =>
+					almostDarkLevel <= color.R ||
+					almostDarkLevel <= color.G ||
+					almostDarkLevel <= color.B
+					);
+
+				src = src.Cut(rect);
+			}
+
 			Canvas dest = new Canvas(W, H);
 
 			I4Rect interior;
