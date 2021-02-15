@@ -27,6 +27,9 @@ namespace Charlotte
 			ProductMain(); // 本番
 
 			// --
+
+			Console.WriteLine("Press ENTER key.");
+			Console.ReadLine();
 		}
 
 		private void TestMain()
@@ -38,9 +41,6 @@ namespace Charlotte
 			//new Test0001().Test03();
 
 			// --
-
-			Console.WriteLine("Press ENTER key.");
-			Console.ReadLine();
 		}
 
 		private class UUIDPositionInfo
@@ -125,7 +125,8 @@ namespace Charlotte
 
 				int ret;
 
-				ret = SCommon.CompIgnoreCase(a.FilePath, b.FilePath);
+				ret = Common.CompPath(a.FilePath, b.FilePath);
+				//ret = SCommon.CompIgnoreCase(a.FilePath, b.FilePath); // old
 				if (ret != 0)
 					return ret;
 
