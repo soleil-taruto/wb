@@ -100,16 +100,16 @@ namespace Charlotte.Tests
 
 		public void Test04() // manual test
 		{
-			Console.WriteLine(new SimpleTimeStamp(TimeStampToSec.ToTimeStamp(DateTime.Now)));
+			Console.WriteLine(new SimpleDateTime(TimeStampToSec.ToSec(DateTime.Now)));
 
-			Console.WriteLine(new SimpleTimeStamp(44440101000000));
-			Console.WriteLine(new SimpleTimeStamp(44441231235959));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(44440101000000));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(44441231235959));
 
-			Console.WriteLine(new SimpleTimeStamp(10101000000));
-			Console.WriteLine(new SimpleTimeStamp(9999991231235959));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(10101000000));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(9999991231235959));
 
 			{
-				SimpleTimeStamp timeStamp = new SimpleTimeStamp(19991231235959);
+				SimpleDateTime timeStamp = SimpleDateTime.FromTimeStamp(19991231235959);
 				Console.WriteLine(timeStamp);
 				timeStamp += 1;
 				Console.WriteLine(timeStamp);
@@ -118,14 +118,28 @@ namespace Charlotte.Tests
 			}
 
 			{
-				SimpleTimeStamp a = new SimpleTimeStamp(20220101000000);
-				SimpleTimeStamp b = new SimpleTimeStamp(20210101000000);
+				SimpleDateTime a = SimpleDateTime.FromTimeStamp(20220101000000);
+				SimpleDateTime b = SimpleDateTime.FromTimeStamp(20210101000000);
 
 				Console.WriteLine(a);
 				Console.WriteLine(b);
 				Console.WriteLine(a - b);
 				Console.WriteLine(b - a);
 				//Console.WriteLine(a + b); // syntax error
+			}
+
+			{
+				SimpleDateTime timeStamp = SimpleDateTime.FromTimeStamp(67890405112233);
+
+				Console.WriteLine(timeStamp.Year);
+				Console.WriteLine(timeStamp.Month);
+				Console.WriteLine(timeStamp.Day);
+				Console.WriteLine(timeStamp.Hour);
+				Console.WriteLine(timeStamp.Minute);
+				Console.WriteLine(timeStamp.Second);
+				Console.WriteLine(timeStamp.Weekday);
+
+				//timeStamp.Year = 1234; // syntax error
 			}
 		}
 
@@ -415,20 +429,29 @@ namespace Charlotte.Tests
 
 		#endregion
 
-		#region SimpleTimeStamp
+		#region SimpleDateTime
 
-		public struct SimpleTimeStamp
+		/// <summary>
+		/// 日時の範囲：1/1/1 00:00:00 ～ 999999/12/31 23:59:59
+		/// </summary>
+		public struct SimpleDateTime
 		{
-			public int Year;
-			public int Month;
-			public int Day;
-			public int Hour;
-			public int Minute;
-			public int Second;
-			public string Weekday;
+			public readonly int Year;
+			public readonly int Month;
+			public readonly int Day;
+			public readonly int Hour;
+			public readonly int Minute;
+			public readonly int Second;
+			public readonly string Weekday;
 
-			public SimpleTimeStamp(long timeStamp)
+			public static SimpleDateTime FromTimeStamp(long timeStamp)
 			{
+				return new SimpleDateTime(TimeStampToSec.ToSec(timeStamp));
+			}
+
+			public SimpleDateTime(long sec)
+			{
+				long timeStamp = TimeStampToSec.ToTimeStamp(sec);
 				long t = timeStamp;
 
 				this.Second = (int)(t % 100L);
@@ -466,19 +489,24 @@ namespace Charlotte.Tests
 					this.Second;
 			}
 
-			public static SimpleTimeStamp operator +(SimpleTimeStamp instance, long sec)
+			public long ToSec()
 			{
-				return new SimpleTimeStamp(TimeStampToSec.ToTimeStamp(TimeStampToSec.ToSec(instance.ToTimeStamp()) + sec));
+				return TimeStampToSec.ToSec(this.ToTimeStamp());
 			}
 
-			public static SimpleTimeStamp operator -(SimpleTimeStamp instance, long sec)
+			public static SimpleDateTime operator +(SimpleDateTime instance, long sec)
 			{
-				return new SimpleTimeStamp(TimeStampToSec.ToTimeStamp(TimeStampToSec.ToSec(instance.ToTimeStamp()) - sec));
+				return new SimpleDateTime(instance.ToSec() + sec);
 			}
 
-			public static long operator -(SimpleTimeStamp a, SimpleTimeStamp b)
+			public static SimpleDateTime operator -(SimpleDateTime instance, long sec)
 			{
-				return TimeStampToSec.ToSec(a.ToTimeStamp()) - TimeStampToSec.ToSec(b.ToTimeStamp());
+				return new SimpleDateTime(instance.ToSec() - sec);
+			}
+
+			public static long operator -(SimpleDateTime a, SimpleDateTime b)
+			{
+				return a.ToSec() - b.ToSec();
 			}
 		}
 
