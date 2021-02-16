@@ -116,5 +116,10 @@ namespace Charlotte.Commons
 		{
 			return arr[GetInt(arr.Length)];
 		}
+
+		public byte[] GetBytes(int minlen, int maxlen)
+		{
+			return this.GetBytes(this.GetRange(minlen, maxlen));
+		}
 	}
 }
