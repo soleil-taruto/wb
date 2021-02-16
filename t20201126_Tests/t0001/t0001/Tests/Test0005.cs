@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Charlotte.Commons;
 
 namespace Charlotte.Tests
@@ -12,11 +13,21 @@ namespace Charlotte.Tests
 		{
 			for (int c = 0; c < 1000000; c++)
 			{
+				if (c % 100000 == 0) Console.WriteLine("*1 " + c); // cout
+
 				Test01_a(0, 300);
 			}
-			for (int c = 0; c < 1000; c++)
+			for (int c = 0; c < 300; c++)
 			{
-				Test01_a(301, 100000);
+				if (c % 30 == 0) Console.WriteLine("*2 " + c); // cout
+
+				Test01_a(301, 1000000);
+			}
+			for (int c = 0; c < 10; c++)
+			{
+				Console.WriteLine("*3 " + c); // cout
+
+				Test01_a(1000001, 30000000);
 			}
 		}
 
@@ -25,6 +36,10 @@ namespace Charlotte.Tests
 			byte[] src = SCommon.CRandom.GetBytes(minlen, maxlen);
 			string enc = Base64.I.Encode(src);
 			byte[] dec = Base64.I.Decode(enc);
+
+			//if (!Regex.IsMatch(enc, "^[A-Za-z0-9\\+\\/\\=]*$"))
+			if (!Regex.IsMatch(enc, "^[A-Za-z0-9\\+\\/]*[\\=]{0,3}$"))
+				throw null; // BUG !!!
 
 			if (SCommon.Comp(src, dec) != 0)
 				throw null; // BUG !!!
@@ -35,13 +50,13 @@ namespace Charlotte.Tests
 			Console.WriteLine(TimeStampToSec.ToTimeStamp(DateTime.Now));
 
 			Console.WriteLine(TimeStampToSec.ToSec(10101000000));
-			Console.WriteLine(TimeStampToSec.ToSec(9999991231235959)); // --> 31556920377599
+			Console.WriteLine(TimeStampToSec.ToSec(9223372031231235959)); // --> 29106150842822399
 
 			Console.WriteLine(TimeStampToSec.ToTimeStamp(0));
 			Console.WriteLine(TimeStampToSec.ToTimeStamp(1));
-			Console.WriteLine(TimeStampToSec.ToTimeStamp(31556920377598)); // Max - 1
-			Console.WriteLine(TimeStampToSec.ToTimeStamp(31556920377599)); // Max
-			Console.WriteLine(TimeStampToSec.ToTimeStamp(31556920377600)); // Max + 1
+			Console.WriteLine(TimeStampToSec.ToTimeStamp(29106150842822398)); // Max - 1
+			Console.WriteLine(TimeStampToSec.ToTimeStamp(29106150842822399)); // Max
+			Console.WriteLine(TimeStampToSec.ToTimeStamp(29106150842822400)); // Max + 1
 		}
 
 		public void Test03()
@@ -57,7 +72,13 @@ namespace Charlotte.Tests
 			for (long sec = 10000000000; sec <= 100000000000; sec += 100000000) Test03_a(sec);
 			for (long sec = 100000000000; sec <= 1000000000000; sec += 1000000000) Test03_a(sec);
 			for (long sec = 1000000000000; sec <= 10000000000000; sec += 10000000000) Test03_a(sec);
-			for (long sec = 31556920200000; sec <= 31556920377599; sec++) Test03_a(sec);
+			for (long sec = 10000000000000; sec <= 100000000000000; sec += 100000000000) Test03_a(sec);
+			for (long sec = 100000000000000; sec <= 1000000000000000; sec += 1000000000000) Test03_a(sec);
+			for (long sec = 1000000000000000; sec <= 10000000000000000; sec += 10000000000000) Test03_a(sec);
+			for (long sec = 29106150800000000; sec <= 29106150840000000; sec += 1000) Test03_a(sec);
+			for (long sec = 29106150840000000; sec <= 29106150842000000; sec += 100) Test03_a(sec);
+			for (long sec = 29106150842000000; sec <= 29106150842700000; sec += 10) Test03_a(sec);
+			for (long sec = 29106150842700000; sec <= 29106150842822399; sec++) Test03_a(sec);
 
 			Test03_b(-3, 0); // Min - 3  -->  Min
 			Test03_b(-2, 0); // Min - 2  -->  Min
@@ -67,13 +88,13 @@ namespace Charlotte.Tests
 			Test03_b(2, 2);  // Min + 2  -->  Min + 2
 			Test03_b(3, 3);  // Min + 3  -->  Min + 3
 
-			Test03_b(31556920377596, 31556920377596); // Max - 3  -->  Max - 3
-			Test03_b(31556920377597, 31556920377597); // Max - 2  -->  Max - 2
-			Test03_b(31556920377598, 31556920377598); // Max - 1  -->  Max - 1
-			Test03_b(31556920377599, 31556920377599); // Max      -->  Max
-			Test03_b(31556920377600, 31556920377599); // Max + 1  -->  Max
-			Test03_b(31556920377601, 31556920377599); // Max + 2  -->  Max
-			Test03_b(31556920377602, 31556920377599); // Max + 3  -->  Max
+			Test03_b(29106150842822396, 29106150842822396); // Max - 3  -->  Max - 3
+			Test03_b(29106150842822397, 29106150842822397); // Max - 2  -->  Max - 2
+			Test03_b(29106150842822398, 29106150842822398); // Max - 1  -->  Max - 1
+			Test03_b(29106150842822399, 29106150842822399); // Max      -->  Max
+			Test03_b(29106150842822400, 29106150842822399); // Max + 1  -->  Max
+			Test03_b(29106150842822401, 29106150842822399); // Max + 2  -->  Max
+			Test03_b(29106150842822402, 29106150842822399); // Max + 3  -->  Max
 		}
 
 		private void Test03_a(long sec)
@@ -106,7 +127,18 @@ namespace Charlotte.Tests
 			Console.WriteLine(SimpleDateTime.FromTimeStamp(44441231235959));
 
 			Console.WriteLine(SimpleDateTime.FromTimeStamp(10101000000));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(99990101000000));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(99991231235959));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(999990101000000));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(999991231235959));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(9999990101000000));
 			Console.WriteLine(SimpleDateTime.FromTimeStamp(9999991231235959));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(99999990101000000));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(99999991231235959));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(999999990101000000));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(999999991231235959));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(9223372030101000000));
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(9223372031231235959));
 
 			{
 				SimpleDateTime timeStamp = SimpleDateTime.FromTimeStamp(19991231235959);
@@ -167,9 +199,11 @@ namespace Charlotte.Tests
 			private char[] Chars;
 			private byte[] CharMap;
 
+			private const char CHAR_PADDING = '=';
+
 			private Base64()
 			{
-				this.Chars = (SCommon.ALPHA + SCommon.alpha + SCommon.DECIMAL + "+/=").ToArray();
+				this.Chars = (SCommon.ALPHA + SCommon.alpha + SCommon.DECIMAL + "+/").ToArray();
 				this.CharMap = new byte[(int)char.MaxValue + 1];
 
 				for (int index = 0; index < 64; index++)
@@ -200,15 +234,15 @@ namespace Charlotte.Tests
 					dest[writer++] = this.Chars[chr >> 10];
 					dest[writer++] = this.Chars[(chr >> 4) & 0x3f];
 					dest[writer++] = this.Chars[(chr << 2) & 0x3c];
-					dest[writer++] = this.Chars[64];
+					dest[writer++] = CHAR_PADDING;
 				}
 				else if (index + 1 == src.Length)
 				{
 					chr = src[index++] & 0xff;
 					dest[writer++] = this.Chars[chr >> 2];
 					dest[writer++] = this.Chars[(chr << 4) & 0x30];
-					dest[writer++] = this.Chars[64];
-					dest[writer++] = this.Chars[64];
+					dest[writer++] = CHAR_PADDING;
+					dest[writer++] = CHAR_PADDING;
 				}
 				return new string(dest);
 			}
@@ -219,11 +253,11 @@ namespace Charlotte.Tests
 
 				if (destSize != 0)
 				{
-					if (src[src.Length - 2] == this.Chars[64])
+					if (src[src.Length - 2] == CHAR_PADDING)
 					{
 						destSize -= 2;
 					}
-					else if (src[src.Length - 1] == this.Chars[64])
+					else if (src[src.Length - 1] == CHAR_PADDING)
 					{
 						destSize--;
 					}
@@ -274,16 +308,25 @@ namespace Charlotte.Tests
 		/// -- YYYYMMDDhhmmss
 		/// -- YYYYYMMDDhhmmss
 		/// -- YYYYYYMMDDhhmmss
-		/// ---- 年の桁数は 1 ～ 6 桁
+		/// -- YYYYYYYMMDDhhmmss
+		/// -- YYYYYYYYMMDDhhmmss
+		/// -- YYYYYYYYYMMDDhhmmss -- 但し YYYYYYYYY == 100000000 ～ 922337203
+		/// ---- 年の桁数は 1 ～ 9 桁
 		/// 日時の範囲
 		/// -- 最小 1/1/1 00:00:00
-		/// -- 最大 999999/12/31 23:59:59
+		/// -- 最大 922337203/12/31 23:59:59
 		/// </summary>
 		public static class TimeStampToSec
 		{
+			private const int YEAR_MIN = 1;
+			private const int YEAR_MAX = 922337203;
+
+			private const long TIME_STAMP_MIN = 10101000000L;
+			private const long TIME_STAMP_MAX = 9223372031231235959L;
+
 			public static long ToSec(long timeStamp)
 			{
-				if (timeStamp < 10101000000L || 9999991231235959L < timeStamp)
+				if (timeStamp < TIME_STAMP_MIN || TIME_STAMP_MAX < timeStamp)
 					return 0L;
 
 				int s = (int)(timeStamp % 100L);
@@ -298,7 +341,7 @@ namespace Charlotte.Tests
 				int y = (int)(timeStamp / 100L);
 
 				if (
-					y < 1 || 999999 < y ||
+					//y < YEAR_MIN || YEAR_MAX < y ||
 					m < 1 || 12 < m ||
 					d < 1 || 31 < d ||
 					h < 0 || 23 < h ||
@@ -346,7 +389,7 @@ namespace Charlotte.Tests
 			public static long ToTimeStamp(long sec)
 			{
 				if (sec < 0L)
-					return 10101000000L;
+					return TIME_STAMP_MIN;
 
 				int s = (int)(sec % 60L);
 				sec /= 60L;
@@ -355,14 +398,17 @@ namespace Charlotte.Tests
 				int h = (int)(sec % 24L);
 				sec /= 24L;
 
-				if ((long)int.MaxValue < sec)
-					return 9999991231235959L;
+				int day = (int)(sec % 146097);
+				sec /= 146097;
+				sec *= 400;
+				sec++;
 
-				int day = (int)sec;
-				int y = (day / 146097) * 400 + 1;
+				if (YEAR_MAX < sec)
+					return TIME_STAMP_MAX;
+
+				int y = (int)sec;
 				int m = 1;
 				int d;
-				day %= 146097;
 
 				day += Math.Min((day + 306) / 36524, 3);
 				y += (day / 1461) * 4;
@@ -385,14 +431,14 @@ namespace Charlotte.Tests
 				day %= 31;
 				d = day + 1;
 
-				if (y < 1)
-					return 10101000000L;
+				if (y < YEAR_MIN)
+					return TIME_STAMP_MIN;
 
-				if (999999 < y)
-					return 9999991231235959L;
+				if (YEAR_MAX < y)
+					return TIME_STAMP_MAX;
 
 				if (
-					//y < 1 || 999999 < y ||
+					//y < YEAR_MIN || YEAR_MAX < y ||
 					m < 1 || 12 < m ||
 					d < 1 || 31 < d ||
 					h < 0 || 23 < h ||
@@ -432,7 +478,7 @@ namespace Charlotte.Tests
 		#region SimpleDateTime
 
 		/// <summary>
-		/// 日時の範囲：1/1/1 00:00:00 ～ 999999/12/31 23:59:59
+		/// 日時の範囲：1/1/1 00:00:00 ～ 922337203/12/31 23:59:59
 		/// </summary>
 		public struct SimpleDateTime
 		{
