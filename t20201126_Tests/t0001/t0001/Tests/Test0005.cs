@@ -107,6 +107,26 @@ namespace Charlotte.Tests
 
 			Console.WriteLine(new SimpleTimeStamp(10101000000));
 			Console.WriteLine(new SimpleTimeStamp(9999991231235959));
+
+			{
+				SimpleTimeStamp timeStamp = new SimpleTimeStamp(19991231235959);
+				Console.WriteLine(timeStamp);
+				timeStamp += 1;
+				Console.WriteLine(timeStamp);
+				timeStamp -= 1;
+				Console.WriteLine(timeStamp);
+			}
+
+			{
+				SimpleTimeStamp a = new SimpleTimeStamp(20220101000000);
+				SimpleTimeStamp b = new SimpleTimeStamp(20210101000000);
+
+				Console.WriteLine(a);
+				Console.WriteLine(b);
+				Console.WriteLine(a - b);
+				Console.WriteLine(b - a);
+				//Console.WriteLine(a + b); // syntax error
+			}
 		}
 
 		// ==== ==== ====
@@ -397,7 +417,7 @@ namespace Charlotte.Tests
 
 		#region SimpleTimeStamp
 
-		public class SimpleTimeStamp
+		public struct SimpleTimeStamp
 		{
 			public int Year;
 			public int Month;
@@ -433,6 +453,32 @@ namespace Charlotte.Tests
 			public string ToString(string format)
 			{
 				return string.Format(format, this.Year, this.Month, this.Day, this.Weekday, this.Hour, this.Minute, this.Second);
+			}
+
+			public long ToTimeStamp()
+			{
+				return
+					10000000000L * this.Year +
+					100000000L * this.Month +
+					1000000L * this.Day +
+					10000L * this.Hour +
+					100L * this.Minute +
+					this.Second;
+			}
+
+			public static SimpleTimeStamp operator +(SimpleTimeStamp instance, long sec)
+			{
+				return new SimpleTimeStamp(TimeStampToSec.ToTimeStamp(TimeStampToSec.ToSec(instance.ToTimeStamp()) + sec));
+			}
+
+			public static SimpleTimeStamp operator -(SimpleTimeStamp instance, long sec)
+			{
+				return new SimpleTimeStamp(TimeStampToSec.ToTimeStamp(TimeStampToSec.ToSec(instance.ToTimeStamp()) - sec));
+			}
+
+			public static long operator -(SimpleTimeStamp a, SimpleTimeStamp b)
+			{
+				return TimeStampToSec.ToSec(a.ToTimeStamp()) - TimeStampToSec.ToSec(b.ToTimeStamp());
 			}
 		}
 
