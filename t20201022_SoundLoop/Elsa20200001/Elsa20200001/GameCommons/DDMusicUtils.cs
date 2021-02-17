@@ -70,8 +70,9 @@ namespace Charlotte.GameCommons
 			}
 		}
 
-		public static DDMusic CurrDestMusic = null;
-		public static double CurrDestVolume = 0.0;
+		private static DDMusic CurrDestMusic = null;
+		private static bool CurrDestOnce = false;
+		private static double CurrDestVolume = 0.0;
 
 		public static void Play(DDMusic music, bool once = false, bool resume = false, double volume = 1.0, int fadeFrameMax = 30)
 		{
@@ -93,6 +94,7 @@ namespace Charlotte.GameCommons
 			PlayInfos.Enqueue(null);
 
 			CurrDestMusic = music;
+			CurrDestOnce = once;
 			CurrDestVolume = volume;
 		}
 
@@ -142,12 +144,42 @@ namespace Charlotte.GameCommons
 			PlayInfos.Enqueue(null);
 
 			CurrDestMusic = null;
+			CurrDestOnce = false;
 			CurrDestVolume = 0.0;
+		}
+
+		private static DDMusic CurrPauseMusic = null;
+		private static bool CurrPauseOnce = false;
+		private static double CurrPauseVolume = 0.0;
+
+		public static void Pause()
+		{
+			CurrPauseMusic = CurrDestMusic;
+			CurrPauseOnce = CurrDestOnce;
+			CurrPauseVolume = CurrDestVolume;
+
+			Stop();
+		}
+
+		public static void Resume()
+		{
+			if (CurrPauseMusic != null)
+				CurrPauseMusic.Play(CurrPauseOnce, true, CurrPauseVolume);
 		}
 
 		public static void UpdateVolume()
 		{
 			Fade(0, 1.0);
+		}
+
+		/// <summary>
+		/// クリア対象の音楽は停止していること。
+		/// -- 再生中に Unload したらマズいのかどうかは不明。多分マズいだろう。
+		/// </summary>
+		public static void UnloadAll()
+		{
+			foreach (DDMusic music in Musics)
+				music.Sound.Unload();
 		}
 	}
 }
