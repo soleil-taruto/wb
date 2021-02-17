@@ -27,8 +27,8 @@ namespace Charlotte
 			// -- choose one --
 
 			//MakeButtons_20210208();
-			//MakeButtons_20210209_ボタン();
-			MakeButtons_20210209_枠();
+			MakeButtons_20210209_ボタン();
+			//MakeButtons_20210209_枠();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -117,6 +117,11 @@ namespace Charlotte
 			MakeButtons_20210209_a(2400, color, "キャンセル", 300);
 			MakeButtons_20210209_a(2400, color, "変更", 675);
 			MakeButtons_20210209_a(2400, color, "戻る", 675);
+
+			color = new I4Color(255, 255, 100, 255);
+
+			MakeButtons_20210209_a(1200, color, "前へ:◀", 200);
+			MakeButtons_20210209_a(1200, color, "次へ:▶", 200);
 		}
 
 		private void MakeButtons_20210209_a(int w, I4Color frameColor, string text, int text_x)
@@ -151,11 +156,21 @@ namespace Charlotte
 				canvas.FillRect(new I4Rect(0 * w / 2, 1 * h / 2, w / 2, h / 2), a_fill);
 			}
 
+			string name = text;
+
+			{
+				int p = text.IndexOf(':');
+
+				if (p != -1)
+				{
+					name = text.Substring(0, p);
+					text = text.Substring(p + 1);
+				}
+			}
+
 			canvas = canvas.DrawString(text, 180, textColor, h / 2 + text_x, 70);
-
 			canvas = canvas.Expand(w / 6, h / 6);
-
-			canvas.Save(Path.Combine(Consts.OUTPUT_DIR, Common.ZenToHan(text) + ".png"));
+			canvas.Save(Path.Combine(Consts.OUTPUT_DIR, Common.ZenToHan(name) + ".png"));
 		}
 
 		private void MakeButtons_20210209_枠()
@@ -257,6 +272,22 @@ namespace Charlotte
 					new I2Point(55, 55),
 					new I2Point(20, 55),
 					new I2Point(20, 20),
+				}
+				);
+
+			MakeFrame(
+				"SaveDataSlot",
+				new I2Size(340, 340),
+				behindColor,
+				frontColor,
+				new I2Point[] { },
+				new I2Point[]
+				{
+					new I2Point(5, 5),
+					new I2Point(330, 5),
+					new I2Point(330, 330),
+					new I2Point(5, 330),
+					new I2Point(5, 5),
 				}
 				);
 		}
