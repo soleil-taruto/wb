@@ -53,7 +53,7 @@ namespace Charlotte
 			canvas.Fill(new I4Color(100, 120, 140, 255));
 
 			{
-				const int DENOM = 300;
+				const int DENOM = 500;
 
 				for (int numer = 0; numer <= DENOM; numer++)
 				{
@@ -72,12 +72,7 @@ namespace Charlotte
 				canvas = canvas.DrawString(
 					text,
 					fontSize,
-					new I4Color(
-						SCommon.CRandom.GetRange(200, 255),
-						SCommon.CRandom.GetRange(200, 255),
-						SCommon.CRandom.GetRange(200, 255),
-						255
-						),
+					new I4Color(255, 255, 233, 255),
 					textX,
 					textY
 					);
@@ -99,12 +94,13 @@ namespace Charlotte
 			centerX += Math.Cos(rot) * r;
 			centerY += Math.Sin(rot) * r;
 
-			I4Color color = new I4Color(
-				SCommon.CRandom.GetRange(0, colorLevelMax),
-				SCommon.CRandom.GetRange(0, colorLevelMax),
-				SCommon.CRandom.GetRange(0, colorLevelMax),
-				255
-				);
+			double[,] colorMap = new double[4, 3] // [左右上下(0-3), RGB(0-2)]
+			{
+				{ SCommon.CRandom.Real(), SCommon.CRandom.Real(), SCommon.CRandom.Real() },
+				{ SCommon.CRandom.Real(), SCommon.CRandom.Real(), SCommon.CRandom.Real() },
+				{ SCommon.CRandom.Real(), SCommon.CRandom.Real(), SCommon.CRandom.Real() },
+				{ SCommon.CRandom.Real(), SCommon.CRandom.Real(), SCommon.CRandom.Real() },
+			};
 
 			for (int x = 0; x < canvas.W; x++)
 			{
@@ -113,7 +109,25 @@ namespace Charlotte
 					double d = Common.GetDistance(new D2Point(x, y) - new D2Point(centerX, centerY));
 
 					if (Math.Abs(d - r) < width)
+					{
+						double xRate = (double)x / (canvas.W - 1);
+						double yRate = (double)y / (canvas.H - 1);
+
+						I4Color color = new I4Color(
+							SCommon.ToInt((
+								colorMap[0, 0] * (1.0 - xRate) + colorMap[1, 0] * xRate +
+								colorMap[2, 0] * (1.0 - yRate) + colorMap[3, 0] * yRate) * 0.5 * colorLevelMax),
+							SCommon.ToInt((
+								colorMap[0, 1] * (1.0 - xRate) + colorMap[1, 1] * xRate +
+								colorMap[2, 1] * (1.0 - yRate) + colorMap[3, 1] * yRate) * 0.5 * colorLevelMax),
+							SCommon.ToInt((
+								colorMap[0, 2] * (1.0 - xRate) + colorMap[1, 2] * xRate +
+								colorMap[2, 2] * (1.0 - yRate) + colorMap[3, 2] * yRate) * 0.5 * colorLevelMax),
+							255
+							);
+
 						canvas[x, y] = color;
+					}
 				}
 			}
 		}
