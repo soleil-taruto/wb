@@ -41,7 +41,7 @@ namespace Charlotte
 		{
 			MakeImage("SaveData_DefaultThumbnail", 290, 200, "NO DATA", 180, -10, 240);
 			MakeImage("DummyScreen", 960, 540);
-			MakeImage("DummyScreen_2倍", 1920, 1080);
+			MakeImage("DummyScreen(2倍)", 1920, 1080);
 		}
 
 		private void MakeImage(string name, int w, int h, string text = null, int fontSize = 100, int textX = 100, int textY = 100)
