@@ -74,5 +74,137 @@ namespace Charlotte.Tests
 			flag |= true;
 			Console.WriteLine(flag); // True
 		}
+
+		#region Test06
+
+		public void Test06()
+		{
+			Test06_a("-2147483651", true); // int.MinValue - 3
+			Test06_a("-2147483650", true); // int.MinValue - 2
+			Test06_a("-2147483649", true); // int.MinValue - 1
+			Test06_a("-2147483648"); // int.MinValue
+			Test06_a("-2147483647"); // int.MinValue + 1
+			Test06_a("-2147483646"); // int.MinValue + 2
+			Test06_a("-2147483645"); // int.MinValue + 3
+
+			Test06_a("2147483644"); // int.MaxValue - 3
+			Test06_a("2147483645"); // int.MaxValue - 2
+			Test06_a("2147483646"); // int.MaxValue - 1
+			Test06_a("2147483647"); // int.MaxValue
+			Test06_a("2147483648", true); // int.MaxValue + 1
+			Test06_a("2147483649", true); // int.MaxValue + 2
+			Test06_a("2147483650", true); // int.MaxValue + 3
+
+			Test06_a2("-2147483648", int.MinValue);
+			Test06_a2("-2147483647", int.MinValue + 1);
+			Test06_a2("-2147483646", int.MinValue + 2);
+			Test06_a2("-2147483645", int.MinValue + 3);
+
+			Test06_a2("2147483644", int.MaxValue - 3);
+			Test06_a2("2147483645", int.MaxValue - 2);
+			Test06_a2("2147483646", int.MaxValue - 1);
+			Test06_a2("2147483647", int.MaxValue);
+
+			Test06_b("-9223372036854775811", true); // long.MinValue - 3
+			Test06_b("-9223372036854775810", true); // long.MinValue - 2
+			Test06_b("-9223372036854775809", true); // long.MinValue - 1
+			Test06_b("-9223372036854775808"); // long.MinValue
+			Test06_b("-9223372036854775807"); // long.MinValue + 1
+			Test06_b("-9223372036854775806"); // long.MinValue + 2
+			Test06_b("-9223372036854775805"); // long.MinValue + 3
+
+			Test06_b("9223372036854775804"); // long.MaxValue - 3
+			Test06_b("9223372036854775805"); // long.MaxValue - 2
+			Test06_b("9223372036854775806"); // long.MaxValue - 1
+			Test06_b("9223372036854775807"); // long.MaxValue
+			Test06_b("9223372036854775808", true); // long.MaxValue + 1
+			Test06_b("9223372036854775809", true); // long.MaxValue + 2
+			Test06_b("9223372036854775810", true); // long.MaxValue + 3
+
+			Test06_b2("-9223372036854775808", long.MinValue);
+			Test06_b2("-9223372036854775807", long.MinValue + 1);
+			Test06_b2("-9223372036854775806", long.MinValue + 2);
+			Test06_b2("-9223372036854775805", long.MinValue + 3);
+
+			Test06_b2("9223372036854775804", long.MaxValue - 3);
+			Test06_b2("9223372036854775805", long.MaxValue - 2);
+			Test06_b2("9223372036854775806", long.MaxValue - 1);
+			Test06_b2("9223372036854775807", long.MaxValue);
+
+			Test06_c(-2147483648L, int.MinValue);
+			Test06_c(-2147483647L, int.MinValue + 1);
+			Test06_c(-2147483646L, int.MinValue + 2);
+			Test06_c(-2147483645L, int.MinValue + 3);
+
+			Test06_c(2147483644L, int.MaxValue - 3);
+			Test06_c(2147483645L, int.MaxValue - 2);
+			Test06_c(2147483646L, int.MaxValue - 1);
+			Test06_c(2147483647L, int.MaxValue);
+		}
+
+		private void Test06_a(string sVal, bool expectThrow = false)
+		{
+			Console.WriteLine(sVal); // cout
+
+			bool throwed = false;
+			try
+			{
+				if (sVal != "" + int.Parse(sVal))
+					throw null; // ng!
+			}
+			catch
+			{
+				throwed = true;
+			}
+			if (throwed != expectThrow)
+				throw null; // ng
+		}
+
+		private void Test06_a2(string sVal, int expect)
+		{
+			Console.WriteLine(sVal + ", " + expect); // cout
+
+			if (int.Parse(sVal) != expect)
+				throw null; // ng!
+		}
+
+		private void Test06_b(string sVal, bool expectThrow = false)
+		{
+			Console.WriteLine(sVal); // cout
+
+			bool throwed = false;
+			try
+			{
+				if (sVal != "" + long.Parse(sVal))
+					throw null; // ng!
+			}
+			catch
+			{
+				throwed = true;
+			}
+			if (throwed != expectThrow)
+				throw null; // ng
+		}
+
+		private void Test06_b2(string sVal, long expect)
+		{
+			Console.WriteLine(sVal + ", " + expect); // cout
+
+			if (long.Parse(sVal) != expect)
+				throw null; // ng!
+		}
+
+		private void Test06_c(long lVal, int value)
+		{
+			if (lVal != value)
+				throw null; // ng!
+
+			long tmp = value;
+
+			if (lVal != tmp)
+				throw null; // ng!
+		}
+
+		#endregion
 	}
 }
