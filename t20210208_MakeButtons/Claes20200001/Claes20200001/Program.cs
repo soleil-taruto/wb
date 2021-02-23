@@ -117,6 +117,7 @@ namespace Charlotte
 			MakeButtons_20210209_a(2400, color, "キャンセル", 300);
 			MakeButtons_20210209_a(2400, color, "変更", 675);
 			MakeButtons_20210209_a(2400, color, "戻る", 675);
+			MakeButtons_20210209_a(2400, color, "決定", 675);
 
 			color = new I4Color(255, 255, 100, 255);
 
