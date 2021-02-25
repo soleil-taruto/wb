@@ -179,6 +179,8 @@ namespace Charlotte.Tests
 		// ==== ==== ====
 		// ==== ==== ====
 
+		// sync > @ Base64_TimeStamp
+
 		#region Base64
 
 		public class Base64
@@ -563,5 +565,7 @@ namespace Charlotte.Tests
 		}
 
 		#endregion
+
+		// < sync
 	}
 }
