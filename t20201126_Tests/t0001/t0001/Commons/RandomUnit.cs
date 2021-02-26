@@ -97,29 +97,36 @@ namespace Charlotte.Commons
 				((ulong)r[7] << 56);
 		}
 
-		public uint GetUInt_M(uint modulo)
-		{
-			return (uint)(GetUInt64() % modulo);
-		}
-
 		public int GetInt(int modulo)
 		{
-			return (int)GetUInt_M((uint)modulo);
+			//if (modulo < 1)
+			//    throw new ArgumentException();
+
+			return (int)(this.GetUInt64() % (ulong)modulo);
 		}
 
 		public int GetRange(int minval, int maxval)
 		{
-			return (int)GetUInt_M((uint)(maxval - minval + 1)) + minval;
-		}
-
-		public T ChooseOne<T>(T[] arr)
-		{
-			return arr[GetInt(arr.Length)];
+			return this.GetInt(maxval - minval + 1) + minval;
 		}
 
 		public byte[] GetBytes(int minlen, int maxlen)
 		{
 			return this.GetBytes(this.GetRange(minlen, maxlen));
+		}
+
+		public T ChooseOne<T>(T[] arr)
+		{
+			return arr[this.GetInt(arr.Length)];
+		}
+
+		/// <summary>
+		/// 0以上1以下の乱数を返す。
+		/// </summary>
+		/// <returns>乱数</returns>
+		public double Real()
+		{
+			return this.GetUInt() / (double)uint.MaxValue;
 		}
 	}
 }
