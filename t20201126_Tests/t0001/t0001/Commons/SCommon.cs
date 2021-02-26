@@ -8,6 +8,8 @@ namespace Charlotte.Commons
 {
 	public static class SCommon
 	{
+		public static Encoding ENCODING_SJIS = Encoding.GetEncoding(932);
+
 		public const int IMAX = 1000000000; // 10^9
 
 		public static string DECIMAL = "0123456789";
@@ -42,6 +44,11 @@ namespace Charlotte.Commons
 		public static int Comp(byte[] a, byte[] b)
 		{
 			return Comp(a, b, Comp);
+		}
+
+		public static int Comp(string a, string b)
+		{
+			return Comp(Encoding.UTF8.GetBytes(a), Encoding.UTF8.GetBytes(b)); // a.CompareTo(b) ???
 		}
 
 		public static int Comp<T>(T[] a, T[] b, Comparison<T> comp)

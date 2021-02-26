@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tests\Test0006.cs" />
+    <Compile Include="Commons\CsvFileReader.cs" />
+    <Compile Include="Commons\CsvFileWriter.cs" />
     <Compile Include="Commons\I3Color.cs" />
     <Compile Include="Commons\RandomUnit.cs" />
     <Compile Include="Commons\SCommon.cs" />
