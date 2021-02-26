@@ -147,6 +147,11 @@ namespace Charlotte.Tests
 				Console.WriteLine(timeStamp);
 				timeStamp -= 1;
 				Console.WriteLine(timeStamp);
+
+				Console.WriteLine(timeStamp + 1);
+				Console.WriteLine(timeStamp - 1);
+				Console.WriteLine(1 + timeStamp);
+				//Console.WriteLine(1 - timeStamp); // syntax error
 			}
 
 			{
@@ -549,6 +554,11 @@ namespace Charlotte.Tests
 			}
 
 			public static SimpleDateTime operator +(SimpleDateTime instance, long sec)
+			{
+				return new SimpleDateTime(instance.ToSec() + sec);
+			}
+
+			public static SimpleDateTime operator +(long sec, SimpleDateTime instance)
 			{
 				return new SimpleDateTime(instance.ToSec() + sec);
 			}
