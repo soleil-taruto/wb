@@ -34,10 +34,11 @@ namespace Charlotte
 			//new Test0001().Test03();
 			//new Test0001().Test04();
 			//new Test0001().Test05();
-			new Test0001().Test06();
+			//new Test0001().Test06();
 			//new Test0002().Test01();
 			//new Test0003().Test01();
 			//new Test0004().Test01();
+			new Test0005().Test01();
 
 			// --
 		}
