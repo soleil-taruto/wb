@@ -24,7 +24,11 @@ namespace Charlotte.Commons
 			: this(file, append, SCommon.ENCODING_SJIS)
 		{ }
 
-		public CsvFileWriter(string file, bool append, Encoding encoding, char delimiter = DELIMITER_COMMA)
+		public CsvFileWriter(string file, bool append, Encoding encoding) // 難読化のため、デフォルト引数にしない。
+			: this(file, append, encoding, DELIMITER_COMMA)
+		{ }
+
+		public CsvFileWriter(string file, bool append, Encoding encoding, char delimiter)
 			: this(new StreamWriter(file, append, encoding))
 		{
 			this.Delimiter = delimiter;
