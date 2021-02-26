@@ -23,7 +23,7 @@ namespace Charlotte.Tests
 			PrintIList(list1);
 			PrintIList(arr2);
 			PrintIList(list2);
-
+			//
 			// output ...
 			//
 			// 1000, 456, 789, 123
@@ -41,7 +41,7 @@ namespace Charlotte.Tests
 				PrintIList(list1);
 				PrintIList(arr2);
 				PrintIList(list2);
-
+				//
 				// output ...
 				//
 				// 1000, 456, 789, 123
@@ -53,7 +53,7 @@ namespace Charlotte.Tests
 				PrintIList(list1b);
 				PrintIList(arr2b);
 				PrintIList(list2b);
-
+				//
 				// output ...
 				//
 				// 123, 789, 456, 1000
@@ -61,6 +61,23 @@ namespace Charlotte.Tests
 				// ABC, GHI, DEF, JKL
 				// ABC, GHI, DEF, JKL
 			}
+
+			Swap(arr1, 1, 2);
+			Swap(list1, 1, 2);
+			Swap(arr2, 1, 2);
+			Swap(list2, 1, 2);
+
+			PrintIList(arr1);
+			PrintIList(list1);
+			PrintIList(arr2);
+			PrintIList(list2);
+			//
+			// output ...
+			//
+			// 1000, 789, 456, 123
+			// 1000, 789, 456, 123
+			// JKL, GHI, DEF, ABC
+			// JKL, GHI, DEF, ABC
 		}
 
 		private void ModifyIList<T>(IList<T> list)
@@ -83,6 +100,13 @@ namespace Charlotte.Tests
 		private IList<T> ReverseIList<T>(IList<T> list)
 		{
 			return list.Reverse().ToArray();
+		}
+
+		public static void Swap<T>(IList<T> list, int a, int b)
+		{
+			T tmp = list[a];
+			list[a] = list[b];
+			list[b] = tmp;
 		}
 	}
 }
