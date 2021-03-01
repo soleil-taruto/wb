@@ -178,6 +178,8 @@ namespace Charlotte.Tests
 
 				//timeStamp.Year = 1234; // syntax error
 			}
+
+			Console.WriteLine(SimpleDateTime.Now());
 		}
 
 		// ==== ==== ====
@@ -502,6 +504,11 @@ namespace Charlotte.Tests
 			public readonly int Minute;
 			public readonly int Second;
 			public readonly string Weekday;
+
+			public static SimpleDateTime Now()
+			{
+				return new SimpleDateTime(TimeStampToSec.ToSec(DateTime.Now));
+			}
 
 			public static SimpleDateTime FromTimeStamp(long timeStamp)
 			{
