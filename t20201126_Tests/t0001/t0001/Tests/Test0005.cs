@@ -180,6 +180,44 @@ namespace Charlotte.Tests
 			}
 
 			Console.WriteLine(SimpleDateTime.Now());
+			Console.WriteLine(new SimpleDateTime(DateTime.Now));
+			Console.WriteLine(new SimpleDateTime(DateTime.Now).ToDateTime());
+		}
+
+		public void Test05()
+		{
+			long SEC_MIN = 0L;
+			long SEC_MAX = TimeStampToSec.ToSec(99991231235959);
+
+			Test05_a(SEC_MIN);
+			Test05_a(SEC_MIN + 1);
+			Test05_a(SEC_MIN + 2);
+			Test05_a(SEC_MIN + 3);
+			Test05_a(SEC_MAX - 3);
+			Test05_a(SEC_MAX - 2);
+			Test05_a(SEC_MAX - 1);
+			Test05_a(SEC_MAX);
+
+			for (long sec = SEC_MIN; sec <= SEC_MAX; sec += SCommon.CRandom.GetRange(1, 100000))
+			{
+				if (sec / 100000 % 300 == 0) Console.WriteLine("*1 " + sec); // cout
+
+				Test05_a(sec);
+			}
+		}
+
+		private void Test05_a(long sec)
+		{
+			DateTime dt = new SimpleDateTime(sec).ToDateTime();
+			DateTime dt2 = new SimpleDateTime(dt).ToDateTime();
+
+			if ((dt - dt2) != new TimeSpan(0L))
+				throw null; // BUG !!!
+
+			long sec2 = TimeStampToSec.ToSec(dt2);
+
+			if (sec != sec2)
+				throw null; // BUG !!!
 		}
 
 		// ==== ==== ====
@@ -546,6 +584,11 @@ namespace Charlotte.Tests
 			public string ToString(string format)
 			{
 				return string.Format(format, this.Year, this.Month, this.Day, this.Weekday, this.Hour, this.Minute, this.Second);
+			}
+
+			public DateTime ToDateTime()
+			{
+				return new DateTime(this.Year, this.Month, this.Day, this.Hour, this.Minute, this.Second);
 			}
 
 			public long ToTimeStamp()
