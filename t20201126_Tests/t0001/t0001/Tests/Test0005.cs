@@ -182,6 +182,9 @@ namespace Charlotte.Tests
 			Console.WriteLine(SimpleDateTime.Now());
 			Console.WriteLine(new SimpleDateTime(DateTime.Now));
 			Console.WriteLine(new SimpleDateTime(DateTime.Now).ToDateTime());
+
+			Console.WriteLine(SimpleDateTime.FromTimeStamp(99991231235959).ToDateTime()); // DateTime.MaxValue
+			//Console.WriteLine(SimpleDateTime.FromTimeStamp(100000101000000).ToDateTime()); // DateTime.MaxValue + 1 // 例外
 		}
 
 		public void Test05()
@@ -189,32 +192,37 @@ namespace Charlotte.Tests
 			long SEC_MIN = 0L;
 			long SEC_MAX = TimeStampToSec.ToSec(99991231235959);
 
-			Test05_a(SEC_MIN);
-			Test05_a(SEC_MIN + 1);
-			Test05_a(SEC_MIN + 2);
-			Test05_a(SEC_MIN + 3);
-			Test05_a(SEC_MAX - 3);
-			Test05_a(SEC_MAX - 2);
-			Test05_a(SEC_MAX - 1);
-			Test05_a(SEC_MAX);
-
-			for (long sec = SEC_MIN; sec <= SEC_MAX; sec += SCommon.CRandom.GetRange(1, 100000))
-			{
-				if (sec / 100000 % 300 == 0) Console.WriteLine("*1 " + sec); // cout
-
-				Test05_a(sec);
-			}
+			for (long sec = SEC_MIN; sec <= 1000; sec++) Test05_a(sec);
+			for (long sec = SEC_MIN; sec <= 10000; sec += 10) Test05_a(sec);
+			for (long sec = SEC_MIN; sec <= 100000; sec += 100) Test05_a(sec);
+			for (long sec = SEC_MIN; sec <= 1000000; sec += 1000) Test05_a(sec);
+			for (long sec = SEC_MIN; sec <= 10000000; sec += 10000) Test05_a(sec);
+			for (long sec = SEC_MIN; sec <= 100000000; sec += 100000) Test05_a(sec);
+			for (long sec = SEC_MIN; sec <= 1000000000; sec += 1000000) Test05_a(sec);
+			for (long sec = SEC_MIN; sec <= 10000000000; sec += 10000000) Test05_a(sec);
+			for (long sec = SEC_MIN; sec <= 100000000000; sec += 100000000) Test05_a(sec);
+			for (long sec = SEC_MIN; sec <= 300000000000; sec += 300000000) Test05_a(sec);
+			for (long sec = SEC_MAX - 100000000000; sec <= SEC_MAX; sec += 100000000) Test05_a(sec);
+			for (long sec = SEC_MAX - 10000000000; sec <= SEC_MAX; sec += 10000000) Test05_a(sec);
+			for (long sec = SEC_MAX - 1000000000; sec <= SEC_MAX; sec += 1000000) Test05_a(sec);
+			for (long sec = SEC_MAX - 100000000; sec <= SEC_MAX; sec += 100000) Test05_a(sec);
+			for (long sec = SEC_MAX - 10000000; sec <= SEC_MAX; sec += 10000) Test05_a(sec);
+			for (long sec = SEC_MAX - 1000000; sec <= SEC_MAX; sec += 1000) Test05_a(sec);
+			for (long sec = SEC_MAX - 100000; sec <= SEC_MAX; sec += 100) Test05_a(sec);
+			for (long sec = SEC_MAX - 10000; sec <= SEC_MAX; sec += 10) Test05_a(sec);
+			for (long sec = SEC_MAX - 1000; sec <= SEC_MAX; sec++) Test05_a(sec);
 		}
 
 		private void Test05_a(long sec)
 		{
 			DateTime dt = new SimpleDateTime(sec).ToDateTime();
 			DateTime dt2 = new SimpleDateTime(dt).ToDateTime();
+			long sec2 = TimeStampToSec.ToSec(dt2);
+
+			Console.WriteLine(sec + " --> " + dt + " --> " + dt2 + " --> " + sec2); // cout
 
 			if ((dt - dt2) != new TimeSpan(0L))
 				throw null; // BUG !!!
-
-			long sec2 = TimeStampToSec.ToSec(dt2);
 
 			if (sec != sec2)
 				throw null; // BUG !!!
