@@ -39,7 +39,7 @@ namespace Charlotte
 
 		private void Main3()
 		{
-			Main3_a(@"C:\wb\20210214_シャニマス画像DL");
+			Main3_a(@"C:\temp");
 		}
 
 		private void Main3_a(string dir)
