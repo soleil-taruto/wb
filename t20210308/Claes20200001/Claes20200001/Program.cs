@@ -26,7 +26,8 @@ namespace Charlotte
 
 			// -- choose one --
 
-			Main3();
+			//Main3();
+			Main3_20210309();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -42,6 +43,19 @@ namespace Charlotte
 			Main3_a(@"C:\temp\20210305172153\Map\0001.bmp", @"C:\temp\20210308111726\Map\0001.bmp");
 			Main3_a(@"C:\temp\20210305172153\Map\0002.bmp", @"C:\temp\20210308111726\Map\0002.bmp");
 			Main3_a(@"C:\temp\20210305172153\Map\0003.bmp", @"C:\temp\20210308111726\Map\0003.bmp");
+		}
+
+		private void Main3_20210309()
+		{
+			Main3_a(@"C:\temp\20210308235056\Map\0001.bmp", @"C:\temp\20210309102737\Map\0001.bmp");
+			Main3_a(@"C:\temp\20210308235056\Map\0002.bmp", @"C:\temp\20210309102737\Map\0002.bmp");
+			Main3_a(@"C:\temp\20210308235056\Map\0003.bmp", @"C:\temp\20210309102737\Map\0003.bmp");
+			Main3_a(@"C:\temp\20210308235056\Map\0004.bmp", @"C:\temp\20210309102737\Map\0004.bmp");
+			Main3_a(@"C:\temp\20210308235056\Map\0005.bmp", @"C:\temp\20210309102737\Map\0005.bmp");
+			Main3_a(@"C:\temp\20210308235056\Map\0006.bmp", @"C:\temp\20210309102737\Map\0006.bmp");
+			Main3_a(@"C:\temp\20210308235056\Map\0007.bmp", @"C:\temp\20210309102737\Map\0007.bmp");
+			Main3_a(@"C:\temp\20210308235056\Map\0008.bmp", @"C:\temp\20210309102737\Map\0008.bmp");
+			Main3_a(@"C:\temp\20210308235056\Map\0009.bmp", @"C:\temp\20210309102737\Map\0009.bmp");
 		}
 
 		private static int OutputFileCount = 0;
