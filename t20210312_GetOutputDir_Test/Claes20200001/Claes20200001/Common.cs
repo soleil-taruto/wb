@@ -12,6 +12,8 @@ namespace Charlotte
 	{
 		// sync > @ GetOutputDir
 
+		#region GetOutputDir
+
 		private static string GOD_Dir;
 
 		public static string GetOutputDir()
@@ -60,6 +62,8 @@ namespace Charlotte
 		{
 			return Path.Combine(GetOutputDir(), (++NOP_Count).ToString("D4"));
 		}
+
+		#endregion
 
 		// < sync
 	}
