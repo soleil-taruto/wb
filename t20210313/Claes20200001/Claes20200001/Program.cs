@@ -23,7 +23,8 @@ namespace Charlotte
 		{
 			// -- choose one --
 
-			Main3();
+			//Main3();
+			Main3_0002();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -41,6 +42,11 @@ namespace Charlotte
 			File.WriteAllText(Common.NextOutputPath() + ".txt", "1");
 			File.WriteAllText(Common.NextOutputPath() + ".txt", "2");
 			File.WriteAllText(Common.NextOutputPath() + ".txt", "3");
+		}
+
+		private void Main3_0002()
+		{
+			// noop
 		}
 	}
 }
