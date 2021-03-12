@@ -46,6 +46,14 @@ namespace Charlotte
 			SCommon.Batch(new string[] { "START " + GetOutputDir() });
 		}
 
+		public static void OpenOutputDirIfCreated()
+		{
+			if (GOD_Dir != null)
+			{
+				OpenOutputDir();
+			}
+		}
+
 		private static int NOP_Count = 0;
 
 		public static string NextOutputPath()

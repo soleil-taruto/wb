@@ -32,6 +32,8 @@ namespace Charlotte
 
 			//Console.WriteLine("Press ENTER key.");
 			//Console.ReadLine();
+
+			Common.OpenOutputDirIfCreated();
 		}
 
 		private void Main3()
@@ -39,8 +41,6 @@ namespace Charlotte
 			File.WriteAllText(Common.NextOutputPath() + ".txt", "1");
 			File.WriteAllText(Common.NextOutputPath() + ".txt", "2");
 			File.WriteAllText(Common.NextOutputPath() + ".txt", "3");
-
-			Common.OpenOutputDir();
 		}
 	}
 }
