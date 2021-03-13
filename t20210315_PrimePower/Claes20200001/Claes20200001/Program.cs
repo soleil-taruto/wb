@@ -30,21 +30,36 @@ namespace Charlotte
 
 			// --
 
-			Console.WriteLine("Press ENTER key.");
-			Console.ReadLine();
+			//Console.WriteLine("Press ENTER key.");
+			//Console.ReadLine();
 
 			Common.OpenOutputDirIfCreated();
 		}
 
-		private bool[] PrimeFlags = new bool[1000000];
+		private class NumberInfo
+		{
+			public int Value;
+			public bool PrimePowerFlag;
+			public int Prime;
+			public int Exponent;
+		}
+
+		private NumberInfo[] Numbers = Enumerable.Range(0, 1000000).Select(value => new NumberInfo()
+		{
+			Value = value,
+			PrimePowerFlag = false,
+			Prime = -1,
+			Exponent = -1,
+		})
+		.ToArray();
 
 		private void Main3()
 		{
 			PutPrime(2);
 
-			for (int value = 3; value < PrimeFlags.Length; value += 2)
-				if (Common.IsPrime(value))
-					PutPrime(value);
+			for (int count = 3; count < Numbers.Length; count += 2)
+				if (Common.IsPrime(count))
+					PutPrime(count);
 
 			OutputRange(1, 9);
 			OutputRange(10, 99);
@@ -56,46 +71,35 @@ namespace Charlotte
 
 		private void PutPrime(int prime)
 		{
-#if true // 2乗 ～ n乗
-			for (long count = (long)prime * prime; count < (long)PrimeFlags.Length; count *= (long)prime)
+			int exponent = 1;
+
+			for (long count = (long)prime; count < (long)Numbers.Length; count *= (long)prime)
 			{
-				PrimeFlags[(int)count] = true;
+				int value = (int)count;
+
+				//Numbers[value].Value = value;
+				Numbers[value].PrimePowerFlag = true;
+				Numbers[value].Prime = prime;
+				Numbers[value].Exponent = exponent;
+
+				exponent++;
 			}
-#elif true // 1乗 ～ n乗
-			for (long count = (long)prime; count < (long)PrimeFlags.Length; count *= (long)prime)
-			{
-				PrimeFlags[(int)count] = true;
-			}
-#else // 1乗のみ
-			PrimeFlags[prime] = true;
-#endif
 		}
 
 		private void OutputRange(int minval, int maxval)
 		{
-			int primeCount = 0;
-			int notPrimeCount = 0;
-
 			using (CsvFileWriter writer = new CsvFileWriter(Common.NextOutputPath() + ".csv"))
 			{
 				for (int value = minval; value <= maxval; value++)
 				{
-					bool primeFalg = PrimeFlags[value];
+					NumberInfo number = Numbers[value];
 
-					if (primeFalg)
-						primeCount++;
-					else
-						notPrimeCount++;
-
-					writer.WriteCell("" + value);
-					writer.WriteCell(primeFalg ? "P" : "N");
+					writer.WriteCell("" + number.Value);
+					writer.WriteCell(number.PrimePowerFlag ? "PP" : "NPP");
+					writer.WriteCell("" + number.Exponent);
+					writer.WriteCell("" + number.Prime);
 					writer.EndRow();
 				}
-				Console.WriteLine("minval: " + minval);
-				Console.WriteLine("maxval: " + maxval);
-				Console.WriteLine("primeRate: " + ((double)primeCount / (primeCount + notPrimeCount)));
-				Console.WriteLine("primeCount: " + primeCount);
-				Console.WriteLine("notPrimeCount: " + notPrimeCount);
 			}
 		}
 	}
