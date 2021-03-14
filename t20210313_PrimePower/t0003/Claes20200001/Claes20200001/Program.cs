@@ -39,16 +39,12 @@ namespace Charlotte
 		private class NumberInfo
 		{
 			public int Value;
-			public bool PrimePowerFlag;
-			public int Prime;
 			public int Exponent;
 		}
 
 		private NumberInfo[] Numbers = Enumerable.Range(0, 1000000).Select(value => new NumberInfo()
 		{
 			Value = value,
-			PrimePowerFlag = false,
-			Prime = -1,
 			Exponent = -1,
 		})
 		.ToArray();
@@ -61,11 +57,6 @@ namespace Charlotte
 				if (Common.IsPrime(count))
 					PutPrime(count);
 
-			OutputRange(1, 9);
-			OutputRange(10, 99);
-			OutputRange(100, 999);
-			OutputRange(1000, 9999);
-			OutputRange(10000, 99999);
 			OutputRange(100000, 999999);
 		}
 
@@ -78,8 +69,6 @@ namespace Charlotte
 				int value = (int)count;
 
 				//Numbers[value].Value = value;
-				Numbers[value].PrimePowerFlag = true;
-				Numbers[value].Prime = prime;
 				Numbers[value].Exponent = exponent;
 
 				exponent++;
@@ -88,18 +77,54 @@ namespace Charlotte
 
 		private void OutputRange(int minval, int maxval)
 		{
-			using (CsvFileWriter writer = new CsvFileWriter(Common.NextOutputPath() + ".csv"))
-			{
-				for (int value = minval; value <= maxval; value++)
-				{
-					NumberInfo number = Numbers[value];
+			List<string> notPrimePowerLines = new List<string>();
+			List<string> primeLines = new List<string>();
+			List<string> primePowerLines = new List<string>(); // 2乗以上の素数べき
 
-					writer.WriteCell("" + number.Value);
-					writer.WriteCell(number.PrimePowerFlag ? "PP" : "NPP");
-					writer.WriteCell("" + number.Exponent);
-					writer.WriteCell("" + number.Prime);
-					writer.EndRow();
+			for (int value = minval; value <= maxval; value++)
+			{
+				NumberInfo number = Numbers[value];
+
+				if (number.Exponent == -1)
+				{
+					notPrimePowerLines.Add("" + number.Value);
 				}
+				else if (number.Exponent == 1)
+				{
+					primeLines.Add("" + number.Value);
+				}
+				else if (2 <= number.Exponent)
+				{
+					primePowerLines.Add("" + number.Value);
+				}
+				else
+				{
+					throw null; // never
+				}
+			}
+			File.WriteAllLines(
+				Path.Combine(Common.GetOutputDir(), "notPrimePower.txt"),
+				notPrimePowerLines,
+				Encoding.ASCII
+				);
+			File.WriteAllLines(
+				Path.Combine(Common.GetOutputDir(), "Prime.txt"),
+				primeLines,
+				Encoding.ASCII
+				);
+			File.WriteAllLines(
+				Path.Combine(Common.GetOutputDir(), "PrimePower.txt"),
+				primePowerLines,
+				Encoding.ASCII
+				);
+
+			for (int r = 0; r <= 9; r++)
+			{
+				File.WriteAllLines(
+					Path.Combine(Common.GetOutputDir(), "notPrimePower_" + r + ".txt"),
+					notPrimePowerLines.Where(line => line.EndsWith("" + r)),
+					Encoding.ASCII
+					);
 			}
 		}
 	}

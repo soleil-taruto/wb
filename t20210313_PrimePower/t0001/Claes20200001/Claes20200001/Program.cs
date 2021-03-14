@@ -75,6 +75,7 @@ namespace Charlotte
 		{
 			int primeCount = 0;
 			int notPrimeCount = 0;
+			int[] rs = new int[10];
 
 			using (CsvFileWriter writer = new CsvFileWriter(Common.NextOutputPath() + ".csv"))
 			{
@@ -83,10 +84,14 @@ namespace Charlotte
 					bool primeFalg = PrimeFlags[value];
 
 					if (primeFalg)
+					{
 						primeCount++;
+						rs[value % 10]++;
+					}
 					else
+					{
 						notPrimeCount++;
-
+					}
 					writer.WriteCell("" + value);
 					writer.WriteCell(primeFalg ? "P" : "N");
 					writer.EndRow();
@@ -96,6 +101,11 @@ namespace Charlotte
 				Console.WriteLine("primeRate: " + ((double)primeCount / (primeCount + notPrimeCount)));
 				Console.WriteLine("primeCount: " + primeCount);
 				Console.WriteLine("notPrimeCount: " + notPrimeCount);
+
+				for (int r = 0; r < 10; r++)
+				{
+					Console.WriteLine("r_" + r + ": " + rs[r]);
+				}
 			}
 		}
 	}
