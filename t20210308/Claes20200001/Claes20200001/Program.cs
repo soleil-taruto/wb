@@ -27,7 +27,8 @@ namespace Charlotte
 			// -- choose one --
 
 			//Main3();
-			Main3_20210309();
+			//Main3_20210309();
+			Main3_20210315();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -56,6 +57,19 @@ namespace Charlotte
 			Main3_a(@"C:\temp\20210308235056\Map\0007.bmp", @"C:\temp\20210309102737\Map\0007.bmp");
 			Main3_a(@"C:\temp\20210308235056\Map\0008.bmp", @"C:\temp\20210309102737\Map\0008.bmp");
 			Main3_a(@"C:\temp\20210308235056\Map\0009.bmp", @"C:\temp\20210309102737\Map\0009.bmp");
+		}
+
+		private void Main3_20210315()
+		{
+			Main3_a(@"C:\temp\20210312230930\e20130001_Hako\Map\0001.bmp", @"C:\temp\20210315045101\e20130001_Hako\Map\0001.bmp");
+			Main3_a(@"C:\temp\20210312230930\e20130001_Hako\Map\0002.bmp", @"C:\temp\20210315045101\e20130001_Hako\Map\0002.bmp");
+			Main3_a(@"C:\temp\20210312230930\e20130001_Hako\Map\0003.bmp", @"C:\temp\20210315045101\e20130001_Hako\Map\0003.bmp");
+			Main3_a(@"C:\temp\20210312230930\e20130001_Hako\Map\0004.bmp", @"C:\temp\20210315045101\e20130001_Hako\Map\0004.bmp");
+			Main3_a(@"C:\temp\20210312230930\e20130001_Hako\Map\0005.bmp", @"C:\temp\20210315045101\e20130001_Hako\Map\0005.bmp");
+			Main3_a(@"C:\temp\20210312230930\e20130001_Hako\Map\0006.bmp", @"C:\temp\20210315045101\e20130001_Hako\Map\0006.bmp");
+			Main3_a(@"C:\temp\20210312230930\e20130001_Hako\Map\0007.bmp", @"C:\temp\20210315045101\e20130001_Hako\Map\0007.bmp");
+			Main3_a(@"C:\temp\20210312230930\e20130001_Hako\Map\0008.bmp", @"C:\temp\20210315045101\e20130001_Hako\Map\0008.bmp");
+			Main3_a(@"C:\temp\20210312230930\e20130001_Hako\Map\0009.bmp", @"C:\temp\20210315045101\e20130001_Hako\Map\0009.bmp");
 		}
 
 		private static int OutputFileCount = 0;
