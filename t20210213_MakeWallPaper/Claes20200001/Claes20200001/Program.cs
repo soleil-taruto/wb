@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using Charlotte.Commons;
 using Charlotte.Tests;
@@ -26,8 +26,9 @@ namespace Charlotte
 
 			// -- choose one --
 
+			MakeWallPapers_20210316();
 			//MakeWallPapers_20210213();
-			MakeWallPapers_20210213_02();
+			//MakeWallPapers_20210213_02();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -36,6 +37,21 @@ namespace Charlotte
 
 			//Console.WriteLine("Press ENTER key.");
 			//Console.ReadLine();
+		}
+
+		private void MakeWallPapers_20210316()
+		{
+			MakeWallPaper(@"C:\etc\画像\85748489_p0.jpg");
+			MakeWallPaper(@"C:\etc\画像\6428005_p0.png");
+			MakeWallPaper(@"C:\etc\画像\50752377_p0.jpg");
+			//MakeWallPaper(@"C:\etc\画像\53031871_p0.jpg");
+			MakeWallPaper(@"C:\etc\画像\78521124_p0.jpg");
+			MakeWallPaper(@"C:\etc\画像\73649310_p0.jpg");
+			//MakeWallPaper(@"C:\etc\画像\73807156_p0.jpg");
+			//MakeWallPaper(@"C:\etc\画像\73985947_p0.jpg");
+			//MakeWallPaper(@"C:\etc\画像\75044056_p0.jpg");
+			MakeWallPaper(@"C:\etc\画像\77566730_p0.jpg");
+			MakeWallPaper(@"C:\etc\画像\60439044_p0.png");
 		}
 
 		private void MakeWallPapers_20210213()
