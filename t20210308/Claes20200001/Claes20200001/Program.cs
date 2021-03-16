@@ -36,8 +36,8 @@ namespace Charlotte
 
 			// --
 
-			//Console.WriteLine("Press ENTER key.");
-			//Console.ReadLine();
+			Console.WriteLine("Press ENTER key.");
+			Console.ReadLine();
 		}
 
 		private void Main3()
@@ -75,7 +75,8 @@ namespace Charlotte
 
 		private void Main3_20210316()
 		{
-			Main3_20210316_a(@"C:\temp\20210316165906\e20130001_Hako", @"C:\temp\20210316203551\e20130001_Hako");
+			//Main3_20210316_a(@"C:\temp\20210316165906\e20130001_Hako", @"C:\temp\20210316203551\e20130001_Hako");
+			Main3_20210316_a(@"C:\temp\0001", @"C:\temp\0002");
 		}
 
 		private void Main3_20210316_a(string dir1, string dir2)
@@ -95,6 +96,9 @@ namespace Charlotte
 
 		private void Main3_a(string mapFile1, string mapFile2)
 		{
+			Console.WriteLine("*1 " + mapFile1);
+			Console.WriteLine("*2 " + mapFile2);
+
 			Canvas map1 = Canvas.Load(mapFile1);
 			Canvas map2 = Canvas.Load(mapFile2);
 
@@ -109,6 +113,8 @@ namespace Charlotte
 
 			Canvas dest = new Canvas(w, h);
 
+			int diffCount = 0;
+
 			for (int x = 0; x < w; x++)
 			{
 				for (int y = 0; y < h; y++)
@@ -122,10 +128,26 @@ namespace Charlotte
 						dot1.G == dot2.G &&
 						dot1.B == dot2.B
 						)
+					{
 						destDot = new I3Color(0, 0, 0).WithAlpha();
+					}
 					else
+					{
 						destDot = new I3Color(255, 255, 255).WithAlpha();
 
+						Console.WriteLine(string.Format(
+							"[{0:D3}] {1:D3}, {2:D3}, {3:D3} -> {4:D3}, {5:D3}, {6:D3} -- {7}, {8}",
+							++diffCount,
+							dot1.R,
+							dot1.G,
+							dot1.B,
+							dot2.R,
+							dot2.G,
+							dot2.B,
+							x,
+							y
+							));
+					}
 					dest[x, y] = destDot;
 				}
 			}
