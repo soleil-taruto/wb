@@ -29,7 +29,8 @@ namespace Charlotte
 			//Main3();
 			//Main3_20210309();
 			//Main3_20210315();
-			Main3_20210316();
+			//Main3_20210316();
+			Main3_20210318();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -79,7 +80,7 @@ namespace Charlotte
 			Main3_20210316_a(@"C:\temp\0001", @"C:\temp\0002");
 		}
 
-		private void Main3_20210316_a(string dir1, string dir2)
+		private void Main3_20210316_a(string dir1, string dir2) // for Hako
 		{
 			Main3_a(Path.Combine(dir1, @"Map\0001.bmp"), Path.Combine(dir2, @"Map\0001.bmp"));
 			Main3_a(Path.Combine(dir1, @"Map\0002.bmp"), Path.Combine(dir2, @"Map\0002.bmp"));
@@ -90,6 +91,18 @@ namespace Charlotte
 			Main3_a(Path.Combine(dir1, @"Map\0007.bmp"), Path.Combine(dir2, @"Map\0007.bmp"));
 			Main3_a(Path.Combine(dir1, @"Map\0008.bmp"), Path.Combine(dir2, @"Map\0008.bmp"));
 			Main3_a(Path.Combine(dir1, @"Map\0009.bmp"), Path.Combine(dir2, @"Map\0009.bmp"));
+		}
+
+		private void Main3_20210318()
+		{
+			Main3_20210318_a(@"C:\temp\0001", @"C:\temp\0002");
+		}
+
+		private void Main3_20210318_a(string dir1, string dir2) // for Hako2
+		{
+			Main3_a(Path.Combine(dir1, @"Map\0001.bmp"), Path.Combine(dir2, @"Map\0001.bmp"));
+			Main3_a(Path.Combine(dir1, @"Map\0002.bmp"), Path.Combine(dir2, @"Map\0002.bmp"));
+			Main3_a(Path.Combine(dir1, @"Map\0003.bmp"), Path.Combine(dir2, @"Map\0003.bmp"));
 		}
 
 		private static int OutputFileCount = 0;
