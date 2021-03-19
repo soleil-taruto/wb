@@ -37,7 +37,7 @@ namespace Charlotte
 			//Console.ReadLine();
 		}
 
-		// from --https://ja.wikipedia.org/wiki/%E3%83%9C%E3%82%A4%E3%82%B8%E3%83%A3%E3%83%BC1%E5%8F%B7
+		// from https://ja.wikipedia.org/wiki/%E3%83%9C%E3%82%A4%E3%82%B8%E3%83%A3%E3%83%BC1%E5%8F%B7
 		//
 		private static string VOYAGER_01_TBL = @"
 
