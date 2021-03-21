@@ -24,13 +24,6 @@ namespace Charlotte.Commons
 			this.B = b;
 		}
 
-		public I3Color(Color color)
-		{
-			this.R = (int)color.R;
-			this.G = (int)color.G;
-			this.B = (int)color.B;
-		}
-
 		public override string ToString()
 		{
 			return string.Format("{0:x2}{1:x2}{2:x2}", this.R, this.G, this.B);
@@ -53,32 +46,6 @@ namespace Charlotte.Commons
 		public Color ToColor()
 		{
 			return Color.FromArgb(this.R, this.G, this.B);
-		}
-
-		public static bool operator ==(I3Color a, I3Color b)
-		{
-			return
-				a.R == b.R &&
-				a.G == b.G &&
-				a.B == b.B;
-		}
-
-		public static bool operator !=(I3Color a, I3Color b)
-		{
-			return !(a == b);
-		}
-
-		public override bool Equals(object other)
-		{
-			return this == (I3Color)other;
-		}
-
-		public override int GetHashCode()
-		{
-			return
-				(this.R << 16) |
-				(this.G << 8) |
-				(this.B << 0);
 		}
 	}
 }

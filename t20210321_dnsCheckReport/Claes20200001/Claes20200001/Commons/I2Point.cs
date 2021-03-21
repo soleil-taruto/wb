@@ -16,6 +16,11 @@ namespace Charlotte.Commons
 			this.Y = y;
 		}
 
+		public override string ToString()
+		{
+			return this.X + ", " + this.Y;
+		}
+
 		public D2Point ToD2Point()
 		{
 			return new D2Point(this.X, this.Y);

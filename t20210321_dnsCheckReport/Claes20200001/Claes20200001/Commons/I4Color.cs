@@ -26,14 +26,6 @@ namespace Charlotte.Commons
 			this.A = a;
 		}
 
-		public I4Color(Color color)
-		{
-			this.R = (int)color.R;
-			this.G = (int)color.G;
-			this.B = (int)color.B;
-			this.A = (int)color.A;
-		}
-
 		public override string ToString()
 		{
 			return string.Format("{0:x2}{1:x2}{2:x2}{3:x2}", this.R, this.G, this.B, this.A);
@@ -57,34 +49,6 @@ namespace Charlotte.Commons
 		public Color ToColor()
 		{
 			return Color.FromArgb(this.A, this.R, this.G, this.B); // 引数の並びは ARGB なので注意すること。
-		}
-
-		public static bool operator ==(I4Color a, I4Color b)
-		{
-			return
-				a.R == b.R &&
-				a.G == b.G &&
-				a.B == b.B &&
-				a.A == b.A;
-		}
-
-		public static bool operator !=(I4Color a, I4Color b)
-		{
-			return !(a == b);
-		}
-
-		public override bool Equals(object other)
-		{
-			return this == (I4Color)other;
-		}
-
-		public override int GetHashCode()
-		{
-			return
-				(this.R << 24) |
-				(this.G << 16) |
-				(this.B << 8) |
-				(this.A << 0);
 		}
 	}
 }

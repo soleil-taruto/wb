@@ -97,31 +97,21 @@ namespace Charlotte.Commons
 				((ulong)r[7] << 56);
 		}
 
-		public ulong GetUInt64_M(ulong modulo)
-		{
-			if (modulo < 1)
-				throw new ArgumentException("Bad modulo");
-
-			ulong value;
-			ulong r = (ulong.MaxValue % modulo + 1) % modulo;
-
-			do
-			{
-				value = this.GetUInt64();
-			}
-			while (value < r);
-
-			return value % modulo;
-		}
-
-		public uint GetUInt_M(uint modulo)
-		{
-			return (uint)this.GetUInt64_M(modulo);
-		}
-
 		public int GetInt(int modulo)
 		{
-			return (int)this.GetUInt_M((uint)modulo);
+			//if (modulo < 1)
+			//    throw new ArgumentException();
+
+			return (int)(this.GetUInt64() % (ulong)modulo);
+		}
+
+		/// <summary>
+		/// 0以上1以下の乱数を返す。
+		/// </summary>
+		/// <returns>乱数</returns>
+		public double Real()
+		{
+			return this.GetUInt() / (double)uint.MaxValue;
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace Charlotte.Commons
 {
@@ -88,6 +89,11 @@ namespace Charlotte.Commons
 		public D4Rect ToD4Rect()
 		{
 			return new D4Rect(this.L, this.T, this.W, this.H);
+		}
+
+		public Rectangle ToRectangle()
+		{
+			return new Rectangle(this.L, this.T, this.W, this.H);
 		}
 	}
 }

@@ -50,8 +50,6 @@
     <Compile Include="Common.cs" />
     <Compile Include="Commons\ArgsReader.cs" />
     <Compile Include="Commons\AttachString.cs" />
-    <Compile Include="Commons\CsvFileReader.cs" />
-    <Compile Include="Commons\CsvFileWriter.cs" />
     <Compile Include="Commons\D2Point.cs" />
     <Compile Include="Commons\D2Size.cs" />
     <Compile Include="Commons\D3Color.cs" />
@@ -68,13 +66,6 @@
     <Compile Include="Commons\SCommon.cs" />
     <Compile Include="Commons\WorkingDir.cs" />
     <Compile Include="Consts.cs" />
-    <Compile Include="Ground.cs" />
-    <Compile Include="Maps\Map.cs" />
-    <Compile Include="Maps\MapCell.cs" />
-    <Compile Include="Maps\Setting.cs" />
-    <Compile Include="Maps\Tile.cs" />
-    <Compile Include="Platinums\CsvData.cs" />
-    <Compile Include="Platinums\Layer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Test0001.cs" />

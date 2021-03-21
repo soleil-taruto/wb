@@ -5,9 +5,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using Charlotte.Commons;
-using Charlotte.Maps;
-using Charlotte.Tests;
-using Charlotte.Platinums;
+using System.Text.RegularExpressions;
 
 namespace Charlotte
 {
@@ -20,8 +18,6 @@ namespace Charlotte
 
 		private void Main2(ArgsReader ar)
 		{
-			Ground.I = new Ground();
-
 			if (ProcMain.DEBUG)
 			{
 				TestMain(); // テスト
@@ -37,7 +33,7 @@ namespace Charlotte
 			// -- choose one --
 
 			//new Test0001().Test01();
-			new Test0001().Test02();
+			//new Test0001().Test02();
 			//new Test0001().Test03();
 
 			// --
@@ -51,8 +47,6 @@ namespace Charlotte
 			try
 			{
 				Main3(ar);
-
-				Console.WriteLine("OK!"); // cout
 			}
 			catch (Exception ex)
 			{
@@ -60,42 +54,96 @@ namespace Charlotte
 			}
 		}
 
+		private List<string> ReportLines = new List<string>();
+
 		private void Main3(ArgsReader ar)
 		{
-			if (ar.ArgIs("/M2C")) // Map --> Platinum Csv Data
+			if (!Directory.Exists(Consts.LOG_DIR))
+				throw new Exception("no LOG_DIR");
+
+			string[] logFiles = Directory.GetFiles(Consts.LOG_DIR);
+
+			Array.Sort(logFiles, SCommon.CompIgnoreCase);
+
+			EraseKnownLogFiles(ref logFiles);
+			CollectReport(logFiles);
+			PrintReportLines();
+		}
+
+		private void EraseKnownLogFiles(ref string[] logFiles)
+		{
+			if (File.Exists(Consts.LAST_LOG_FILE_SAVE_FILE))
 			{
-				string mapFile = ar.NextArg();
-				string csvDataDir = ar.NextArg();
-				string settingFile = Common.MapFileToSettingFile(mapFile);
+				string lastLogFile = File.ReadAllText(Consts.LAST_LOG_FILE_SAVE_FILE, Encoding.UTF8);
+				int p = SCommon.IndexOf(logFiles, logFile => SCommon.EqualsIgnoreCase(logFile, lastLogFile));
 
-				Map map = new Map(mapFile);
-				Setting setting = new Setting(settingFile);
-
-				CsvData csvData = new CsvData();
-
-				csvData.LoadFromMap(map, setting);
-				csvData.SaveToDir(csvDataDir);
-
-				return;
+				if (p != -1)
+					logFiles = logFiles.Skip(p + 1).ToArray();
 			}
-			if (ar.ArgIs("/C2M")) // Platinum Csv Data --> Map
+			if (1 <= logFiles.Length)
+				File.WriteAllText(Consts.LAST_LOG_FILE_SAVE_FILE, logFiles[logFiles.Length - 1], Encoding.UTF8); // 更新
+		}
+
+		private void CollectReport(string[] logFiles)
+		{
+			string currTimeGroup = null;
+
+			foreach (string logFile in logFiles)
 			{
-				string csvDataDir = ar.NextArg();
-				string mapFile = ar.NextArg();
-				string settingFile = Common.MapFileToSettingFile(mapFile);
+				string timeGroup = CR_GetTimeGroup(logFile);
+				int ipCount = CR_GetIPCount(logFile);
 
-				Map map = new Map(mapFile);
-				Setting setting = new Setting(settingFile);
-
-				CsvData csvData = new CsvData();
-
-				csvData.LoadFromDir(csvDataDir);
-				csvData.SaveToMap(map, setting);
-
-				map.Save(mapFile);
-
-				return;
+				if (timeGroup != currTimeGroup)
+				{
+					ReportLines.Add(timeGroup);
+					currTimeGroup = timeGroup;
+				}
+				ReportLines[ReportLines.Count - 1] += ipCount;
 			}
+		}
+
+		private string CR_GetTimeGroup(string logFile)
+		{
+			string name = Path.GetFileNameWithoutExtension(logFile);
+			int p = name.IndexOf('_');
+
+			if (p != -1)
+				name = name.Substring(p + 1);
+
+			name = name.Substring(0, Math.Min(name.Length, 10));
+			name = "[" + name + "] ";
+			return name;
+		}
+
+		private int CR_GetIPCount(string logFile)
+		{
+			string[] lines = File.ReadAllLines(logFile, SCommon.ENCODING_SJIS);
+			lines = lines.Select(line => CR_EraseTimeStamp(line)).ToArray();
+			int ipCount = lines.Where(line => CR_IsIPLine(line)).Count();
+			ipCount = Math.Min(ipCount, 9);
+			return ipCount;
+		}
+
+		private string CR_EraseTimeStamp(string line)
+		{
+			int p = line.IndexOf(']');
+
+			if (p != -1)
+				line = line.Substring(p + 1);
+
+			line = line.Trim();
+			return line;
+		}
+
+		private bool CR_IsIPLine(string line)
+		{
+			return Regex.IsMatch(line, @"^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$");
+		}
+
+		private void PrintReportLines()
+		{
+			foreach (string line in ReportLines)
+				Console.WriteLine(line);
 		}
 	}
 }
