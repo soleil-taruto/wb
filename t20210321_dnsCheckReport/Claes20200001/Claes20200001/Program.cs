@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.IO;
 using System.Windows.Forms;
 using Charlotte.Commons;
-using System.Text.RegularExpressions;
 
 namespace Charlotte
 {
@@ -78,7 +78,7 @@ namespace Charlotte
 				int p = SCommon.IndexOf(logFiles, logFile => SCommon.EqualsIgnoreCase(logFile, lastLogFile));
 
 				if (p != -1)
-					logFiles = logFiles.Skip(p + 1).ToArray();
+					logFiles = logFiles.Skip(p + 1).ToArray(); // pまで(pを含めて)除去する。
 			}
 			if (1 <= logFiles.Length)
 				File.WriteAllText(Consts.LAST_LOG_FILE_SAVE_FILE, logFiles[logFiles.Length - 1], Encoding.UTF8); // 更新
