@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Windows.Forms;
 using Charlotte.Commons;
+using Charlotte.Tests;
 
 namespace Charlotte
 {
@@ -32,7 +33,7 @@ namespace Charlotte
 		{
 			// -- choose one --
 
-			//new Test0001().Test01();
+			new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0001().Test03();
 
@@ -61,13 +62,29 @@ namespace Charlotte
 			if (!Directory.Exists(Consts.LOG_DIR))
 				throw new Exception("no LOG_DIR");
 
-			string[] logFiles = Directory.GetFiles(Consts.LOG_DIR);
+			string[] logFiles = P_GetFiles(Consts.LOG_DIR);
+			//string[] logFiles = Directory.GetFiles(Consts.LOG_DIR); // old
 
 			Array.Sort(logFiles, SCommon.CompIgnoreCase);
+
+			if (1 <= logFiles.Length)
+				logFiles = logFiles.Take(logFiles.Length - 1).ToArray(); // 最新のファイルは出力中かもしれないので除外する。
 
 			EraseKnownLogFiles(ref logFiles);
 			CollectReport(logFiles);
 			PrintReportLines();
+		}
+
+		public string[] P_GetFiles(string dir)
+		{
+			using (WorkingDir wd = new WorkingDir())
+			{
+				string outFile = wd.MakePath();
+				SCommon.Batch(new string[] { "DIR /B > \"" + outFile + "\"" }, dir);
+				string[] files = File.ReadAllLines(outFile, SCommon.ENCODING_SJIS);
+				files = files.Select(file => Path.Combine(dir, file)).ToArray();
+				return files;
+			}
 		}
 
 		private void EraseKnownLogFiles(ref string[] logFiles)
