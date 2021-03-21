@@ -8,7 +8,7 @@ namespace Charlotte
 {
 	public static class Consts
 	{
-		public const string LOG_DIR = @"C:\BlueFish\Log\dnsCheck";
-		public const string LAST_LOG_FILE_SAVE_FILE = @"C:\appdata\dnsCheckReport_LastLogFile.txt";
+		public const string LOG_DIR = @"C:\BlueFish\Log\mydnsCheck";
+		public const string LAST_LOG_FILE_SAVE_FILE = @"C:\appdata\mydnsCheckReport_LastLogFile.txt";
 	}
 }
