@@ -534,35 +534,37 @@ C:\BlueFish\BlueFish\HTT\stackprobe\home\WindRect\2020.271.24016
 				.Select(line => line.Substring(@"C:\BlueFish\BlueFish\HTT\stackprobe\home\".Length))
 				.ToArray();
 
-			string destRootDir = Path.Combine(Common.GetOutputDir(), "home");
+			string destRootDir = Path.Combine(Common.GetOutputDir(), "sp_home");
 
 			SCommon.CreateDir(destRootDir);
-			MakeIndex(destRootDir, "");
+			MakeIndex(destRootDir, "/");
 
 			foreach (string dir in dirs)
 			{
 				string destDir = Path.Combine(destRootDir, dir);
 
 				SCommon.CreateDir(destDir);
-				MakeIndex(destDir, dir);
+				MakeIndex(destDir, ":58946/" + dir.Replace('\\', '/'));
 			}
 		}
 
-		private void MakeIndex(string destDir, string dir)
+		private void MakeIndex(string destDir, string dirPart)
 		{
 			string indexFile = Path.Combine(destDir, "index.html");
-
-			dir = dir.Replace('\\', '/');
+			string url = "http://stackprobe.ccsp.mydns.jp" + dirPart;
 
 			File.WriteAllText(
 				indexFile,
 				@"<html>
 <head>
 <meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/>
+<!--
+<meta http-equiv=""refresh"" content=""0;url=" + url + @"""/>
+-->
 </head>
 <body>
 <h1>移転しました。</h1>
-移転先はこちら⇒<a href=""http://stackprobe.ccsp.mydns.jp:58946/" + dir + @""">http://stackprobe.ccsp.mydns.jp:58946/" + dir + @"</a>
+移転先はこちら ⇒ <a href=""" + url + @""">" + url + @"</a>
 </body>
 </html>
 ",
