@@ -10,6 +10,12 @@ namespace Charlotte
 {
 	public static class Common
 	{
+		public static void Pause()
+		{
+			Console.WriteLine("Press ENTER key.");
+			Console.ReadLine();
+		}
+
 		// sync > @ GetOutputDir
 
 		#region GetOutputDir
@@ -66,45 +72,5 @@ namespace Charlotte
 		#endregion
 
 		// < sync
-
-		public static bool IsPrime(int value)
-		{
-			if (value < 2)
-				return false;
-
-			if (value == 2)
-				return true;
-
-			if (value % 2 == 0)
-				return false;
-
-			int s = Square(value);
-
-			for (int d = 3; d <= s; d += 2)
-				if (value % d == 0)
-					return false;
-
-			return true;
-		}
-
-		public static int Square(int value)
-		{
-			if (value < 0)
-				throw null;
-
-			int l = 0;
-			int r = 46341; // Keisan 2 P 31 - 1 r 2 == 46340.9500010519*
-
-			while (l + 1 < r)
-			{
-				int m = (l + r) / 2;
-
-				if (m * m <= value)
-					l = m;
-				else
-					r = m;
-			}
-			return l;
-		}
 	}
 }
