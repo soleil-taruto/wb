@@ -558,9 +558,7 @@ C:\BlueFish\BlueFish\HTT\stackprobe\home\WindRect\2020.271.24016
 				@"<html>
 <head>
 <meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8""/>
-<!--
-<meta http-equiv=""refresh"" content=""0;url=" + url + @"""/>
--->
+<meta name=""robots"" content=""noindex"">
 </head>
 <body>
 <h1>移転しました。</h1>
