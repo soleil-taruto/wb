@@ -97,21 +97,51 @@ namespace Charlotte.Commons
 				((ulong)r[7] << 56);
 		}
 
-		public int GetInt(int modulo)
+		public ulong GetUInt64_M(ulong modulo)
 		{
-			//if (modulo < 1)
-			//    throw new ArgumentException();
+			if (modulo == 0ul)
+				throw new ArgumentOutOfRangeException("modulo is zero");
 
-			return (int)(this.GetUInt64() % (ulong)modulo);
+			ulong m = (ulong.MaxValue % modulo + 1ul) % modulo;
+			ulong r;
+
+			do
+			{
+				r = this.GetUInt64();
+			}
+			while (r < m);
+
+			r %= modulo;
+
+			return r;
 		}
 
-		/// <summary>
-		/// 0以上1以下の乱数を返す。
-		/// </summary>
-		/// <returns>乱数</returns>
-		public double Real()
+		public uint GetUInt_M(uint modulo)
 		{
-			return this.GetUInt() / (double)uint.MaxValue;
+			return (uint)this.GetUInt64_M((ulong)modulo);
+		}
+
+		public int GetInt(int modulo)
+		{
+			return (int)this.GetUInt_M((uint)modulo);
+		}
+
+		public int GetRange(int minval, int maxval)
+		{
+			return this.GetInt(maxval - minval + 1) + minval;
+		}
+
+		public T ChooseOne<T>(T[] arr)
+		{
+			return arr[this.GetInt(arr.Length)];
+		}
+
+		public void Shuffle<T>(T[] arr)
+		{
+			for (int index = arr.Length; 1 < index; index--)
+			{
+				SCommon.Swap(arr, this.GetInt(index), index - 1);
+			}
 		}
 	}
 }
