@@ -72,5 +72,21 @@ namespace Charlotte
 		#endregion
 
 		// < sync
+
+		public static void MustThrow(Action action)
+		{
+			try
+			{
+				action();
+				throw new Exception("例外を投げませんでした。");
+			}
+			catch (Exception ex)
+			{
+				ProcMain.WriteLog("想定どおり例外を投げました。");
+				ProcMain.WriteLog("****** エラーではない例外 ****** ---->");
+				ProcMain.WriteLog(ex);
+				ProcMain.WriteLog("<---- ****** エラーではない例外 ******");
+			}
+		}
 	}
 }
