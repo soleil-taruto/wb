@@ -39,9 +39,9 @@ namespace Charlotte.Commons
 			return new S_AnonyDisposable(routine);
 		}
 
-		public static int Comp<T>(T[] a, T[] b, Comparison<T> comp)
+		public static int Comp<T>(IList<T> a, IList<T> b, Comparison<T> comp)
 		{
-			int minlen = Math.Min(a.Length, b.Length);
+			int minlen = Math.Min(a.Count, b.Count);
 
 			for (int index = 0; index < minlen; index++)
 			{
@@ -50,23 +50,23 @@ namespace Charlotte.Commons
 				if (ret != 0)
 					return ret;
 			}
-			return Comp(a.Length, b.Length);
+			return Comp(a.Count, b.Count);
 		}
 
-		public static int IndexOf<T>(T[] arr, Predicate<T> match)
+		public static int IndexOf<T>(IList<T> list, Predicate<T> match)
 		{
-			for (int index = 0; index < arr.Length; index++)
-				if (match(arr[index]))
+			for (int index = 0; index < list.Count; index++)
+				if (match(list[index]))
 					return index;
 
 			return -1; // not found
 		}
 
-		public static void Swap<T>(T[] arr, int a, int b)
+		public static void Swap<T>(IList<T> list, int a, int b)
 		{
-			T tmp = arr[a];
-			arr[a] = arr[b];
-			arr[b] = tmp;
+			T tmp = list[a];
+			list[a] = list[b];
+			list[b] = tmp;
 		}
 
 		public static void Swap<T>(ref T a, ref T b)
@@ -307,13 +307,6 @@ namespace Charlotte.Commons
 					yield return element;
 		}
 
-		public static IEnumerable<T> Sort<T>(IEnumerable<T> src, Comparison<T> comp)
-		{
-			T[] arr = src.ToArray();
-			Array.Sort(arr, comp);
-			return arr;
-		}
-
 		/// <summary>
 		/// <para>列挙をゲッターメソッドでラップします。</para>
 		/// <para>例：{ A, B, C } -> 呼び出し毎に右の順で戻り値を返す { A, B, C, default(T), default(T), default(T), ... }</para>
@@ -449,6 +442,18 @@ namespace Charlotte.Commons
 		}
 
 		// < sync
+
+		public static string EraseExt(string path)
+		{
+			return Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+		}
+
+#if false // not used
+		public static string ChangeRoot(string path, string oldRoot, string rootNew)
+		{
+			return PutYen(rootNew) + ChangeRoot(path, oldRoot);
+		}
+#endif
 
 		public static string ChangeRoot(string path, string oldRoot)
 		{
@@ -598,6 +603,17 @@ namespace Charlotte.Commons
 		}
 
 		public static int Comp(long a, long b)
+		{
+			if (a < b)
+				return -1;
+
+			if (a > b)
+				return 1;
+
+			return 0;
+		}
+
+		public static int Comp(double a, double b)
 		{
 			if (a < b)
 				return -1;

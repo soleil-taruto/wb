@@ -131,16 +131,16 @@ namespace Charlotte.Commons
 			return this.GetInt(maxval - minval + 1) + minval;
 		}
 
-		public T ChooseOne<T>(T[] arr)
+		public T ChooseOne<T>(IList<T> list)
 		{
-			return arr[this.GetInt(arr.Length)];
+			return list[this.GetInt(list.Count)];
 		}
 
-		public void Shuffle<T>(T[] arr)
+		public void Shuffle<T>(IList<T> list)
 		{
-			for (int index = arr.Length; 1 < index; index--)
+			for (int index = list.Count; 1 < index; index--)
 			{
-				SCommon.Swap(arr, this.GetInt(index), index - 1);
+				SCommon.Swap(list, this.GetInt(index), index - 1);
 			}
 		}
 	}
