@@ -6,12 +6,8 @@ using System.IO;
 using System.Threading;
 using Charlotte.Commons;
 
-// ^ sync @ VoyagerDistance
-
 namespace Charlotte
 {
-	// sync > @ VoyagerDistance
-
 	public class VoyagerDistance
 	{
 		private const string NASA_DISTANCE_DATA_URL = "https://voyager.jpl.nasa.gov/assets/javascripts/distance_data.js";
@@ -228,6 +224,4 @@ namespace Charlotte
 			this.Deserialize(File.ReadAllLines(NASA_DATA_FILE, Encoding.ASCII));
 		}
 	}
-
-	// < sync
 }
