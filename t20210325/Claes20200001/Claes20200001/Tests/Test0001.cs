@@ -30,7 +30,7 @@ namespace Charlotte.Tests
 			string[] plainStrings = MakePlainStrings(SCommon.CRandom.GetRange(strNumMin, strNumMax), strLenMin, strLenMax);
 			string serializedString = SCommon.Serializer.I.Join(plainStrings);
 
-			if (!Regex.IsMatch(serializedString, "^[+/:=0-9A-Za-z]*$"))
+			if (!Regex.IsMatch(serializedString, "^[+/:=0-9A-Za-z]+$"))
 				throw null; // BUG !!!
 
 			string[] deserializedStrings = SCommon.Serializer.I.Split(serializedString);
@@ -54,7 +54,7 @@ namespace Charlotte.Tests
 				SCommon.MBC_ALPHA +
 				SCommon.mbc_alpha +
 				SCommon.MBC_SPACE +
-				SCommon.MBC_PUNCT +
+			//SCommon.MBC_PUNCT +
 				SCommon.MBC_HIRA +
 				SCommon.MBC_KANA +
 				"東海道中膝栗毛"

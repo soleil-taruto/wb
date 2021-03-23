@@ -206,5 +206,41 @@ namespace Charlotte.Tests
 		}
 
 		#endregion
+
+		public void Test07()
+		{
+			{
+				int[] arr = Enumerable.Range(0, 0).ToArray();
+
+				if (arr.Length != 0)
+					throw null;
+			}
+
+			{
+				int[] arr = Enumerable.Range(1, 0).ToArray();
+
+				if (arr.Length != 0)
+					throw null;
+			}
+
+			{
+				int[] arr = Enumerable.Range(-1, 0).ToArray();
+
+				if (arr.Length != 0)
+					throw null;
+			}
+
+			Enumerable.Range(0, 0).FirstOrDefault(dummy => { throw null; });
+			Enumerable.Range(1, 0).FirstOrDefault(dummy => { throw null; });
+			Enumerable.Range(-1, 0).FirstOrDefault(dummy => { throw null; });
+
+			if (Enumerable.Range(0, 0).Count() != 0) throw null;
+			if (Enumerable.Range(1, 0).Count() != 0) throw null;
+			if (Enumerable.Range(-1, 0).Count() != 0) throw null;
+
+			if (Enumerable.Range(0, 0).GetEnumerator().MoveNext()) throw null;
+			if (Enumerable.Range(1, 0).GetEnumerator().MoveNext()) throw null;
+			if (Enumerable.Range(-1, 0).GetEnumerator().MoveNext()) throw null;
+		}
 	}
 }
