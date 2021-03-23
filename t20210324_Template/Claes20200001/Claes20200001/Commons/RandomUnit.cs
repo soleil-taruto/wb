@@ -4,8 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 
+// ^ sync @ RandomUnit
+
 namespace Charlotte.Commons
 {
+	// sync > @ RandomUnit
+
 	public class RandomUnit : IDisposable
 	{
 		public interface IRandomNumberGenerator : IDisposable
@@ -144,4 +148,6 @@ namespace Charlotte.Commons
 			}
 		}
 	}
+
+	// < sync
 }
