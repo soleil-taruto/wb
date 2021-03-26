@@ -29,6 +29,7 @@ namespace Charlotte
 			{
 				Main4();
 			}
+			Common.OpenOutputDirIfCreated();
 		}
 
 		private void Main3()
@@ -42,25 +43,75 @@ namespace Charlotte
 
 			// --
 
-			//Common.Pause();
+			Common.Pause();
+		}
 
-			Common.OpenOutputDirIfCreated();
+		private class VelocityInfo
+		{
+			private VoyagerDistance.DistancePairInfo DistancePair;
+			private SCommon.SimpleDateTime DateTime;
+
+			public VelocityInfo(VoyagerDistance.DistancePairInfo distancePair, SCommon.SimpleDateTime dateTime)
+			{
+				this.DistancePair = distancePair;
+				this.DateTime = dateTime;
+			}
+
+			public double GetKm()
+			{
+				return this.DistancePair.GetKm(this.DateTime);
+			}
+
+			private double GetKmPer(long sec)
+			{
+				return this.DistancePair.GetKm(this.DateTime + sec) - this.DistancePair.GetKm(this.DateTime);
+			}
+
+			public double GetKmPerSecond()
+			{
+				return this.GetKmPer(1);
+			}
+
+			public double GetKmPerMinute()
+			{
+				return this.GetKmPer(60);
+			}
+
+			public double GetKmPerHour()
+			{
+				return this.GetKmPer(3600);
+			}
 		}
 
 		private void Main4()
 		{
-			Main4(ProcMain.ArgsReader);
-		}
-
-		private void Main4(ArgsReader ar)
-		{
 			VoyagerDistance vd = new VoyagerDistance();
 			SCommon.SimpleDateTime now = SCommon.SimpleDateTime.Now();
 
-			Console.WriteLine(vd.Earth_Voyager_1.GetKm(now));
-			Console.WriteLine(vd.Earth_Voyager_2.GetKm(now));
-			Console.WriteLine(vd.Sun_Voyager_1.GetKm(now));
-			Console.WriteLine(vd.Sun_Voyager_2.GetKm(now));
+			VelocityInfo velocitry_Earth_v1 = new VelocityInfo(vd.Earth_Voyager_1, now);
+			VelocityInfo velocitry_Earth_v2 = new VelocityInfo(vd.Earth_Voyager_2, now);
+			VelocityInfo velocitry_Sun_v1 = new VelocityInfo(vd.Sun_Voyager_1, now);
+			VelocityInfo velocitry_Sun_v2 = new VelocityInfo(vd.Sun_Voyager_2, now);
+
+			Console.WriteLine("Date Time: " + now);
+
+			PrintVelocity(velocitry_Sun_v1, "  Sun to Voyager 1");
+			PrintVelocity(velocitry_Sun_v2, "  Sun to Voyager 2");
+			PrintVelocity(velocitry_Earth_v1, "Earth to Voyager 1");
+			PrintVelocity(velocitry_Earth_v2, "Earth to Voyager 2");
+		}
+
+		private void PrintVelocity(VelocityInfo velocitry, string title)
+		{
+			Console.WriteLine(title + " --> " + S_ToString(velocitry.GetKm()) + " KM (distance)");
+			Console.WriteLine(title + " --> " + S_ToString(velocitry.GetKmPerSecond()) + " KM/S (velocity)");
+			Console.WriteLine(title + " --> " + S_ToString(velocitry.GetKmPerMinute()) + " KM/M (velocity)");
+			Console.WriteLine(title + " --> " + S_ToString(velocitry.GetKmPerHour()) + " KM/H (velocity)");
+		}
+
+		private string S_ToString(double value)
+		{
+			return Common.LPad(value.ToString("F3"), 15, " ");
 		}
 	}
 }

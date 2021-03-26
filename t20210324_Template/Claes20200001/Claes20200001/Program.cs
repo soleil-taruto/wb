@@ -29,6 +29,7 @@ namespace Charlotte
 			{
 				Main4();
 			}
+			Common.OpenOutputDirIfCreated();
 		}
 
 		private void Main3()
@@ -43,16 +44,9 @@ namespace Charlotte
 			// --
 
 			//Common.Pause();
-
-			Common.OpenOutputDirIfCreated();
 		}
 
 		private void Main4()
-		{
-			Main4(ProcMain.ArgsReader);
-		}
-
-		private void Main4(ArgsReader ar)
 		{
 			// none
 		}
