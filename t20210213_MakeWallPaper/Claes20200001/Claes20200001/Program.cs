@@ -41,27 +41,27 @@ namespace Charlotte
 
 		private void MakeWallPapers_20210316()
 		{
-			MakeWallPaper(@"C:\etc\画像\85748489_p0.jpg");
-			MakeWallPaper(@"C:\etc\画像\6428005_p0.png");
-			MakeWallPaper(@"C:\etc\画像\50752377_p0.jpg");
-			//MakeWallPaper(@"C:\etc\画像\53031871_p0.jpg");
-			MakeWallPaper(@"C:\etc\画像\78521124_p0.jpg");
-			MakeWallPaper(@"C:\etc\画像\73649310_p0.jpg");
-			//MakeWallPaper(@"C:\etc\画像\73807156_p0.jpg");
-			//MakeWallPaper(@"C:\etc\画像\73985947_p0.jpg");
-			//MakeWallPaper(@"C:\etc\画像\75044056_p0.jpg");
-			MakeWallPaper(@"C:\etc\画像\77566730_p0.jpg");
-			MakeWallPaper(@"C:\etc\画像\60439044_p0.png");
+			MakeWallPaper(@"C:\etz\画像\85748489_p0.jpg");
+			MakeWallPaper(@"C:\etz\画像\6428005_p0.png");
+			MakeWallPaper(@"C:\etz\画像\50752377_p0.jpg");
+			//MakeWallPaper(@"C:\etz\画像\53031871_p0.jpg");
+			MakeWallPaper(@"C:\etz\画像\78521124_p0.jpg");
+			MakeWallPaper(@"C:\etz\画像\73649310_p0.jpg");
+			//MakeWallPaper(@"C:\etz\画像\73807156_p0.jpg");
+			//MakeWallPaper(@"C:\etz\画像\73985947_p0.jpg");
+			//MakeWallPaper(@"C:\etz\画像\75044056_p0.jpg");
+			MakeWallPaper(@"C:\etz\画像\77566730_p0.jpg");
+			MakeWallPaper(@"C:\etz\画像\60439044_p0.png");
 		}
 
 		private void MakeWallPapers_20210213()
 		{
-			MakeWallPaper(@"C:\etc\画像\1-160G5160302.jpg");
-			MakeWallPaper(@"C:\etc\画像\1-160G5160313.jpg");
-			MakeWallPaper(@"C:\etc\画像\52097663_p0.jpg");
-			MakeWallPaper(@"C:\etc\画像\202012100031.jpg");
-			MakeWallPaper(@"C:\etc\画像\202012221757.jpg");
-			MakeWallPaper(@"C:\etc\画像\d0935ac710e60d81809c3e3c71719e51.jpg");
+			MakeWallPaper(@"C:\etz\画像\1-160G5160302.jpg");
+			MakeWallPaper(@"C:\etz\画像\1-160G5160313.jpg");
+			MakeWallPaper(@"C:\etz\画像\52097663_p0.jpg");
+			MakeWallPaper(@"C:\etz\画像\202012100031.jpg");
+			MakeWallPaper(@"C:\etz\画像\202012221757.jpg");
+			MakeWallPaper(@"C:\etz\画像\d0935ac710e60d81809c3e3c71719e51.jpg");
 		}
 
 		private void MakeWallPaper(string file)
@@ -112,9 +112,9 @@ namespace Charlotte
 
 		private void MakeWallPapers_20210213_02()
 		{
-			MakeWallPaper_02(@"C:\etc\画像\1-160G5160232-50.jpg");
-			MakeWallPaper_02(@"C:\etc\画像\58745223_p0.png", 100);
-			MakeWallPaper_02(@"C:\etc\画像\81609917_p0.jpg", 100);
+			MakeWallPaper_02(@"C:\etz\画像\1-160G5160232-50.jpg");
+			MakeWallPaper_02(@"C:\etz\画像\58745223_p0.png", 100);
+			MakeWallPaper_02(@"C:\etz\画像\81609917_p0.jpg", 100);
 		}
 
 		private void MakeWallPaper_02(string file, int almostDarkLevel = 30)

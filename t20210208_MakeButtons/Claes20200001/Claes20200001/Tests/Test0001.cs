@@ -12,13 +12,13 @@ namespace Charlotte.Tests
 		public void Test01()
 		{
 			{
-				Canvas canvas = Canvas.Load(@"C:\etc\画像\1875384.jpg");
+				Canvas canvas = Canvas.Load(@"C:\etz\画像\1875384.jpg");
 				canvas = canvas.Expand(777, 777);
 				canvas.Save(@"C:\temp\1.png");
 			}
 
 			{
-				Canvas canvas = Canvas.Load(@"C:\etc\画像\80347715_p7.png");
+				Canvas canvas = Canvas.Load(@"C:\etz\画像\80347715_p7.png");
 				canvas = canvas.Expand(777, 1111);
 				canvas.Save(@"C:\temp\2.png");
 			}
