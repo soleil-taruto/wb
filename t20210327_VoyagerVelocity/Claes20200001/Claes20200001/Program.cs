@@ -54,7 +54,13 @@ namespace Charlotte
 
 		private void Main4(ArgsReader ar)
 		{
-			// none
+			VoyagerDistance vd = new VoyagerDistance();
+			SCommon.SimpleDateTime now = SCommon.SimpleDateTime.Now();
+
+			Console.WriteLine(vd.Earth_Voyager_1.GetKm(now));
+			Console.WriteLine(vd.Earth_Voyager_2.GetKm(now));
+			Console.WriteLine(vd.Sun_Voyager_1.GetKm(now));
+			Console.WriteLine(vd.Sun_Voyager_2.GetKm(now));
 		}
 	}
 }
