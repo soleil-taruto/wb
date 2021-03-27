@@ -48,7 +48,7 @@ namespace Charlotte
 
 		private void Main4()
 		{
-			throw null;// none
+			throw new Exception("Hello Happy World");
 		}
 	}
 }
