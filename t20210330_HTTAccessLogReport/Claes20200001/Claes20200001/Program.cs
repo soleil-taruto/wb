@@ -159,6 +159,8 @@ namespace Charlotte
 				if (line == "")
 					continue;
 
+				line = Common.CutTrail(line, 300);
+
 				yield return line;
 			}
 		}

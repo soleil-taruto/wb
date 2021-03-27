@@ -46,13 +46,13 @@ namespace Charlotte
 		public IEnumerable<string> Top(int rankMax)
 		{
 			string outFile = this.WD.MakePath();
-			string countHashListFile = this.WD.MakePath();
-			string orderedCountHashListFile = this.WD.MakePath();
+			string countEncHashListFile = this.WD.MakePath();
+			string orderedCountEncHashListFile = this.WD.MakePath();
 
 			SCommon.Batch(new string[] { "DIR /B > \"" + outFile + "\"" }, this.CounterDir);
 
 			using (StreamReader reader = new StreamReader(outFile, Encoding.ASCII))
-			using (StreamWriter writer = new StreamWriter(countHashListFile, false, Encoding.ASCII))
+			using (StreamWriter writer = new StreamWriter(countEncHashListFile, false, Encoding.ASCII))
 			{
 				for (; ; )
 				{
@@ -71,12 +71,18 @@ namespace Charlotte
 
 					string counterFile = Path.Combine(this.CounterDir, hash);
 					long count = long.Parse(File.ReadAllText(counterFile, Encoding.ASCII));
-					writer.WriteLine(count.ToString("D19") + ":" + hash);
+
+					string entityFile = Path.Combine(this.EntityDir, hash);
+					string entity = File.ReadAllText(entityFile, Encoding.UTF8);
+					string miniEntity = Common.CutTrail(entity, 30);
+					string enc = SCommon.Hex.ToString(Encoding.UTF8.GetBytes(miniEntity));
+
+					writer.WriteLine(count.ToString("D19") + ":" + enc + ":" + hash);
 				}
 			}
-			SCommon.Batch(new string[] { "SORT /R \"" + countHashListFile + "\" /O \"" + orderedCountHashListFile + "\"" });
+			SCommon.Batch(new string[] { "SORT /R \"" + countEncHashListFile + "\" /O \"" + orderedCountEncHashListFile + "\"" });
 
-			using (StreamReader reader = new StreamReader(orderedCountHashListFile, Encoding.ASCII))
+			using (StreamReader reader = new StreamReader(orderedCountEncHashListFile, Encoding.ASCII))
 			{
 				long otherCount = 0;
 
@@ -92,14 +98,15 @@ namespace Charlotte
 
 					string[] tokens = line.Split(':');
 
-					if (tokens.Length != 2)
+					if (tokens.Length != 3)
 						throw null;
 
 					long count = long.Parse(tokens[0]);
+					//string enc = tokens[1]; // 不要
 
 					if (rank <= rankMax)
 					{
-						string hash = tokens[1];
+						string hash = tokens[2];
 						string entityFile = Path.Combine(this.EntityDir, hash);
 						string entity = File.ReadAllText(entityFile, Encoding.UTF8);
 

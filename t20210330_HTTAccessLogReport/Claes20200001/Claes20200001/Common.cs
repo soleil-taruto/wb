@@ -72,5 +72,14 @@ namespace Charlotte
 		#endregion
 
 		// < sync
+
+		public static string CutTrail(string line, int maxlen)
+		{
+			if (maxlen < line.Length)
+			{
+				line = line.Substring(0, maxlen) + "...";
+			}
+			return line;
+		}
 	}
 }
