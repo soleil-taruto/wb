@@ -6,10 +6,10 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Threading;
 using System.Windows.Forms;
 using Charlotte.Commons;
 using Charlotte.Tests;
-using System.Threading;
 
 namespace Charlotte
 {
@@ -88,7 +88,7 @@ namespace Charlotte
 				NotifyFilters.Size |
 				0;
 
-			bool modified = false;
+			bool modified;
 
 			watcher.Changed += (sender, ev) =>
 			{
@@ -128,16 +128,17 @@ namespace Charlotte
 
 			for (; ; )
 			{
+				modified = false;
+
 				for (int loopcnt = 0; loopcnt < 30; loopcnt++)
 				{
 					if (modified)
-					{
-						modified = false;
 						break;
-					}
+
 					if (EvStop.WaitOne(2000))
 						goto endWatch;
 				}
+				ProcMain.WriteLog("modified: " + modified);
 				ServiceOperation();
 				GC.Collect();
 			}
@@ -168,13 +169,14 @@ namespace Charlotte
 				if (File.Exists(logFile))
 				{
 					string[] lines = File.ReadAllLines(logFile, SCommon.ENCODING_SJIS)
-						.Where(line => line != "") // 2bs?
+						.Where(line => line != "") // 念のため
 						.ToArray();
 
 					SO_WriteLogLines(lines);
 
 					File.Delete(logFile);
 				}
+				File.WriteAllBytes(logFile, SCommon.EMPTY_BYTES); // 存在を忘れないようにファイルとして残しておく
 			}
 			ProcMain.WriteLog("SO_MoveLog.2");
 		}
