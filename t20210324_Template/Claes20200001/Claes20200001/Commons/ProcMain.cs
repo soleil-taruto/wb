@@ -44,6 +44,8 @@ namespace Charlotte.Commons
 			{
 				WriteLog(e);
 
+				//MessageBox.Show("" + e, Path.GetFileNameWithoutExtension(SelfFile ?? APP_TITLE) + " / Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
 				Console.WriteLine("Press ENTER key.");
 				Console.ReadLine();
 			}

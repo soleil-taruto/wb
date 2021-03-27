@@ -48,7 +48,7 @@ namespace Charlotte
 
 		private void Main4()
 		{
-			// none
+			throw null;// none
 		}
 	}
 }

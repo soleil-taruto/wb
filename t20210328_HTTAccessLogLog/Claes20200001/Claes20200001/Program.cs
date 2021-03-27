@@ -123,29 +123,33 @@ namespace Charlotte
 			watcher.IncludeSubdirectories = false;
 
 			watcher.EnableRaisingEvents = true; // 監視開始
-
-			ProcMain.WriteLog("ServiceWatch.2");
-
-			for (; ; )
+			try
 			{
-				modified = false;
+				ProcMain.WriteLog("ServiceWatch.2");
 
-				for (int loopcnt = 0; loopcnt < 30; loopcnt++)
+				for (; ; )
 				{
-					if (modified)
-						break;
+					modified = false;
 
-					if (EvStop.WaitOne(2000))
-						goto endWatch;
+					for (int loopcnt = 0; loopcnt < 30; loopcnt++)
+					{
+						if (modified)
+							break;
+
+						if (EvStop.WaitOne(2000))
+							goto endWatch;
+					}
+					ProcMain.WriteLog("modified: " + modified);
+					ServiceOperation();
+					GC.Collect();
 				}
-				ProcMain.WriteLog("modified: " + modified);
-				ServiceOperation();
-				GC.Collect();
+			endWatch:
+				ProcMain.WriteLog("ServiceWatch.3");
 			}
-		endWatch:
-			ProcMain.WriteLog("ServiceWatch.3");
-
-			watcher.EnableRaisingEvents = false; // 監視停止
+			finally
+			{
+				watcher.EnableRaisingEvents = false; // 監視停止
+			}
 
 			ProcMain.WriteLog("ServiceWatch.4");
 		}
@@ -166,19 +170,31 @@ namespace Charlotte
 
 			using (Mutex mutex = new Mutex(false, Consts.ACCESS_LOG_MUTEX_NAME))
 			{
-				if (!File.Exists(logFile))
-					File.WriteAllBytes(logFile, SCommon.EMPTY_BYTES);
+				mutex.WaitOne();
+				try
+				{
+					ProcMain.WriteLog("SO_MoveLog.2");
 
-				string[] lines = File.ReadAllLines(logFile, SCommon.ENCODING_SJIS)
-					.Where(line => line != "")
-					.ToArray();
+					if (!File.Exists(logFile))
+						File.WriteAllBytes(logFile, SCommon.EMPTY_BYTES);
 
-				SO_WriteLogLines(lines);
+					string[] lines = File.ReadAllLines(logFile, SCommon.ENCODING_SJIS)
+						.Where(line => line != "")
+						.ToArray();
 
-				File.Delete(logFile); // 2bs
-				File.WriteAllBytes(logFile, SCommon.EMPTY_BYTES); // 存在を忘れないように空ファイルとして残しておく
+					SO_WriteLogLines(lines);
+
+					SCommon.DeletePath(logFile); // 2bs
+					File.WriteAllBytes(logFile, SCommon.EMPTY_BYTES); // 存在を忘れないように空ファイルとして残しておく
+
+					ProcMain.WriteLog("SO_MoveLog.3");
+				}
+				finally
+				{
+					mutex.ReleaseMutex();
+				}
 			}
-			ProcMain.WriteLog("SO_MoveLog.2");
+			ProcMain.WriteLog("SO_MoveLog.4");
 		}
 
 		private long SO_WLL_FileCounter;

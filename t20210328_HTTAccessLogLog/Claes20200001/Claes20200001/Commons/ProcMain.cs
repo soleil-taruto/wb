@@ -14,7 +14,7 @@ namespace Charlotte.Commons
 {
 	public static class ProcMain
 	{
-		public const string APP_IDENT = "{0b790c58-246c-4f8a-8eea-2394826b565d}"; // アプリ毎に変更する。
+		public const string APP_IDENT = "{964eac16-6e6c-488b-9f1e-628f3c468d9c}"; // アプリ毎に変更する。
 		public const string APP_TITLE = "Claes20200001";
 
 		public static string SelfFile;
@@ -44,8 +44,10 @@ namespace Charlotte.Commons
 			{
 				WriteLog(e);
 
-				Console.WriteLine("Press ENTER key.");
-				Console.ReadLine();
+				MessageBox.Show("" + e, "HTTAccessLogLog / Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+				//Console.WriteLine("Press ENTER key.");
+				//Console.ReadLine();
 			}
 		}
 
