@@ -27,7 +27,7 @@ namespace Charlotte
 			}
 			else
 			{
-				Main4();
+				Main4(ar);
 			}
 			//Common.OpenOutputDirIfCreated();
 		}
@@ -45,8 +45,12 @@ namespace Charlotte
 			//Common.Pause();
 		}
 
-		private void Main4()
+		private int RankMax;
+
+		private void Main4(ArgsReader ar)
 		{
+			RankMax = int.Parse(ar.NextArg());
+
 			if (!Directory.Exists(Consts.LOG_DIR))
 				throw new Exception("no LOG_DIR");
 
@@ -187,7 +191,7 @@ namespace Charlotte
 		{
 			Console.WriteLine("[" + title + "]");
 
-			foreach (string line in aggr.Top(30))
+			foreach (string line in aggr.Top(RankMax))
 			{
 				Console.WriteLine(line);
 			}
