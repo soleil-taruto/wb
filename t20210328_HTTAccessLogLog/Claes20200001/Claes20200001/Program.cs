@@ -166,29 +166,40 @@ namespace Charlotte
 
 			using (Mutex mutex = new Mutex(false, Consts.ACCESS_LOG_MUTEX_NAME))
 			{
-				if (File.Exists(logFile))
-				{
-					string[] lines = File.ReadAllLines(logFile, SCommon.ENCODING_SJIS)
-						.Where(line => line != "") // 念のため
-						.ToArray();
+				if (!File.Exists(logFile))
+					File.WriteAllBytes(logFile, SCommon.EMPTY_BYTES);
 
-					SO_WriteLogLines(lines);
+				string[] lines = File.ReadAllLines(logFile, SCommon.ENCODING_SJIS)
+					.Where(line => line != "")
+					.ToArray();
 
-					File.Delete(logFile);
-				}
-				File.WriteAllBytes(logFile, SCommon.EMPTY_BYTES); // 存在を忘れないようにファイルとして残しておく
+				SO_WriteLogLines(lines);
+
+				File.Delete(logFile); // 2bs
+				File.WriteAllBytes(logFile, SCommon.EMPTY_BYTES); // 存在を忘れないように空ファイルとして残しておく
 			}
 			ProcMain.WriteLog("SO_MoveLog.2");
 		}
 
+		private long SO_WLL_FileCounter;
+
 		private void SO_WriteLogLines(string[] lines)
 		{
 			int dateAndHour = (int)(SCommon.TimeStampToSec.ToTimeStamp(DateTime.Now) / 10000);
-			string wFile = Path.Combine(Consts.DEST_LOG_DIR, "HTTAccessLogLog_" + dateAndHour + ".log");
+			long fileCounter = (long)dateAndHour * 1000;
+			SO_WLL_FileCounter = Math.Max(SO_WLL_FileCounter, fileCounter);
+
+			string wFile = Path.Combine(Consts.DEST_LOG_DIR, "HTTAccessLogLog_" + SO_WLL_FileCounter + ".log");
 
 			ProcMain.WriteLog("wFile: " + wFile);
 
 			File.AppendAllLines(wFile, lines, SCommon.ENCODING_SJIS);
+
+			if (5000000 < new FileInfo(wFile).Length) // ? 5 MB < // 1つのファイルが際限なく大きくならないように
+			{
+				ProcMain.WriteLog("Increment FileCounter");
+				SO_WLL_FileCounter++;
+			}
 		}
 	}
 }
