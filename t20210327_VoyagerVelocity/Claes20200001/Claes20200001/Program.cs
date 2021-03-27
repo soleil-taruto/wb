@@ -99,6 +99,13 @@ namespace Charlotte
 			PrintVelocity(velocitry_Sun_v2, "  Sun to Voyager 2");
 			PrintVelocity(velocitry_Earth_v1, "Earth to Voyager 1");
 			PrintVelocity(velocitry_Earth_v2, "Earth to Voyager 2");
+
+			Console.WriteLine("Raw Data...");
+
+			PrintRawData(vd.Sun_Voyager_1, "S1");
+			PrintRawData(vd.Sun_Voyager_2, "S2");
+			PrintRawData(vd.Earth_Voyager_1, "E1");
+			PrintRawData(vd.Earth_Voyager_2, "E2");
 		}
 
 		private void PrintVelocity(VelocityInfo velocitry, string title)
@@ -112,6 +119,17 @@ namespace Charlotte
 		private string S_ToString(double value)
 		{
 			return Common.LPad(value.ToString("F3"), 15, " ");
+		}
+
+		private void PrintRawData(VoyagerDistance.DistancePairInfo distancePair, string title)
+		{
+			PrintRawData(distancePair.A, title + "A");
+			PrintRawData(distancePair.B, title + "B");
+		}
+
+		private void PrintRawData(VoyagerDistance.DistanceInfo distance, string title)
+		{
+			Console.WriteLine(title + ": " + distance.DateTime + ", " + distance.Km.ToString("F4"));
 		}
 	}
 }
