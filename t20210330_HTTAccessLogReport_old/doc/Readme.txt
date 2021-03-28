@@ -9,4 +9,4 @@ HTTAccessLogReport.exe RANK-MAX LOG-LINE-LEN-MAX
 ----
 実行例
 
-HTTAccessLogReport.exe 30 200
+HTTAccessLogReport.exe 30 600
