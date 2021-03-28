@@ -141,13 +141,13 @@ namespace Charlotte
 						}
 					}
 				}
-				PrintReportLines(aggrIP, "IP");
-				PrintReportLines(aggrRequest, "Request");
-				PrintReportLines(aggrHost, "Host");
-				PrintReportLines(aggrAgent, "Agent");
-				PrintReportLines(aggrDomain, "Domain");
-				PrintReportLines(aggrPath, "Path");
-				PrintReportLines(aggrStatus, "Status");
+				PrintReport(aggrIP, "IP");
+				PrintReport(aggrRequest, "Request");
+				PrintReport(aggrHost, "Host");
+				PrintReport(aggrAgent, "Agent");
+				PrintReport(aggrDomain, "Domain");
+				PrintReport(aggrPath, "Path");
+				PrintReport(aggrStatus, "Status");
 			}
 		}
 
@@ -189,7 +189,7 @@ namespace Charlotte
 			}
 		}
 
-		private void PrintReportLines(Aggregate aggr, string title)
+		private void PrintReport(Aggregate aggr, string title)
 		{
 			Console.WriteLine("[" + title + "]");
 
