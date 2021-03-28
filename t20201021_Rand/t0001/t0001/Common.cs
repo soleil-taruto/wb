@@ -7,7 +7,7 @@ namespace Charlotte
 {
 	public static class Common
 	{
-		public static string ZPad(string str, int minlen, char padding = '0')
+		public static string LZPad(string str, int minlen, char padding = '0')
 		{
 			while (str.Length < minlen)
 			{

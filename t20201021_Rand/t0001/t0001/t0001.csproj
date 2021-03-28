@@ -58,6 +58,9 @@
     <Compile Include="DDRandom0002b.cs" />
     <Compile Include="DDRandom0002c.cs" />
     <Compile Include="DDRandom0002cx.cs" />
+    <Compile Include="DDRandomXorshift64.cs" />
+    <Compile Include="DDRandomXorshift32.cs" />
+    <Compile Include="DDRandomXorshift64Hi.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
