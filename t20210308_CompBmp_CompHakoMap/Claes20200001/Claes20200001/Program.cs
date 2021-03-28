@@ -29,8 +29,8 @@ namespace Charlotte
 			//Main3();
 			//Main3_20210309();
 			//Main3_20210315();
-			//Main3_20210316();
-			Main3_20210318();
+			Main3_20210316(); // Hako
+			//Main3_20210318(); // Hako2
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -124,7 +124,8 @@ namespace Charlotte
 			int w = map1.W;
 			int h = map1.H;
 
-			Canvas dest = new Canvas(w, h);
+			Canvas dest1 = new Canvas(w, h);
+			Canvas dest2 = new Canvas(w, h);
 
 			int diffCount = 0;
 
@@ -134,7 +135,8 @@ namespace Charlotte
 				{
 					I4Color dot1 = map1[x, y];
 					I4Color dot2 = map2[x, y];
-					I4Color destDot;
+					I4Color destDot1;
+					I4Color destDot2;
 
 					if (
 						dot1.R == dot2.R &&
@@ -142,11 +144,18 @@ namespace Charlotte
 						dot1.B == dot2.B
 						)
 					{
-						destDot = new I3Color(0, 0, 0).WithAlpha();
+						destDot1 = new I3Color(0, 0, 0).WithAlpha();
+						destDot2 = new I3Color(
+							dot1.R / 4,
+							dot1.G / 4,
+							dot1.B / 4
+							)
+							.WithAlpha();
 					}
 					else
 					{
-						destDot = new I3Color(255, 255, 255).WithAlpha();
+						destDot1 = new I3Color(255, 255, 255).WithAlpha();
+						destDot2 = new I3Color(255, 255, 255).WithAlpha();
 
 						Console.WriteLine(string.Format(
 							"[{0:D3}] {1:D3}, {2:D3}, {3:D3} -> {4:D3}, {5:D3}, {6:D3} -- {7}, {8}",
@@ -161,17 +170,18 @@ namespace Charlotte
 							y
 							));
 					}
-					dest[x, y] = destDot;
+					dest1[x, y] = destDot1;
+					dest2[x, y] = destDot2;
 				}
 			}
 
 			OutputFileCount++;
 
-			dest.Save(Path.Combine(Consts.OUTPUT_DIR, OutputFileCount.ToString("D4") + ".png"));
+			dest1.Save(Path.Combine(Consts.OUTPUT_DIR, OutputFileCount.ToString("D4") + ".png"));
 
 			Canvas mixDest = new Canvas(w, h * 3);
 
-			mixDest.DrawImage(dest, 0, h * 0);
+			mixDest.DrawImage(dest2, 0, 0);
 			mixDest.DrawImage(map1, 0, h * 1);
 			mixDest.DrawImage(map2, 0, h * 2);
 

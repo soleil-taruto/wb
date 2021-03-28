@@ -57,6 +57,8 @@ namespace Charlotte
 
 		private void ProductMain()
 		{
+			// 何回か CollectUUIDPosition を実行して全ての UUID (UUIDPosition) を回収してから、最後に SolveUUIDCollision を実行する。
+
 			this.CollectUUIDPosition("C:\\Dev", "ProcMain.cs", Encoding.UTF8, "\t\tpublic const string APP_IDENT = \"", "\"; // アプリ毎に変更する。");
 			//this.CollectUUIDPosition();
 			//this.CollectUUIDPosition();
@@ -118,12 +120,26 @@ namespace Charlotte
 
 		private void SolveUUIDCollision()
 		{
+			KnownFilePathList knwonFilePaths = new KnownFilePathList();
+			knwonFilePaths.Load();
+
 			this.UUIDPositions.Sort((a, b) =>
 			{
 				if (a == b) // 同じ要素を比較することがある。
 					return 0;
 
 				int ret;
+
+				// 既知のファイルをソート順で先に -- 新しいファイルを更新対象にするため
+				{
+					int aVal = knwonFilePaths.Contains(a.FilePath) ? 0 : 1;
+					int bVal = knwonFilePaths.Contains(b.FilePath) ? 0 : 1;
+
+					ret = aVal - bVal;
+				}
+
+				if (ret != 0)
+					return ret;
 
 				ret = Common.CompPath(a.FilePath, b.FilePath);
 				//ret = SCommon.CompIgnoreCase(a.FilePath, b.FilePath); // old
@@ -145,7 +161,7 @@ namespace Charlotte
 			{
 				for (int far = lead + 1; far < this.UUIDPositions.Count; far++)
 				{
-					if (this.UUIDPositions[lead].UUID == this.UUIDPositions[far].UUID) // ? コリジョン発見
+					if (this.UUIDPositions[lead].UUID == this.UUIDPositions[far].UUID) // ? コリジョン発見 -> far側(後の方)を更新する。
 					{
 						this.UUIDPositions[far].UUID = Guid.NewGuid().ToString("B");
 						this.UUIDPositions[far].UUIDChanged = true;
@@ -185,6 +201,10 @@ namespace Charlotte
 					File.WriteAllLines(up.FilePath, lines, up.Encoding);
 				}
 			}
+
+			knwonFilePaths.Clear();
+			knwonFilePaths.AddRange(this.UUIDPositions.Select(up => up.FilePath));
+			knwonFilePaths.Save();
 		}
 	}
 }
