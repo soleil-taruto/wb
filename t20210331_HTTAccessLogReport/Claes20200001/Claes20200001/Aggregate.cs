@@ -119,7 +119,7 @@ namespace Charlotte
 				}
 				if (1 <= otherCount)
 				{
-					yield return otherCount + " (other)";
+					yield return otherCount + " <その他>";
 				}
 			}
 		}

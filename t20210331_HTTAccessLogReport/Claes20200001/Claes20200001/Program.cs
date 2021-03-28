@@ -108,36 +108,22 @@ namespace Charlotte
 				{
 					using (StreamReader reader = new StreamReader(logFile, SCommon.ENCODING_SJIS))
 					{
-						foreach (string line in IgnoreLocalIPRequest(ReadLogLines(reader)))
+						IEnumerable<RecordInfo> records = LogLinesToRecords(ReadLogLines(reader));
+
+						records = records.Where(record => record.IP != "192.168.123.254"); // 除外：室内(内側)ルータからのリクエストのIPアドレス
+
+						records = records.Where(record => record.Host != "barnatsutobi.dip.jp");
+						records = records.Where(record => record.Host != "barnatsutobi.ccsp.mydns.jp");
+
+						foreach (RecordInfo record in records)
 						{
-							if (IsIPLine(line))
-							{
-								aggrIP.Add(line);
-							}
-							else if (line[0] == 'R')
-							{
-								aggrRequest.Add(line.Substring(1));
-							}
-							else if (line[0] == 'H')
-							{
-								aggrHost.Add(line.Substring(1));
-							}
-							else if (line[0] == 'A')
-							{
-								aggrAgent.Add(line.Substring(1));
-							}
-							else if (line[0] == 'D')
-							{
-								aggrDomain.Add(line.Substring(1));
-							}
-							else if (line[0] == 'P')
-							{
-								aggrPath.Add(line.Substring(1));
-							}
-							else if (line[0] == 'S')
-							{
-								aggrStatus.Add(line.Substring(1));
-							}
+							aggrIP.Add(record.IP);
+							aggrRequest.Add(record.Request);
+							aggrHost.Add(record.Host);
+							aggrAgent.Add(record.Agent);
+							aggrDomain.Add(record.Domain);
+							aggrPath.Add(record.Path);
+							aggrStatus.Add(record.Status);
 						}
 					}
 				}
@@ -171,22 +157,60 @@ namespace Charlotte
 			}
 		}
 
-		private IEnumerable<string> IgnoreLocalIPRequest(IEnumerable<string> lines)
-		{
-			const string LOCAL_IP = "192.168.123.254"; // 室内(内側)ルータからのリクエストのIPアドレス
+		private const string RECORD_DUMMY_VALUE = "<データ無し>";
 
-			bool allowFlag = true;
+		private class RecordInfo
+		{
+			public string IP = RECORD_DUMMY_VALUE;
+			public string Request = RECORD_DUMMY_VALUE;
+			public string Host = RECORD_DUMMY_VALUE;
+			public string Agent = RECORD_DUMMY_VALUE;
+			public string Domain = RECORD_DUMMY_VALUE;
+			public string Path = RECORD_DUMMY_VALUE;
+			public string Status = RECORD_DUMMY_VALUE;
+		}
+
+		private IEnumerable<RecordInfo> LogLinesToRecords(IEnumerable<string> lines)
+		{
+			RecordInfo record = null;
 
 			foreach (string line in lines)
 			{
-				if (line == LOCAL_IP)
-					allowFlag = false;
-				else if (IsIPLine(line))
-					allowFlag = true;
+				if (IsIPLine(line))
+				{
+					if (record != null)
+						yield return record;
 
-				if (allowFlag)
-					yield return line;
+					record = new RecordInfo();
+					record.IP = line;
+				}
+				else if (line[0] == 'R')
+				{
+					record.Request = line.Substring(1);
+				}
+				else if (line[0] == 'H')
+				{
+					record.Host = line.Substring(1);
+				}
+				else if (line[0] == 'A')
+				{
+					record.Agent = line.Substring(1);
+				}
+				else if (line[0] == 'D')
+				{
+					record.Domain = line.Substring(1);
+				}
+				else if (line[0] == 'P')
+				{
+					record.Path = line.Substring(1);
+				}
+				else if (line[0] == 'S')
+				{
+					record.Status = line.Substring(1);
+				}
 			}
+			if (record != null)
+				yield return record;
 		}
 
 		private void PrintReportLines(Aggregate aggr, string title)
