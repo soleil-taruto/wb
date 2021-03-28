@@ -46,10 +46,12 @@ namespace Charlotte
 		}
 
 		private int RankMax;
+		private int LogLineLenMax;
 
 		private void Main4(ArgsReader ar)
 		{
 			RankMax = int.Parse(ar.NextArg());
+			LogLineLenMax = int.Parse(ar.NextArg());
 
 			if (!Directory.Exists(Consts.LOG_DIR))
 				throw new Exception("no LOG_DIR");
@@ -163,7 +165,7 @@ namespace Charlotte
 				if (line == "")
 					continue;
 
-				line = Common.CutTrail(line, 300);
+				line = Common.CutTrail(line, LogLineLenMax);
 
 				yield return line;
 			}
