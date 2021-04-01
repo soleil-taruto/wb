@@ -96,6 +96,12 @@ namespace Charlotte
 
 		private void AggregateAndReport(string[] logFiles)
 		{
+			if (1 <= logFiles.Length)
+			{
+				Console.WriteLine("開始：" + logFiles[0]);
+				Console.WriteLine("終了：" + logFiles[logFiles.Length - 1]);
+			}
+
 			using (Aggregate aggrIP = new Aggregate())
 			using (Aggregate aggrRequest = new Aggregate())
 			using (Aggregate aggrHost = new Aggregate())
