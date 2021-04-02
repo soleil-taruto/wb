@@ -286,7 +286,19 @@ namespace AccessLamp
 
 		private void 設定ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			// TODO
+			this.MT_Enabled = false;
+			this.Visible = false;
+
+			using (SettingDlg f = new SettingDlg())
+			{
+				f.ShowDialog();
+			}
+
+			this.LoadPerfCntrList();
+			this.LoadUIControls();
+
+			this.MT_Enabled = true;
+			this.Visible = true;
 		}
 
 		private bool MouseDown_Active;
