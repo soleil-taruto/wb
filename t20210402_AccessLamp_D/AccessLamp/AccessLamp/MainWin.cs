@@ -15,6 +15,22 @@ namespace AccessLamp
 {
 	public partial class MainWin : Form
 	{
+		#region ALT_F4 抑止
+
+		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+		protected override void WndProc(ref Message m)
+		{
+			const int WM_SYSCOMMAND = 0x112;
+			const long SC_CLOSE = 0xF060L;
+
+			if (m.Msg == WM_SYSCOMMAND && (m.WParam.ToInt64() & 0xFFF0L) == SC_CLOSE)
+				return;
+
+			base.WndProc(ref m);
+		}
+
+		#endregion
+
 		public MainWin()
 		{
 			InitializeComponent();
@@ -27,7 +43,7 @@ namespace AccessLamp
 		private Icon IconBusyR;
 		private Icon IconBusyW;
 		private Icon IconBusyRW;
-		public List<PerfCntrInfo> PCList = new List<PerfCntrInfo>();
+		public List<PerfCntrInfo> PerfCntrList = new List<PerfCntrInfo>();
 
 		private static string GetIconFile(string localFile)
 		{
@@ -128,7 +144,7 @@ namespace AccessLamp
 						info.R = r;
 						info.W = w;
 
-						this.PCList.Add(info);
+						this.PerfCntrList.Add(info);
 					}
 					catch (Exception ex)
 					{
@@ -136,7 +152,7 @@ namespace AccessLamp
 							firstEx = ex;
 					}
 				}
-				if (this.PCList.Count == 0)
+				if (this.PerfCntrList.Count == 0)
 				{
 					string sDrv = new string(drvs.ToArray());
 
@@ -166,7 +182,7 @@ namespace AccessLamp
 		{
 			this.MT_Enabled = false;
 
-			foreach (PerfCntrInfo info in this.PCList)
+			foreach (PerfCntrInfo info in this.PerfCntrList)
 			{
 				info.Close();
 			}
@@ -210,18 +226,18 @@ namespace AccessLamp
 				bool rf = false;
 				bool wf = false;
 
-				for (int index = 0; index < this.PCList.Count; index++)
+				for (int index = 0; index < this.PerfCntrList.Count; index++)
 				{
 					currPCPos = index;
 
-					if (0f < this.PCList[index].R.NextValue())
+					if (0f < this.PerfCntrList[index].R.NextValue())
 						rf = true;
 
-					if (0f < this.PCList[index].W.NextValue())
+					if (0f < this.PerfCntrList[index].W.NextValue())
 						wf = true;
 
 					currPCPos = -1;
-					this.PCList[index].ErrorCount = 0;
+					this.PerfCntrList[index].ErrorCount = 0;
 				}
 
 				bool sf =
@@ -281,13 +297,13 @@ namespace AccessLamp
 				if (currPCPos == -1)
 					throw ex;
 
-				this.PCList[currPCPos].ErrorCount++;
+				this.PerfCntrList[currPCPos].ErrorCount++;
 
-				if (this.PCList[currPCPos].ErrorCount < 5) // < 0.5[sec]
+				if (this.PerfCntrList[currPCPos].ErrorCount < 5) // < 0.5[sec]
 					return;
 
-				this.PCList[currPCPos].Close();
-				this.PCList.RemoveAt(currPCPos);
+				this.PerfCntrList[currPCPos].Close();
+				this.PerfCntrList.RemoveAt(currPCPos);
 			}
 			finally
 			{
