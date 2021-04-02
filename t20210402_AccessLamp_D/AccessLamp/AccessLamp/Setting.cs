@@ -16,6 +16,9 @@ namespace AccessLamp
 			}
 		}
 
+		public int MainWin_L = 0;
+		public int MainWin_T = 0;
+
 		public string[] InstanceNames = new string[] { "C:" };
 
 		public void LoadFromFile()
@@ -26,6 +29,9 @@ namespace AccessLamp
 			string[] lines = File.ReadAllLines(SettingFile, Encoding.UTF8);
 			int c = 0;
 
+			this.MainWin_L = int.Parse(lines[c++]);
+			this.MainWin_T = int.Parse(lines[c++]);
+
 			this.InstanceNames = Enumerable
 				.Range(0, int.Parse(lines[c++]))
 				.Select(dummy => lines[c++])
@@ -35,6 +41,9 @@ namespace AccessLamp
 		public void SaveToFile()
 		{
 			List<string> lines = new List<string>();
+
+			lines.Add("" + this.MainWin_L);
+			lines.Add("" + this.MainWin_T);
 
 			lines.Add("" + this.InstanceNames.Length);
 			lines.AddRange(this.InstanceNames);

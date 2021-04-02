@@ -14,6 +14,8 @@ namespace AccessLamp
 		public SettingDlg()
 		{
 			InitializeComponent();
+
+			this.MinimumSize = this.Size;
 		}
 
 		private void SettingDlg_Load(object sender, EventArgs e)

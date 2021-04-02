@@ -143,7 +143,7 @@ namespace AccessLamp
 
 		private void UnloadUIControls()
 		{
-			this.MonitorLabels.ForEach(picBox => this.UnloadUIControl(picBox));
+			this.MonitorLabels.ForEach(label => this.UnloadUIControl(label));
 			this.MonitorLabels.Clear();
 
 			this.ReadPictures.ForEach(picBox => this.UnloadUIControl(picBox));
@@ -162,8 +162,11 @@ namespace AccessLamp
 
 		private void LoadUIControls()
 		{
+			this.UnloadUIControls();
+
 			const int MARGIN = 10;
 			const int LABEL_H = 20;
+			const int LABEL_LEN_MAX = 10;
 
 			int perfCntrNum = Ground.ReadPerfCntrList.Count;
 
@@ -177,7 +180,7 @@ namespace AccessLamp
 				label.Width = Consts.PICTURE_W;
 				label.Height = LABEL_H;
 				label.ForeColor = Color.White;
-				label.Text = Ground.Setting.InstanceNames[index];
+				label.Text = Common.CutTrail(Ground.Setting.InstanceNames[index], LABEL_LEN_MAX);
 				this.Controls.Add(label);
 				this.MonitorLabels.Add(label);
 				this.PostControlAdded(label);
@@ -189,6 +192,7 @@ namespace AccessLamp
 				picBox.Top = MARGIN + LABEL_H + MARGIN;
 				picBox.Width = Consts.PICTURE_W;
 				picBox.Height = Consts.PICTURE_H;
+				picBox.Image = this.DeniedPicture;
 				this.Controls.Add(picBox);
 				this.ReadPictures.Add(picBox);
 				this.PostControlAdded(picBox);
@@ -198,6 +202,7 @@ namespace AccessLamp
 				picBox.Top = MARGIN + LABEL_H + MARGIN + Consts.PICTURE_H + MARGIN;
 				picBox.Width = Consts.PICTURE_W;
 				picBox.Height = Consts.PICTURE_H;
+				picBox.Image = this.DeniedPicture;
 				this.Controls.Add(picBox);
 				this.WritePictures.Add(picBox);
 				this.PostControlAdded(picBox);
@@ -215,12 +220,15 @@ namespace AccessLamp
 
 			this.LoadPerfCntrList();
 			this.LoadUIControls();
-
-			GC.Collect();
 		}
 
 		private void MainWin_Shown(object sender, EventArgs e)
 		{
+			this.Left = Ground.Setting.MainWin_L;
+			this.Top = Ground.Setting.MainWin_T;
+
+			GC.Collect();
+
 			this.MT_Enabled = true;
 		}
 
@@ -232,6 +240,9 @@ namespace AccessLamp
 		private void MainWin_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			this.MT_Enabled = false;
+
+			Ground.Setting.MainWin_L = this.Left;
+			Ground.Setting.MainWin_T = this.Top;
 
 			this.UnloadPerfCntrList();
 		}
@@ -312,11 +323,12 @@ namespace AccessLamp
 				f.ShowDialog();
 			}
 
+			this.Visible = true;
+
 			this.LoadPerfCntrList();
 			this.LoadUIControls();
 
 			this.MT_Enabled = true;
-			this.Visible = true;
 		}
 
 		private bool MouseDown_Active;
