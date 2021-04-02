@@ -120,6 +120,7 @@ namespace AccessLamp
 			}
 		}
 
+		private List<Label> MonitorLabels = new List<Label>();
 		private List<PictureBox> ReadPictures = new List<PictureBox>();
 		private List<PictureBox> WritePictures = new List<PictureBox>();
 
@@ -142,6 +143,9 @@ namespace AccessLamp
 
 		private void UnloadUIControls()
 		{
+			this.MonitorLabels.ForEach(picBox => this.UnloadUIControl(picBox));
+			this.MonitorLabels.Clear();
+
 			this.ReadPictures.ForEach(picBox => this.UnloadUIControl(picBox));
 			this.ReadPictures.Clear();
 
@@ -159,16 +163,30 @@ namespace AccessLamp
 		private void LoadUIControls()
 		{
 			const int MARGIN = 10;
+			const int LABEL_H = 20;
 
 			int perfCntrNum = Ground.ReadPerfCntrList.Count;
 
 			for (int index = 0; index < perfCntrNum; index++)
 			{
+				Label label;
+
+				label = new Label();
+				label.Left = MARGIN + (Consts.PICTURE_W + MARGIN) * index;
+				label.Top = MARGIN;
+				label.Width = Consts.PICTURE_W;
+				label.Height = LABEL_H;
+				label.ForeColor = Color.White;
+				label.Text = Ground.Setting.InstanceNames[index];
+				this.Controls.Add(label);
+				this.MonitorLabels.Add(label);
+				this.PostControlAdded(label);
+
 				PictureBox picBox;
 
 				picBox = new PictureBox();
 				picBox.Left = MARGIN + (Consts.PICTURE_W + MARGIN) * index;
-				picBox.Top = MARGIN;
+				picBox.Top = MARGIN + LABEL_H + MARGIN;
 				picBox.Width = Consts.PICTURE_W;
 				picBox.Height = Consts.PICTURE_H;
 				this.Controls.Add(picBox);
@@ -177,7 +195,7 @@ namespace AccessLamp
 
 				picBox = new PictureBox();
 				picBox.Left = MARGIN + (Consts.PICTURE_W + MARGIN) * index;
-				picBox.Top = MARGIN + Consts.PICTURE_H + MARGIN;
+				picBox.Top = MARGIN + LABEL_H + MARGIN + Consts.PICTURE_H + MARGIN;
 				picBox.Width = Consts.PICTURE_W;
 				picBox.Height = Consts.PICTURE_H;
 				this.Controls.Add(picBox);
@@ -185,7 +203,7 @@ namespace AccessLamp
 				this.PostControlAdded(picBox);
 			}
 			this.Width = MARGIN + (Consts.PICTURE_W + MARGIN) * Math.Max(perfCntrNum, 1);
-			this.Height = MARGIN + (Consts.PICTURE_H + MARGIN) * 2;
+			this.Height = MARGIN + LABEL_H + MARGIN + (Consts.PICTURE_H + MARGIN) * 2;
 		}
 
 		private void MainWin_Load(object sender, EventArgs e)
