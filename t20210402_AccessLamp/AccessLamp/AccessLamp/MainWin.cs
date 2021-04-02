@@ -57,7 +57,7 @@ namespace AccessLamp
 			catch
 			{ }
 
-			return Path.Combine("..\\..\\..\\..\\icon", localFile);
+			return Path.Combine("..\\..\\..\\..\\doc", localFile);
 		}
 
 		private static Icon LoadIcon(string localFile)
