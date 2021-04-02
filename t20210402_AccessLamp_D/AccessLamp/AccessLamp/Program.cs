@@ -57,7 +57,7 @@ namespace AccessLamp
 			mtx.Close();
 		}
 
-		public static string APP_TITLE = "AccessLamp";
+		public static string APP_TITLE = "AccessLamp_D";
 
 		private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
 		{
@@ -65,7 +65,7 @@ namespace AccessLamp
 			{
 				MessageBox.Show(
 					"[Application_ThreadException]\n" + e.Exception,
-					"AccessLamp Error",
+					APP_TITLE + " Error",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Error
 					);
@@ -82,7 +82,7 @@ namespace AccessLamp
 			{
 				MessageBox.Show(
 					"[CurrentDomain_UnhandledException]\n" + e.ExceptionObject,
-					"AccessLamp Error",
+					APP_TITLE + " Error",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Error
 					);

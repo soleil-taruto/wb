@@ -94,7 +94,6 @@
 			this.Shown += new System.EventHandler(this.MainWin_Shown);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainWin_MouseDown);
 			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainWin_MouseMove);
-			this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainWin_MouseUp);
 			this.RClickMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 

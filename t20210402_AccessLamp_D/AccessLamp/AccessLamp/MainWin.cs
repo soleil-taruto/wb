@@ -15,21 +15,7 @@ namespace AccessLamp
 {
 	public partial class MainWin : Form
 	{
-		#region ALT_F4 抑止
-
-		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-		protected override void WndProc(ref Message m)
-		{
-			const int WM_SYSCOMMAND = 0x112;
-			const long SC_CLOSE = 0xF060L;
-
-			if (m.Msg == WM_SYSCOMMAND && (m.WParam.ToInt64() & 0xFFF0L) == SC_CLOSE)
-				return;
-
-			base.WndProc(ref m);
-		}
-
-		#endregion
+		// ALT_F4 抑止 -- 不要
 
 		public MainWin()
 		{
@@ -74,7 +60,7 @@ namespace AccessLamp
 				MessageBox.Show(
 					"画像ファイル '" + localFile + "' の読み込みに失敗しました。\n" +
 					"作業フォルダまたは実行ファイルと同じフォルダに画像ファイルが存在することを確認して下さい。",
-					"AccessLamp_D Error",
+					Program.APP_TITLE + " Error",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Error
 					);
@@ -157,7 +143,6 @@ namespace AccessLamp
 		{
 			control.MouseDown += this.MainWin_MouseDown;
 			control.MouseMove += this.MainWin_MouseMove;
-			control.MouseUp += this.MainWin_MouseUp;
 		}
 
 		private void LoadUIControls()
@@ -278,6 +263,11 @@ namespace AccessLamp
 						this.Close();
 						return;
 					}
+					if (Ground.SaveSettingRequest)
+					{
+						Ground.Setting.SaveToFile();
+						Ground.SaveSettingRequest = false;
+					}
 				}
 			}
 			finally
@@ -335,7 +325,6 @@ namespace AccessLamp
 			this.MT_Enabled = true;
 		}
 
-		private bool MouseDown_Active;
 		private int MouseDown_X;
 		private int MouseDown_Y;
 
@@ -343,7 +332,6 @@ namespace AccessLamp
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				this.MouseDown_Active = true;
 				this.MouseDown_X = e.X;
 				this.MouseDown_Y = e.Y;
 			}
@@ -351,18 +339,17 @@ namespace AccessLamp
 
 		private void MainWin_MouseMove(object sender, MouseEventArgs e)
 		{
-			if (this.MouseDown_Active)
+			if (e.Button == MouseButtons.Left)
 			{
 				this.Location = new Point(
 					this.Location.X + e.X - this.MouseDown_X,
 					this.Location.Y + e.Y - this.MouseDown_Y
 					);
-			}
-		}
 
-		private void MainWin_MouseUp(object sender, MouseEventArgs e)
-		{
-			this.MouseDown_Active = false;
+				Ground.Setting.MainWin_L = this.Location.X;
+				Ground.Setting.MainWin_T = this.Location.Y;
+				Ground.SaveSettingRequest = true;
+			}
 		}
 	}
 }
