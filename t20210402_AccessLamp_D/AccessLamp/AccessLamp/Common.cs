@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AccessLamp
 {
-	public class StringTools
+	public class Common
 	{
 		public const string ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

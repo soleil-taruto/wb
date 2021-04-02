@@ -20,16 +20,16 @@ namespace AccessLamp
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			SystemEvents.SessionEnding += new SessionEndingEventHandler(SessionEnding);
 
-			Mutex mtx = new Mutex(false, "{a6a3ac10-cf4a-48b6-8f53-c949e8db87fb}"); // shared_uuid
+			Mutex mtx = new Mutex(false, "{7820a6a9-e65c-4c5b-a0b8-3bf29f191e22}");
 
 			if (mtx.WaitOne(0) == false) // 多重起動防止
 			{
-				Mutex mtx_2 = new Mutex(false, "{6aee517a-a9b1-4ec9-81d2-5f3965544641}"); // shared_uuid
+				Mutex mtx_2 = new Mutex(false, "{ac989593-8acc-46db-b650-94bf4f08a3cd}");
 
 				if (mtx_2.WaitOne(0) == false)
 					return;
 
-				Gnd.Ev停止.Set();
+				Ground.Ev停止.Set();
 
 				bool mtxOk = mtx.WaitOne(5000);
 
@@ -39,7 +39,6 @@ namespace AccessLamp
 				if (mtxOk == false)
 					return;
 			}
-			LogTools.Clear();
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Security.Permissions;
 using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.IO;
-using System.Security.Permissions;
-using System.Reflection;
 
 namespace AccessLamp
 {
@@ -27,18 +27,7 @@ namespace AccessLamp
 		private Icon IconBusyR;
 		private Icon IconBusyW;
 		private Icon IconBusyRW;
-		public List<PCInfo> PCList = new List<PCInfo>();
-
-		public string GetTTIText()
-		{
-			StringBuilder buff = new StringBuilder();
-
-			foreach (PCInfo info in this.PCList)
-			{
-				buff.Append(info.Drv);
-			}
-			return "見ているドライブ: " + buff;
-		}
+		public List<PerfCntrInfo> PCList = new List<PerfCntrInfo>();
 
 		private static string GetIconFile(string localFile)
 		{
@@ -102,7 +91,7 @@ namespace AccessLamp
 					{
 						foreach (char chr in args[index].ToUpper())
 						{
-							if (StringTools.ALPHA.Contains(chr))
+							if (Common.ALPHA.Contains(chr))
 							{
 								drvs.Add(chr);
 							}
@@ -114,7 +103,7 @@ namespace AccessLamp
 
 				if (drvs.Count == 0)
 				{
-					foreach (char drv in StringTools.ALPHA)
+					foreach (char drv in Common.ALPHA)
 					{
 						DriveInfo di = new DriveInfo("" + drv);
 
@@ -124,7 +113,7 @@ namespace AccessLamp
 						}
 					}
 				}
-				StringTools.ToUnique(drvs);
+				Common.ToUnique(drvs);
 
 				foreach (char drv in drvs)
 				{
@@ -133,7 +122,7 @@ namespace AccessLamp
 						PerformanceCounter r = new PerformanceCounter("LogicalDisk", "Disk Read Bytes/sec", drv + ":");
 						PerformanceCounter w = new PerformanceCounter("LogicalDisk", "Disk Write Bytes/sec", drv + ":");
 
-						PCInfo info = new PCInfo();
+						PerfCntrInfo info = new PerfCntrInfo();
 
 						info.Drv = drv;
 						info.R = r;
@@ -143,8 +132,6 @@ namespace AccessLamp
 					}
 					catch (Exception ex)
 					{
-						LogTools.Write(ex);
-
 						if (firstEx == null)
 							firstEx = ex;
 					}
@@ -162,34 +149,24 @@ namespace AccessLamp
 				}
 			}
 
-			string ttiText = this.GetTTIText();
-
-			LogTools.Write(ttiText);
-
-			this.TaskTrayIcon.Icon = this.IconIdle;
-			this.TaskTrayIcon.Text = ttiText;
-
 			GC.Collect();
 		}
 
 		private void MainWin_Shown(object sender, EventArgs e)
 		{
-			this.Visible = false;
-			this.TaskTrayIcon.Visible = true;
 			this.MT_Enabled = true;
 		}
 
 		private void MainWin_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			LogTools.Clear();
+			this.MT_Enabled = false;
 		}
 
 		private void MainWin_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			this.MT_Enabled = false;
-			this.TaskTrayIcon.Visible = false;
 
-			foreach (PCInfo info in this.PCList)
+			foreach (PerfCntrInfo info in this.PCList)
 			{
 				info.Close();
 			}
@@ -282,8 +259,8 @@ namespace AccessLamp
 					}
 				}
 
-				if (this.TaskTrayIcon.Icon != nextIcon)
-					this.TaskTrayIcon.Icon = nextIcon;
+				////if (this.TaskTrayIcon.Icon != nextIcon)
+				////    this.TaskTrayIcon.Icon = nextIcon;
 
 				if (this.MT_Count % 6000 == 0) // 10分毎に実行
 				{
@@ -291,7 +268,7 @@ namespace AccessLamp
 				}
 				if (this.MT_Count % 30 == 0) // 3秒毎に実行
 				{
-					if (Gnd.Ev停止.WaitOne(0))
+					if (Ground.Ev停止.WaitOne(0))
 					{
 						this.MT_Enabled = false;
 						this.Close();
@@ -301,8 +278,6 @@ namespace AccessLamp
 			}
 			catch (Exception ex)
 			{
-				LogTools.Write(ex);
-
 				if (currPCPos == -1)
 					throw ex;
 
@@ -311,24 +286,14 @@ namespace AccessLamp
 				if (this.PCList[currPCPos].ErrorCount < 5) // < 0.5[sec]
 					return;
 
-				LogTools.Write("例外が連発しているので " + this.PCList[currPCPos].Drv + " を閉じます。");
-
 				this.PCList[currPCPos].Close();
 				this.PCList.RemoveAt(currPCPos);
-
-				this.TaskTrayIcon.Text = this.GetTTIText();
 			}
 			finally
 			{
 				this.MT_Busy = false;
 				this.MT_Count++;
 			}
-		}
-
-		private void TTMExit_Click(object sender, EventArgs e)
-		{
-			this.MT_Enabled = false;
-			this.Close();
 		}
 	}
 }

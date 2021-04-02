@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace AccessLamp
 {
-	public class PCInfo
+	public class PerfCntrInfo
 	{
 		public char Drv;
 		public PerformanceCounter R;
