@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using System.Threading;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Windows.Forms;
 using Microsoft.Win32;
 
 namespace AccessLamp
@@ -19,6 +21,9 @@ namespace AccessLamp
 			Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			SystemEvents.SessionEnding += new SessionEndingEventHandler(SessionEnding);
+
+			Ground.SelfFile = Assembly.GetEntryAssembly().Location;
+			Ground.SelfDir = Path.GetDirectoryName(Ground.SelfFile);
 
 			Mutex mtx = new Mutex(false, "{7820a6a9-e65c-4c5b-a0b8-3bf29f191e22}");
 
@@ -40,9 +45,13 @@ namespace AccessLamp
 					return;
 			}
 
+			Ground.Setting.LoadFromFile();
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainWin());
+
+			Ground.Setting.SaveToFile();
 
 			mtx.ReleaseMutex();
 			mtx.Close();

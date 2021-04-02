@@ -5,8 +5,9 @@ using System.Text;
 
 namespace AccessLamp
 {
-	public class Common
+	public static class Consts
 	{
-		// none
+		public const int PICTURE_W = 60;
+		public const int PICTURE_H = 20;
 	}
 }

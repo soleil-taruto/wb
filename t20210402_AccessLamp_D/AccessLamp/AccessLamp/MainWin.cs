@@ -36,16 +36,14 @@ namespace AccessLamp
 			InitializeComponent();
 		}
 
-		private Icon IconIdle;
-		private Icon IconR;
-		private Icon IconW;
-		private Icon IconRW;
-		private Icon IconBusyR;
-		private Icon IconBusyW;
-		private Icon IconBusyRW;
+		private Bitmap DeniedPicture;
+		private Bitmap IdlePicture;
+		private Bitmap BusyPicture;
+		private Bitmap VeryBusyPicture;
+
 		public List<PerfCntrInfo> PerfCntrList = new List<PerfCntrInfo>();
 
-		private static string GetIconFile(string localFile)
+		private static string GetResourceFile(string localFile)
 		{
 			if (File.Exists(localFile))
 				return localFile;
@@ -65,105 +63,140 @@ namespace AccessLamp
 			return Path.Combine("..\\..\\..\\..\\doc", localFile);
 		}
 
-		private static Icon LoadIcon(string localFile)
+		private static Bitmap LoadPicture(string localFile)
 		{
 			try
 			{
-				return new Icon(GetIconFile(localFile));
+				return new Bitmap(GetResourceFile(localFile));
 			}
 			catch
 			{
 				MessageBox.Show(
-					"アイコンファイル '" + localFile + "' の読み込みに失敗しました。\n" +
-					"作業フォルダまたは実行ファイルと同じフォルダにアイコンファイルが存在することを確認して下さい。",
-					"AccessLamp Error",
+					"画像ファイル '" + localFile + "' の読み込みに失敗しました。\n" +
+					"作業フォルダまたは実行ファイルと同じフォルダに画像ファイルが存在することを確認して下さい。",
+					"AccessLamp_D Error",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Error
 					);
 
-				return SystemIcons.Error;
+				return new Bitmap(Consts.PICTURE_W, Consts.PICTURE_H);
 			}
 		}
 
-		private void MainWin_Load(object sender, EventArgs e)
+		private void UnloadPerfCntrList()
 		{
-			this.IconIdle = LoadIcon("Idle.ico");
-			this.IconR = LoadIcon("Read.ico");
-			this.IconW = LoadIcon("Write.ico");
-			this.IconRW = LoadIcon("ReadWrite.ico");
-			this.IconBusyR = LoadIcon("BusyRead.ico");
-			this.IconBusyW = LoadIcon("BusyWrite.ico");
-			this.IconBusyRW = LoadIcon("BusyReadWrite.ico");
+			Ground.ReadPerfCntrList.ForEach(perfCntr => perfCntr.Dispose());
+			Ground.ReadPerfCntrList.Clear();
 
+			Ground.WritePerfCntrList.ForEach(perfCntr => perfCntr.Dispose());
+			Ground.WritePerfCntrList.Clear();
+		}
+
+		private void LoadPerfCntrList()
+		{
+			this.UnloadPerfCntrList();
+
+			foreach (string instanceName in Ground.Setting.InstanceNames)
 			{
-				Exception firstEx = null;
-				List<char> drvs = new List<char>();
+				PerformanceCounter r = null;
+				PerformanceCounter w = null;
 
 				try
 				{
-					string[] args = Environment.GetCommandLineArgs();
-
-					for (int index = 1; index < args.Length; index++)
-					{
-						foreach (char chr in args[index].ToUpper())
-						{
-							if (Common.ALPHA.Contains(chr))
-							{
-								drvs.Add(chr);
-							}
-						}
-					}
+					r = new PerformanceCounter("LogicalDisk", "Disk Read Bytes/sec", instanceName);
 				}
 				catch
 				{ }
 
-				if (drvs.Count == 0)
+				try
 				{
-					foreach (char drv in Common.ALPHA)
-					{
-						DriveInfo di = new DriveInfo("" + drv);
-
-						if (di.DriveType == DriveType.Fixed)
-						{
-							drvs.Add(drv);
-						}
-					}
+					w = new PerformanceCounter("LogicalDisk", "Disk Write Bytes/sec", instanceName);
 				}
-				Common.ToUnique(drvs);
+				catch
+				{ }
 
-				foreach (char drv in drvs)
-				{
-					try
-					{
-						PerformanceCounter r = new PerformanceCounter("LogicalDisk", "Disk Read Bytes/sec", drv + ":");
-						PerformanceCounter w = new PerformanceCounter("LogicalDisk", "Disk Write Bytes/sec", drv + ":");
-
-						PerfCntrInfo info = new PerfCntrInfo();
-
-						info.Drv = drv;
-						info.R = r;
-						info.W = w;
-
-						this.PerfCntrList.Add(info);
-					}
-					catch (Exception ex)
-					{
-						if (firstEx == null)
-							firstEx = ex;
-					}
-				}
-				if (this.PerfCntrList.Count == 0)
-				{
-					string sDrv = new string(drvs.ToArray());
-
-					MessageBox.Show(
-						"パフォーマンスカウンタのオープンに失敗しました。\ndrv: " + sDrv + "\nex: " + firstEx,
-						"AccessLamp Error",
-						MessageBoxButtons.OK,
-						MessageBoxIcon.Error
-						);
-				}
+				Ground.ReadPerfCntrList.Add(new PerfCntrInfo(r));
+				Ground.WritePerfCntrList.Add(new PerfCntrInfo(w));
 			}
+		}
+
+		private List<PictureBox> ReadPictures = new List<PictureBox>();
+		private List<PictureBox> WritePictures = new List<PictureBox>();
+
+		private void UnloadUIControl(Control control)
+		{
+			try
+			{
+				this.Controls.Remove(control);
+			}
+			catch
+			{ }
+
+			try
+			{
+				control.Dispose();
+			}
+			catch
+			{ }
+		}
+
+		private void UnloadUIControls()
+		{
+			this.ReadPictures.ForEach(picBox => this.UnloadUIControl(picBox));
+			this.ReadPictures.Clear();
+
+			this.WritePictures.ForEach(picBox => this.UnloadUIControl(picBox));
+			this.WritePictures.Clear();
+		}
+
+		private void PostControlAdded(Control control)
+		{
+			control.MouseDown += this.MainWin_MouseDown;
+			control.MouseMove += this.MainWin_MouseMove;
+			control.MouseUp += this.MainWin_MouseUp;
+		}
+
+		private void LoadUIControls()
+		{
+			const int MARGIN = 10;
+
+			int perfCntrNum = Ground.ReadPerfCntrList.Count;
+
+			for (int index = 0; index < perfCntrNum; index++)
+			{
+				PictureBox picBox;
+
+				picBox = new PictureBox();
+				picBox.Left = MARGIN + (Consts.PICTURE_W + MARGIN) * index;
+				picBox.Top = MARGIN;
+				picBox.Width = Consts.PICTURE_W;
+				picBox.Height = Consts.PICTURE_H;
+				this.Controls.Add(picBox);
+				this.ReadPictures.Add(picBox);
+				this.PostControlAdded(picBox);
+
+				picBox = new PictureBox();
+				picBox.Left = MARGIN + (Consts.PICTURE_W + MARGIN) * index;
+				picBox.Top = MARGIN + Consts.PICTURE_H + MARGIN;
+				picBox.Width = Consts.PICTURE_W;
+				picBox.Height = Consts.PICTURE_H;
+				this.Controls.Add(picBox);
+				this.WritePictures.Add(picBox);
+				this.PostControlAdded(picBox);
+			}
+			this.Width = MARGIN + (Consts.PICTURE_W + MARGIN) * Math.Max(perfCntrNum, 1);
+			this.Height = MARGIN + (Consts.PICTURE_H + MARGIN) * 2;
+		}
+
+		private void MainWin_Load(object sender, EventArgs e)
+		{
+			this.DeniedPicture = LoadPicture("Denied.png");
+			this.IdlePicture = LoadPicture("Idle.png");
+			this.BusyPicture = LoadPicture("Busy.png");
+			this.VeryBusyPicture = LoadPicture("VeryBusy.png");
+
+			this.LoadPerfCntrList();
+			this.LoadUIControls();
 
 			GC.Collect();
 		}
@@ -182,30 +215,7 @@ namespace AccessLamp
 		{
 			this.MT_Enabled = false;
 
-			foreach (PerfCntrInfo info in this.PerfCntrList)
-			{
-				info.Close();
-			}
-		}
-
-		private int Chain_R;
-		private int Chain_W;
-
-		private bool ChainFltr(bool f, ref int c)
-		{
-			const int C_MAX = 3;
-
-			if (f)
-			{
-				if (c < C_MAX)
-					c++;
-			}
-			else
-			{
-				if (0 < c)
-					c--;
-			}
-			return c == C_MAX;
+			this.UnloadPerfCntrList();
 		}
 
 		private bool MT_Enabled;
@@ -218,66 +228,15 @@ namespace AccessLamp
 				return;
 
 			this.MT_Busy = true;
-
-			int currPCPos = -1;
-
 			try
 			{
-				bool rf = false;
-				bool wf = false;
+				int perfCntrNum = Ground.ReadPerfCntrList.Count;
 
-				for (int index = 0; index < this.PerfCntrList.Count; index++)
+				for (int index = 0; index < perfCntrNum; index++)
 				{
-					currPCPos = index;
-
-					if (0f < this.PerfCntrList[index].R.NextValue())
-						rf = true;
-
-					if (0f < this.PerfCntrList[index].W.NextValue())
-						wf = true;
-
-					currPCPos = -1;
-					this.PerfCntrList[index].ErrorCount = 0;
+					this.UpdatePicture(Ground.ReadPerfCntrList[index], this.ReadPictures[index]);
+					this.UpdatePicture(Ground.WritePerfCntrList[index], this.WritePictures[index]);
 				}
-
-				bool sf =
-					this.ChainFltr(rf, ref this.Chain_R) ||
-					this.ChainFltr(wf, ref this.Chain_W);
-
-				Icon nextIcon = this.IconIdle;
-
-				if (sf)
-				{
-					if (rf)
-					{
-						if (wf)
-							nextIcon = this.IconBusyRW;
-						else
-							nextIcon = this.IconBusyR;
-					}
-					else // (sf && !rf) なら (wf) であるはず。
-					{
-						nextIcon = this.IconBusyW;
-					}
-				}
-				else
-				{
-					if (rf)
-					{
-						if (wf)
-							nextIcon = this.IconRW;
-						else
-							nextIcon = this.IconR;
-					}
-					else if (wf)
-					{
-						nextIcon = this.IconW;
-					}
-				}
-
-				////if (this.TaskTrayIcon.Icon != nextIcon)
-				////    this.TaskTrayIcon.Icon = nextIcon;
-
 				if (this.MT_Count % 6000 == 0) // 10分毎に実行
 				{
 					GC.Collect();
@@ -292,24 +251,72 @@ namespace AccessLamp
 					}
 				}
 			}
-			catch (Exception ex)
-			{
-				if (currPCPos == -1)
-					throw ex;
-
-				this.PerfCntrList[currPCPos].ErrorCount++;
-
-				if (this.PerfCntrList[currPCPos].ErrorCount < 5) // < 0.5[sec]
-					return;
-
-				this.PerfCntrList[currPCPos].Close();
-				this.PerfCntrList.RemoveAt(currPCPos);
-			}
 			finally
 			{
 				this.MT_Busy = false;
 				this.MT_Count++;
 			}
+		}
+
+		private void UpdatePicture(PerfCntrInfo perfCntr, PictureBox picBox)
+		{
+			perfCntr.Update();
+
+			Bitmap bmp;
+
+			switch (perfCntr.GetStatus())
+			{
+				case PerfCntrInfo.Status_e.DENIED: bmp = this.DeniedPicture; break;
+				case PerfCntrInfo.Status_e.IDLE: bmp = this.IdlePicture; break;
+				case PerfCntrInfo.Status_e.BUSY: bmp = this.BusyPicture; break;
+				case PerfCntrInfo.Status_e.VERY_BUSY: bmp = this.VeryBusyPicture; break;
+
+				default:
+					throw null; // never
+			}
+			if (picBox.Image != bmp)
+				picBox.Image = bmp;
+		}
+
+		private void 終了ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.MT_Enabled = false;
+			this.Close();
+		}
+
+		private void 設定ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// TODO
+		}
+
+		private bool MouseDown_Active;
+		private int MouseDown_X;
+		private int MouseDown_Y;
+
+		private void MainWin_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				this.MouseDown_Active = true;
+				this.MouseDown_X = e.X;
+				this.MouseDown_Y = e.Y;
+			}
+		}
+
+		private void MainWin_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (this.MouseDown_Active)
+			{
+				this.Location = new Point(
+					this.Location.X + e.X - this.MouseDown_X,
+					this.Location.Y + e.Y - this.MouseDown_Y
+					);
+			}
+		}
+
+		private void MainWin_MouseUp(object sender, MouseEventArgs e)
+		{
+			this.MouseDown_Active = false;
 		}
 	}
 }
