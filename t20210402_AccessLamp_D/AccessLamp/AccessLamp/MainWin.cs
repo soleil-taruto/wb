@@ -328,6 +328,10 @@ namespace AccessLamp
 			this.LoadPerfCntrList();
 			this.LoadUIControls();
 
+			Ground.Setting.SaveToFile();
+
+			GC.Collect();
+
 			this.MT_Enabled = true;
 		}
 
