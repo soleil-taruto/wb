@@ -22,10 +22,10 @@ namespace AccessLamp
 			InitializeComponent();
 		}
 
-		private Bitmap DeniedPicture;
-		private Bitmap IdlePicture;
-		private Bitmap BusyPicture;
-		private Bitmap VeryBusyPicture;
+		private static Color DeniedColor = Color.FromArgb(195, 195, 195);
+		private static Color IdleColor = Color.FromArgb(155, 220, 235);
+		private static Color BusyColor = Color.FromArgb(255, 200, 15);
+		private static Color VeryBusyColor = Color.FromArgb(255, 30, 30);
 
 		public List<PerfCntrInfo> PerfCntrList = new List<PerfCntrInfo>();
 
@@ -47,26 +47,6 @@ namespace AccessLamp
 			{ }
 
 			return Path.Combine("..\\..\\..\\..\\doc", localFile);
-		}
-
-		private static Bitmap LoadPicture(string localFile)
-		{
-			try
-			{
-				return new Bitmap(GetResourceFile(localFile));
-			}
-			catch
-			{
-				MessageBox.Show(
-					"画像ファイル '" + localFile + "' の読み込みに失敗しました。\n" +
-					"作業フォルダまたは実行ファイルと同じフォルダに画像ファイルが存在することを確認して下さい。",
-					Program.APP_TITLE + " Error",
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Error
-					);
-
-				return new Bitmap(Consts.PICTURE_W, Consts.PICTURE_H);
-			}
 		}
 
 		private void UnloadPerfCntrList()
@@ -107,8 +87,8 @@ namespace AccessLamp
 		}
 
 		private List<Label> MonitorLabels = new List<Label>();
-		private List<PictureBox> ReadPictures = new List<PictureBox>();
-		private List<PictureBox> WritePictures = new List<PictureBox>();
+		private List<Panel> ReadLamps = new List<Panel>();
+		private List<Panel> WriteLamps = new List<Panel>();
 
 		private void UnloadUIControl(Control control)
 		{
@@ -132,11 +112,11 @@ namespace AccessLamp
 			this.MonitorLabels.ForEach(label => this.UnloadUIControl(label));
 			this.MonitorLabels.Clear();
 
-			this.ReadPictures.ForEach(picBox => this.UnloadUIControl(picBox));
-			this.ReadPictures.Clear();
+			this.ReadLamps.ForEach(lamp => this.UnloadUIControl(lamp));
+			this.ReadLamps.Clear();
 
-			this.WritePictures.ForEach(picBox => this.UnloadUIControl(picBox));
-			this.WritePictures.Clear();
+			this.WriteLamps.ForEach(lamp => this.UnloadUIControl(lamp));
+			this.WriteLamps.Clear();
 		}
 
 		private void PostControlAdded(Control control)
@@ -160,9 +140,9 @@ namespace AccessLamp
 				Label label;
 
 				label = new Label();
-				label.Left = MARGIN + (Consts.PICTURE_W + MARGIN) * index;
+				label.Left = MARGIN + (Consts.LAMP_W + MARGIN) * index;
 				label.Top = MARGIN;
-				label.Width = Consts.PICTURE_W;
+				label.Width = Consts.LAMP_W;
 				label.Height = LABEL_H;
 				label.ForeColor = Color.White;
 				label.Text = Common.CutTrail(Ground.Setting.InstanceNames[index], LABEL_LEN_MAX);
@@ -170,39 +150,34 @@ namespace AccessLamp
 				this.MonitorLabels.Add(label);
 				this.PostControlAdded(label);
 
-				PictureBox picBox;
+				Panel lamp;
 
-				picBox = new PictureBox();
-				picBox.Left = MARGIN + (Consts.PICTURE_W + MARGIN) * index;
-				picBox.Top = MARGIN + LABEL_H + MARGIN;
-				picBox.Width = Consts.PICTURE_W;
-				picBox.Height = Consts.PICTURE_H;
-				picBox.Image = this.DeniedPicture;
-				this.Controls.Add(picBox);
-				this.ReadPictures.Add(picBox);
-				this.PostControlAdded(picBox);
+				lamp = new Panel();
+				lamp.Left = MARGIN + (Consts.LAMP_W + MARGIN) * index;
+				lamp.Top = MARGIN + LABEL_H + MARGIN;
+				lamp.Width = Consts.LAMP_W;
+				lamp.Height = Consts.LAMP_H;
+				lamp.BackColor = DeniedColor;
+				this.Controls.Add(lamp);
+				this.ReadLamps.Add(lamp);
+				this.PostControlAdded(lamp);
 
-				picBox = new PictureBox();
-				picBox.Left = MARGIN + (Consts.PICTURE_W + MARGIN) * index;
-				picBox.Top = MARGIN + LABEL_H + MARGIN + Consts.PICTURE_H + MARGIN;
-				picBox.Width = Consts.PICTURE_W;
-				picBox.Height = Consts.PICTURE_H;
-				picBox.Image = this.DeniedPicture;
-				this.Controls.Add(picBox);
-				this.WritePictures.Add(picBox);
-				this.PostControlAdded(picBox);
+				lamp = new Panel();
+				lamp.Left = MARGIN + (Consts.LAMP_W + MARGIN) * index;
+				lamp.Top = MARGIN + LABEL_H + MARGIN + Consts.LAMP_H + MARGIN;
+				lamp.Width = Consts.LAMP_W;
+				lamp.Height = Consts.LAMP_H;
+				lamp.BackColor = DeniedColor;
+				this.Controls.Add(lamp);
+				this.WriteLamps.Add(lamp);
+				this.PostControlAdded(lamp);
 			}
-			this.Width = MARGIN + (Consts.PICTURE_W + MARGIN) * Math.Max(perfCntrNum, 1);
-			this.Height = MARGIN + LABEL_H + MARGIN + (Consts.PICTURE_H + MARGIN) * 2;
+			this.Width = MARGIN + (Consts.LAMP_W + MARGIN) * Math.Max(perfCntrNum, 1);
+			this.Height = MARGIN + LABEL_H + MARGIN + (Consts.LAMP_H + MARGIN) * 2;
 		}
 
 		private void MainWin_Load(object sender, EventArgs e)
 		{
-			this.DeniedPicture = LoadPicture("Denied.png");
-			this.IdlePicture = LoadPicture("Idle.png");
-			this.BusyPicture = LoadPicture("Busy.png");
-			this.VeryBusyPicture = LoadPicture("VeryBusy.png");
-
 			this.LoadPerfCntrList();
 			this.LoadUIControls();
 		}
@@ -248,8 +223,8 @@ namespace AccessLamp
 
 				for (int index = 0; index < perfCntrNum; index++)
 				{
-					this.UpdatePicture(Ground.ReadPerfCntrList[index], this.ReadPictures[index]);
-					this.UpdatePicture(Ground.WritePerfCntrList[index], this.WritePictures[index]);
+					this.UpdateLamp(Ground.ReadPerfCntrList[index], this.ReadLamps[index]);
+					this.UpdateLamp(Ground.WritePerfCntrList[index], this.WriteLamps[index]);
 				}
 				if (this.MT_Count % 6000 == 0) // 10分毎に実行
 				{
@@ -277,24 +252,24 @@ namespace AccessLamp
 			}
 		}
 
-		private void UpdatePicture(PerfCntrInfo perfCntr, PictureBox picBox)
+		private void UpdateLamp(PerfCntrInfo perfCntr, Panel lamp)
 		{
 			perfCntr.Update();
 
-			Bitmap bmp;
+			Color bmp;
 
 			switch (perfCntr.GetStatus())
 			{
-				case PerfCntrInfo.Status_e.DENIED: bmp = this.DeniedPicture; break;
-				case PerfCntrInfo.Status_e.IDLE: bmp = this.IdlePicture; break;
-				case PerfCntrInfo.Status_e.BUSY: bmp = this.BusyPicture; break;
-				case PerfCntrInfo.Status_e.VERY_BUSY: bmp = this.VeryBusyPicture; break;
+				case PerfCntrInfo.Status_e.DENIED: bmp = DeniedColor; break;
+				case PerfCntrInfo.Status_e.IDLE: bmp = IdleColor; break;
+				case PerfCntrInfo.Status_e.BUSY: bmp = BusyColor; break;
+				case PerfCntrInfo.Status_e.VERY_BUSY: bmp = VeryBusyColor; break;
 
 				default:
 					throw null; // never
 			}
-			if (picBox.Image != bmp)
-				picBox.Image = bmp;
+			if (lamp.BackColor != bmp)
+				lamp.BackColor = bmp;
 		}
 
 		private void 終了ToolStripMenuItem_Click(object sender, EventArgs e)
