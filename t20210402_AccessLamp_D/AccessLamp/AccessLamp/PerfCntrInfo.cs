@@ -8,7 +8,7 @@ namespace AccessLamp
 {
 	public class PerfCntrInfo : IDisposable
 	{
-		public PerformanceCounter Inner;
+		private PerformanceCounter Inner;
 
 		public PerfCntrInfo(PerformanceCounter binding_inner)
 		{

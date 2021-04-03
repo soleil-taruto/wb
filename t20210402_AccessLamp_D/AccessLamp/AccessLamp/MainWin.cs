@@ -280,6 +280,7 @@ namespace AccessLamp
 		private void UpdateLamp(PerfCntrInfo perfCntr, PictureBox lamp)
 		{
 			perfCntr.Update();
+			perfCntr.ErrorCount = 0; // 成功したのでエラーカウント_クリア
 
 			Bitmap bmp;
 

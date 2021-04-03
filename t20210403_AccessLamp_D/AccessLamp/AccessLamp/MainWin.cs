@@ -255,6 +255,7 @@ namespace AccessLamp
 		private void UpdateLamp(PerfCntrInfo perfCntr, Panel lamp)
 		{
 			perfCntr.Update();
+			perfCntr.ErrorCount = 0; // 成功したのでエラーカウント_クリア
 
 			Color bmp;
 

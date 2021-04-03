@@ -8,7 +8,7 @@ namespace AccessLamp
 {
 	public class PerfCntrInfo : IDisposable
 	{
-		public PerformanceCounter Inner;
+		private PerformanceCounter Inner;
 
 		public PerfCntrInfo(PerformanceCounter binding_inner)
 		{
@@ -21,7 +21,7 @@ namespace AccessLamp
 		}
 
 		private const int BUSY_COUNT_MAX = 3;
-		private const int ERROR_COUNT_MAX = 20;
+		public const int ERROR_COUNT_MAX = 20;
 
 		public int BusyCount = 0;
 		public int ErrorCount = 0;
@@ -31,23 +31,13 @@ namespace AccessLamp
 			if (this.Inner == null)
 				return;
 
-			try
+			if (this.NextValue())
 			{
-				if (this.NextValue())
-				{
-					if (this.BusyCount < BUSY_COUNT_MAX)
-						this.BusyCount++;
-				}
-				else
-					this.BusyCount = 0;
+				if (this.BusyCount < BUSY_COUNT_MAX)
+					this.BusyCount++;
 			}
-			catch
-			{
-				if (this.ErrorCount < ERROR_COUNT_MAX)
-					this.ErrorCount++;
-				else
-					this.Dispose();
-			}
+			else
+				this.BusyCount = 0;
 		}
 
 		public enum Status_e

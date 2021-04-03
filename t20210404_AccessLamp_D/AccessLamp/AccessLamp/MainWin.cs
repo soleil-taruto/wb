@@ -216,16 +216,11 @@ namespace AccessLamp
 			if (this.MT_Enabled == false || this.MT_Busy)
 				return;
 
+			PerfCntrInfo currPerfCntr = null;
+
 			this.MT_Busy = true;
 			try
 			{
-				int perfCntrNum = Ground.ReadPerfCntrList.Count;
-
-				for (int index = 0; index < perfCntrNum; index++)
-				{
-					this.UpdateLamp(Ground.ReadPerfCntrList[index], this.ReadLamps[index]);
-					this.UpdateLamp(Ground.WritePerfCntrList[index], this.WriteLamps[index]);
-				}
 				if (this.MT_Count % 6000 == 0) // 10分毎に実行
 				{
 					GC.Collect();
@@ -244,6 +239,29 @@ namespace AccessLamp
 						Ground.SaveSettingRequest = false;
 					}
 				}
+
+				// <--- UpdateLamp で落ちるかもしれないので、先に実行
+
+				int perfCntrNum = Ground.ReadPerfCntrList.Count;
+
+				for (int index = 0; index < perfCntrNum; index++)
+				{
+					currPerfCntr = Ground.ReadPerfCntrList[index];
+					this.UpdateLamp(currPerfCntr, this.ReadLamps[index]);
+					currPerfCntr = Ground.WritePerfCntrList[index];
+					this.UpdateLamp(currPerfCntr, this.WriteLamps[index]);
+					currPerfCntr = null;
+				}
+			}
+			catch
+			{
+				if (currPerfCntr != null)
+				{
+					if (currPerfCntr.ErrorCount < PerfCntrInfo.ERROR_COUNT_MAX)
+						currPerfCntr.ErrorCount++;
+					else
+						currPerfCntr.Dispose();
+				}
 			}
 			finally
 			{
@@ -255,6 +273,7 @@ namespace AccessLamp
 		private void UpdateLamp(PerfCntrInfo perfCntr, Panel lamp)
 		{
 			perfCntr.Update();
+			perfCntr.ErrorCount = 0; // 成功したのでエラーカウント_クリア
 
 			Color bmp;
 
