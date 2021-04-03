@@ -11,7 +11,7 @@ namespace AccessLamp
 		public static string SelfFile;
 		public static string SelfDir;
 
-		public static EventWaitHandle Ev停止 = new EventWaitHandle(false, EventResetMode.AutoReset, "{a3bee2ed-771c-46d8-ab65-999fcb9e493a}");
+		public static EventWaitHandle Ev停止 = new EventWaitHandle(false, EventResetMode.AutoReset, "{34e2ebab-db4f-4181-a5bb-a56ceca43eef}");
 
 		public static Setting Setting = new Setting();
 		public static bool SaveSettingRequest = false;
