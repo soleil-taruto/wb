@@ -6,6 +6,10 @@ using System.Diagnostics;
 
 namespace AccessLamp
 {
+	/// <summary>
+	/// モニタ中のパフォーマンスカウンタの状態
+	/// PerformanceCounter の Wrapper
+	/// </summary>
 	public class PerfCntrInfo : IDisposable
 	{
 		private PerformanceCounter Inner;

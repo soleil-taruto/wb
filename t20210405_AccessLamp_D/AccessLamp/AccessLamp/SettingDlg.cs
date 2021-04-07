@@ -243,12 +243,10 @@ namespace AccessLamp
 
 		private void Btnフォント_Click(object sender, EventArgs e)
 		{
-			this.Visible = false;
-
 			using (FontDialog f = new FontDialog())
 			{
 				f.Font = Ground.Setting.FontSetting.GetFont();
-				//f.FontMustExist = true;
+				f.FontMustExist = true;
 				f.ShowColor = false;
 
 				if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -257,7 +255,6 @@ namespace AccessLamp
 					this.UpdateUI();
 				}
 			}
-			this.Visible = true;
 		}
 
 		private void タスクバーにアイコンを表示する_CheckedChanged(object sender, EventArgs e)

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace AccessLamp
 {
+	/// <summary>
+	/// パフォーマンスカウンタのインスタンスの情報
+	/// </summary>
 	public class PCInstanceInfo
 	{
 		public string Name;
