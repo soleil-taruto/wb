@@ -62,6 +62,7 @@
 			this.DisplayName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.DisplayName.Location = new System.Drawing.Point(118, 45);
+			this.DisplayName.MaxLength = 300;
 			this.DisplayName.Name = "DisplayName";
 			this.DisplayName.Size = new System.Drawing.Size(354, 27);
 			this.DisplayName.TabIndex = 2;

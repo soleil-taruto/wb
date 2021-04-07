@@ -44,7 +44,7 @@ namespace AccessLamp
 
 		private void EditPCInstanceDlg_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			this.PCInstance.DisplayName = this.DisplayName.Text;
+			this.PCInstance.DisplayName = Common.ToFairString(this.DisplayName.Text);
 			this.PCInstance.DisplayFlag = this.Radio表示.Checked;
 		}
 
