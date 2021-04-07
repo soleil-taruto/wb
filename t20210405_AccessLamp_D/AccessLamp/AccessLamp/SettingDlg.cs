@@ -198,5 +198,32 @@ namespace AccessLamp
 		{
 			// noop
 		}
+
+		private void 編集ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.BtnEdit_Click(null, null);
+		}
+
+		private void 表示ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.ActSelectedPCInstance(instance => instance.DisplayFlag = true);
+		}
+
+		private void 非表示ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.ActSelectedPCInstance(instance => instance.DisplayFlag = false);
+		}
+
+		private void ActSelectedPCInstance(Action<PCInstanceInfo> action)
+		{
+			int index = this.InstanceList.SelectedIndex;
+
+			if (index != -1)
+			{
+				PCInstanceInfo instance = (PCInstanceInfo)this.InstanceList.Items[index];
+				action(instance);
+				this.UpdateUI();
+			}
+		}
 	}
 }
