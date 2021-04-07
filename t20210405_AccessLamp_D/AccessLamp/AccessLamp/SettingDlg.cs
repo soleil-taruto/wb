@@ -53,6 +53,8 @@ namespace AccessLamp
 			this.BusyLampSample.ForeColor = Ground.Setting.BusyForeColor;
 			this.VeryBusyLampSample.BackColor = Ground.Setting.VeryBusyBackColor;
 			this.VeryBusyLampSample.ForeColor = Ground.Setting.VeryBusyForeColor;
+
+			this.FontSettingDisplay.Text = Ground.Setting.FontSetting.ToString();
 		}
 
 		private void SettingDlg_FormClosing(object sender, FormClosingEventArgs e)
@@ -224,6 +226,25 @@ namespace AccessLamp
 				action(instance);
 				this.UpdateUI();
 			}
+		}
+
+		private void Btnフォント_Click(object sender, EventArgs e)
+		{
+			this.Visible = false;
+
+			using (FontDialog f = new FontDialog())
+			{
+				f.Font = Ground.Setting.FontSetting.GetFont();
+				//f.FontMustExist = true;
+				f.ShowColor = false;
+
+				if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				{
+					Ground.Setting.FontSetting = new FontSettingInfo(f.Font);
+					this.UpdateUI();
+				}
+			}
+			this.Visible = true;
 		}
 	}
 }

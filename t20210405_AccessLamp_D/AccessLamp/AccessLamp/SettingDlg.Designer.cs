@@ -33,6 +33,11 @@
 			this.InstanceList = new System.Windows.Forms.ListBox();
 			this.InstanceListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.選択解除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+			this.表示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.非表示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.InstanceList説明 = new System.Windows.Forms.Label();
 			this.BtnUp = new System.Windows.Forms.Button();
 			this.BtnDown = new System.Windows.Forms.Button();
@@ -54,11 +59,8 @@
 			this.BtnDeniedForeColor = new System.Windows.Forms.Button();
 			this.BtnDeniedBackColor = new System.Windows.Forms.Button();
 			this.BtnBackgroundColor = new System.Windows.Forms.Button();
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-			this.編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-			this.表示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.非表示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.Btnフォント = new System.Windows.Forms.Button();
+			this.FontSettingDisplay = new System.Windows.Forms.Label();
 			this.InstanceListMenu.SuspendLayout();
 			this.MainTab.SuspendLayout();
 			this.MainTab_01.SuspendLayout();
@@ -91,14 +93,45 @@
             this.表示ToolStripMenuItem,
             this.非表示ToolStripMenuItem});
 			this.InstanceListMenu.Name = "InstanceListMenu";
-			this.InstanceListMenu.Size = new System.Drawing.Size(153, 126);
+			this.InstanceListMenu.Size = new System.Drawing.Size(123, 104);
 			// 
 			// 選択解除ToolStripMenuItem
 			// 
 			this.選択解除ToolStripMenuItem.Name = "選択解除ToolStripMenuItem";
-			this.選択解除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.選択解除ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
 			this.選択解除ToolStripMenuItem.Text = "選択解除";
 			this.選択解除ToolStripMenuItem.Click += new System.EventHandler(this.選択解除ToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(119, 6);
+			// 
+			// 編集ToolStripMenuItem
+			// 
+			this.編集ToolStripMenuItem.Name = "編集ToolStripMenuItem";
+			this.編集ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.編集ToolStripMenuItem.Text = "編集";
+			this.編集ToolStripMenuItem.Click += new System.EventHandler(this.編集ToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(119, 6);
+			// 
+			// 表示ToolStripMenuItem
+			// 
+			this.表示ToolStripMenuItem.Name = "表示ToolStripMenuItem";
+			this.表示ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.表示ToolStripMenuItem.Text = "表示";
+			this.表示ToolStripMenuItem.Click += new System.EventHandler(this.表示ToolStripMenuItem_Click);
+			// 
+			// 非表示ToolStripMenuItem
+			// 
+			this.非表示ToolStripMenuItem.Name = "非表示ToolStripMenuItem";
+			this.非表示ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+			this.非表示ToolStripMenuItem.Text = "非表示";
+			this.非表示ToolStripMenuItem.Click += new System.EventHandler(this.非表示ToolStripMenuItem_Click);
 			// 
 			// InstanceList説明
 			// 
@@ -167,12 +200,14 @@
 			this.MainTab_01.Padding = new System.Windows.Forms.Padding(3);
 			this.MainTab_01.Size = new System.Drawing.Size(552, 396);
 			this.MainTab_01.TabIndex = 0;
-			this.MainTab_01.Text = "インスタンス選択";
+			this.MainTab_01.Text = "インスタンスの一覧";
 			this.MainTab_01.UseVisualStyleBackColor = true;
 			this.MainTab_01.Click += new System.EventHandler(this.MainTab_01_Click);
 			// 
 			// MainTab_02
 			// 
+			this.MainTab_02.Controls.Add(this.FontSettingDisplay);
+			this.MainTab_02.Controls.Add(this.Btnフォント);
 			this.MainTab_02.Controls.Add(this.BackgrounSample);
 			this.MainTab_02.Controls.Add(this.BtnVeryBusyForeColor);
 			this.MainTab_02.Controls.Add(this.BtnVeryBusyBackColor);
@@ -188,7 +223,7 @@
 			this.MainTab_02.Padding = new System.Windows.Forms.Padding(3);
 			this.MainTab_02.Size = new System.Drawing.Size(552, 396);
 			this.MainTab_02.TabIndex = 1;
-			this.MainTab_02.Text = "色指定";
+			this.MainTab_02.Text = "色とフォント";
 			this.MainTab_02.UseVisualStyleBackColor = true;
 			this.MainTab_02.Click += new System.EventHandler(this.MainTab_02_Click);
 			// 
@@ -331,36 +366,24 @@
 			this.BtnBackgroundColor.UseVisualStyleBackColor = true;
 			this.BtnBackgroundColor.Click += new System.EventHandler(this.BtnBackgroundColor_Click);
 			// 
-			// toolStripMenuItem1
+			// Btnフォント
 			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+			this.Btnフォント.Location = new System.Drawing.Point(6, 306);
+			this.Btnフォント.Name = "Btnフォント";
+			this.Btnフォント.Size = new System.Drawing.Size(170, 50);
+			this.Btnフォント.TabIndex = 10;
+			this.Btnフォント.Text = "フォント";
+			this.Btnフォント.UseVisualStyleBackColor = true;
+			this.Btnフォント.Click += new System.EventHandler(this.Btnフォント_Click);
 			// 
-			// 編集ToolStripMenuItem
+			// FontSettingDisplay
 			// 
-			this.編集ToolStripMenuItem.Name = "編集ToolStripMenuItem";
-			this.編集ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.編集ToolStripMenuItem.Text = "編集";
-			this.編集ToolStripMenuItem.Click += new System.EventHandler(this.編集ToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem2
-			// 
-			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
-			// 
-			// 表示ToolStripMenuItem
-			// 
-			this.表示ToolStripMenuItem.Name = "表示ToolStripMenuItem";
-			this.表示ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.表示ToolStripMenuItem.Text = "表示";
-			this.表示ToolStripMenuItem.Click += new System.EventHandler(this.表示ToolStripMenuItem_Click);
-			// 
-			// 非表示ToolStripMenuItem
-			// 
-			this.非表示ToolStripMenuItem.Name = "非表示ToolStripMenuItem";
-			this.非表示ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.非表示ToolStripMenuItem.Text = "非表示";
-			this.非表示ToolStripMenuItem.Click += new System.EventHandler(this.非表示ToolStripMenuItem_Click);
+			this.FontSettingDisplay.AutoSize = true;
+			this.FontSettingDisplay.Location = new System.Drawing.Point(182, 321);
+			this.FontSettingDisplay.Name = "FontSettingDisplay";
+			this.FontSettingDisplay.Size = new System.Drawing.Size(127, 20);
+			this.FontSettingDisplay.TabIndex = 11;
+			this.FontSettingDisplay.Text = "FontSettingDisplay";
 			// 
 			// SettingDlg
 			// 
@@ -386,6 +409,7 @@
 			this.MainTab_01.ResumeLayout(false);
 			this.MainTab_01.PerformLayout();
 			this.MainTab_02.ResumeLayout(false);
+			this.MainTab_02.PerformLayout();
 			this.BackgrounSample.ResumeLayout(false);
 			this.BackgrounSample.PerformLayout();
 			this.ResumeLayout(false);
@@ -423,5 +447,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem 表示ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 非表示ToolStripMenuItem;
+		private System.Windows.Forms.Button Btnフォント;
+		private System.Windows.Forms.Label FontSettingDisplay;
 	}
 }

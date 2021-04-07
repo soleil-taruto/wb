@@ -59,6 +59,7 @@
     <Compile Include="EditPCInstanceDlg.Designer.cs">
       <DependentUpon>EditPCInstanceDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="FontSettingInfo.cs" />
     <Compile Include="Ground.cs" />
     <Compile Include="MainWin.cs">
       <SubType>Form</SubType>

@@ -32,13 +32,9 @@ namespace AccessLamp
 			return string.Join(":", color.R, color.G, color.B);
 		}
 
-		public static string ToFairString(string str)
+		public static string ToPlainString(string str)
 		{
-			Encoding SJIS = Encoding.GetEncoding(932);
-
-			return SJIS.GetString(SJIS.GetBytes(str)
-				.Select(bChr => bChr < (byte)' ' ? (byte)'?' : bChr)
-				.ToArray());
+			return new string(str.Select(chr => chr < ' ' ? '?' : chr).ToArray());
 		}
 	}
 }

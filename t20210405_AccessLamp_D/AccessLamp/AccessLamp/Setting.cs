@@ -32,6 +32,8 @@ namespace AccessLamp
 		public Color VeryBusyBackColor = Color.Red;
 		public Color VeryBusyForeColor = Color.Black;
 
+		public FontSettingInfo FontSetting = new FontSettingInfo();
+
 		public void LoadFromFile()
 		{
 			if (!File.Exists(SettingFile))
@@ -69,6 +71,11 @@ namespace AccessLamp
 			this.BusyForeColor = Common.ToColor(lines[c++]);
 			this.VeryBusyBackColor = Common.ToColor(lines[c++]);
 			this.VeryBusyForeColor = Common.ToColor(lines[c++]);
+
+			this.FontSetting = FontSettingInfo.Deserialize(Enumerable
+				.Range(0, int.Parse(lines[c++]))
+				.Select(dummy => lines[c++])
+				.ToArray());
 		}
 
 		public void SaveToFile()
@@ -97,6 +104,13 @@ namespace AccessLamp
 			lines.Add(Common.ToString(this.BusyForeColor));
 			lines.Add(Common.ToString(this.VeryBusyBackColor));
 			lines.Add(Common.ToString(this.VeryBusyForeColor));
+
+			{
+				string[] fontSettingLines = Ground.Setting.FontSetting.Serialize();
+
+				lines.Add("" + fontSettingLines.Length);
+				lines.AddRange(fontSettingLines);
+			}
 
 			File.WriteAllLines(SettingFile, lines, Encoding.UTF8);
 		}

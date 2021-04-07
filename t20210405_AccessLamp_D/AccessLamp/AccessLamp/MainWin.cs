@@ -59,7 +59,7 @@ namespace AccessLamp
 			}
 		}
 
-		private List<Label> MonitorLabels = new List<Label>();
+		private List<Label> Lamps = new List<Label>();
 
 		private void UnloadUIControl(Control control)
 		{
@@ -80,8 +80,8 @@ namespace AccessLamp
 
 		private void UnloadUIControls()
 		{
-			this.MonitorLabels.ForEach(label => this.UnloadUIControl(label));
-			this.MonitorLabels.Clear();
+			this.Lamps.ForEach(lamp => this.UnloadUIControl(lamp));
+			this.Lamps.Clear();
 		}
 
 		private void PostControlAdded(Control control)
@@ -95,30 +95,40 @@ namespace AccessLamp
 			this.UnloadUIControls();
 
 			const int MARGIN = 5;
-			const int LABEL_H = 20;
 			const int W_EMPTY = 50;
+			const int H_EMPTY = 50;
 
 			int perfCntrNum = Ground.ReadPerfCntrList.Count;
 
 			for (int index = 0; index < perfCntrNum; index++)
 			{
-				Label label;
+				Label lamp;
 
-				label = new Label();
-				label.Left = MARGIN + this.MonitorLabels.Select(v => v.Width + MARGIN).Sum();
-				label.Top = MARGIN;
-				//label.Width = 100;
-				label.Height = LABEL_H;
-				//label.ForeColor = Color.White;
-				//label.BackColor = Color.Gray;
-				label.AutoSize = true;
-				label.Text = Ground.Setting.PCInstances[index].DisplayName;
-				this.Controls.Add(label);
-				this.MonitorLabels.Add(label);
-				this.PostControlAdded(label);
+				lamp = new Label();
+				lamp.Left = MARGIN + this.Lamps.Select(v => v.Width + MARGIN).Sum();
+				lamp.Top = MARGIN;
+				//lamp.Width = 100;
+				//lamp.Height = 100;
+				//lamp.ForeColor = Color.White;
+				//lamp.BackColor = Color.Gray;
+				lamp.Font = Ground.Setting.FontSetting.GetFont();
+				lamp.AutoSize = true;
+				lamp.Text = Ground.Setting.PCInstances[index].DisplayName;
+				this.Controls.Add(lamp);
+				this.Lamps.Add(lamp);
+				this.PostControlAdded(lamp);
 			}
-			this.Width = this.MonitorLabels.Count == 0 ? W_EMPTY : MARGIN + this.MonitorLabels.Select(v => v.Width + MARGIN).Sum();
-			this.Height = MARGIN + LABEL_H + MARGIN;
+
+			if (1 <= this.Lamps.Count)
+			{
+				this.Width = MARGIN + this.Lamps.Select(v => v.Width + MARGIN).Sum();
+				this.Height = MARGIN + this.Lamps[0].Height + MARGIN;
+			}
+			else
+			{
+				this.Width = W_EMPTY;
+				this.Height = H_EMPTY;
+			}
 
 			this.BackColor = Ground.Setting.BackgroundColor;
 		}
@@ -229,7 +239,7 @@ namespace AccessLamp
 						foreColor = Ground.Setting.IdleForeColor;
 					}
 
-					Label monitorLabel = this.MonitorLabels[index];
+					Label monitorLabel = this.Lamps[index];
 
 					if (monitorLabel.BackColor != backColor)
 						monitorLabel.BackColor = backColor;
