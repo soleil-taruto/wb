@@ -92,9 +92,11 @@ namespace AccessLamp
 
 		private void LoadUIControls()
 		{
+			this.ShowInTaskbar = Ground.Setting.タスクバーにアイコンを表示する;
+
 			this.UnloadUIControls();
 
-			const int MARGIN = 5;
+			int MARGIN = Ground.Setting.MainWin_枠の幅;
 			const int W_EMPTY = 50;
 			const int H_EMPTY = 50;
 
@@ -105,6 +107,7 @@ namespace AccessLamp
 				Label lamp;
 
 				lamp = new Label();
+				lamp.AutoSize = true;
 				lamp.Left = MARGIN + this.Lamps.Select(v => v.Width + MARGIN).Sum();
 				lamp.Top = MARGIN;
 				//lamp.Width = 100;
@@ -112,7 +115,6 @@ namespace AccessLamp
 				//lamp.ForeColor = Color.White;
 				//lamp.BackColor = Color.Gray;
 				lamp.Font = Ground.Setting.FontSetting.GetFont();
-				lamp.AutoSize = true;
 				lamp.Text = Ground.Setting.PCInstances[index].DisplayName;
 				this.Controls.Add(lamp);
 				this.Lamps.Add(lamp);
@@ -131,6 +133,8 @@ namespace AccessLamp
 			}
 
 			this.BackColor = Ground.Setting.BackgroundColor;
+
+			//this.ShowInTaskbar = Ground.Setting.タスクバーにアイコンを表示する; // moved -> Lamp再設置前にやる。// ここでやると幅設定に問題あり
 		}
 
 		private void MainWin_Load(object sender, EventArgs e)
@@ -239,13 +243,13 @@ namespace AccessLamp
 						foreColor = Ground.Setting.IdleForeColor;
 					}
 
-					Label monitorLabel = this.Lamps[index];
+					Label lamp = this.Lamps[index];
 
-					if (monitorLabel.BackColor != backColor)
-						monitorLabel.BackColor = backColor;
+					if (lamp.BackColor != backColor)
+						lamp.BackColor = backColor;
 
-					if (monitorLabel.ForeColor != foreColor)
-						monitorLabel.ForeColor = foreColor;
+					if (lamp.ForeColor != foreColor)
+						lamp.ForeColor = foreColor;
 				}
 			}
 			catch

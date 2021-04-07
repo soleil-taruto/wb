@@ -45,6 +45,8 @@
 			this.MainTab = new System.Windows.Forms.TabControl();
 			this.MainTab_01 = new System.Windows.Forms.TabPage();
 			this.MainTab_02 = new System.Windows.Forms.TabPage();
+			this.FontSettingDisplay = new System.Windows.Forms.Label();
+			this.Btnフォント = new System.Windows.Forms.Button();
 			this.BackgrounSample = new System.Windows.Forms.Panel();
 			this.VeryBusyLampSample = new System.Windows.Forms.Label();
 			this.BusyLampSample = new System.Windows.Forms.Label();
@@ -59,13 +61,17 @@
 			this.BtnDeniedForeColor = new System.Windows.Forms.Button();
 			this.BtnDeniedBackColor = new System.Windows.Forms.Button();
 			this.BtnBackgroundColor = new System.Windows.Forms.Button();
-			this.Btnフォント = new System.Windows.Forms.Button();
-			this.FontSettingDisplay = new System.Windows.Forms.Label();
+			this.MainTab_03 = new System.Windows.Forms.TabPage();
+			this.タスクバーにアイコンを表示する = new System.Windows.Forms.CheckBox();
+			this.枠の幅 = new System.Windows.Forms.NumericUpDown();
+			this.label1 = new System.Windows.Forms.Label();
 			this.InstanceListMenu.SuspendLayout();
 			this.MainTab.SuspendLayout();
 			this.MainTab_01.SuspendLayout();
 			this.MainTab_02.SuspendLayout();
 			this.BackgrounSample.SuspendLayout();
+			this.MainTab_03.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.枠の幅)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// InstanceList
@@ -138,9 +144,9 @@
 			this.InstanceList説明.AutoSize = true;
 			this.InstanceList説明.Location = new System.Drawing.Point(6, 3);
 			this.InstanceList説明.Name = "InstanceList説明";
-			this.InstanceList説明.Size = new System.Drawing.Size(373, 20);
+			this.InstanceList説明.Size = new System.Drawing.Size(392, 20);
 			this.InstanceList説明.TabIndex = 0;
-			this.InstanceList説明.Text = "行選択して Edit 押下で編集 / Up , Down 押下でオーダー変更";
+			this.InstanceList説明.Text = "行選択して ... Edit 押下で編集 / Up , Down 押下でオーダー変更";
 			// 
 			// BtnUp
 			// 
@@ -182,6 +188,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.MainTab.Controls.Add(this.MainTab_01);
 			this.MainTab.Controls.Add(this.MainTab_02);
+			this.MainTab.Controls.Add(this.MainTab_03);
 			this.MainTab.Location = new System.Drawing.Point(12, 12);
 			this.MainTab.Name = "MainTab";
 			this.MainTab.SelectedIndex = 0;
@@ -226,6 +233,25 @@
 			this.MainTab_02.Text = "色とフォント";
 			this.MainTab_02.UseVisualStyleBackColor = true;
 			this.MainTab_02.Click += new System.EventHandler(this.MainTab_02_Click);
+			// 
+			// FontSettingDisplay
+			// 
+			this.FontSettingDisplay.AutoSize = true;
+			this.FontSettingDisplay.Location = new System.Drawing.Point(182, 321);
+			this.FontSettingDisplay.Name = "FontSettingDisplay";
+			this.FontSettingDisplay.Size = new System.Drawing.Size(127, 20);
+			this.FontSettingDisplay.TabIndex = 11;
+			this.FontSettingDisplay.Text = "FontSettingDisplay";
+			// 
+			// Btnフォント
+			// 
+			this.Btnフォント.Location = new System.Drawing.Point(6, 306);
+			this.Btnフォント.Name = "Btnフォント";
+			this.Btnフォント.Size = new System.Drawing.Size(170, 50);
+			this.Btnフォント.TabIndex = 10;
+			this.Btnフォント.Text = "フォント";
+			this.Btnフォント.UseVisualStyleBackColor = true;
+			this.Btnフォント.Click += new System.EventHandler(this.Btnフォント_Click);
 			// 
 			// BackgrounSample
 			// 
@@ -366,24 +392,50 @@
 			this.BtnBackgroundColor.UseVisualStyleBackColor = true;
 			this.BtnBackgroundColor.Click += new System.EventHandler(this.BtnBackgroundColor_Click);
 			// 
-			// Btnフォント
+			// MainTab_03
 			// 
-			this.Btnフォント.Location = new System.Drawing.Point(6, 306);
-			this.Btnフォント.Name = "Btnフォント";
-			this.Btnフォント.Size = new System.Drawing.Size(170, 50);
-			this.Btnフォント.TabIndex = 10;
-			this.Btnフォント.Text = "フォント";
-			this.Btnフォント.UseVisualStyleBackColor = true;
-			this.Btnフォント.Click += new System.EventHandler(this.Btnフォント_Click);
+			this.MainTab_03.Controls.Add(this.タスクバーにアイコンを表示する);
+			this.MainTab_03.Controls.Add(this.枠の幅);
+			this.MainTab_03.Controls.Add(this.label1);
+			this.MainTab_03.Location = new System.Drawing.Point(4, 29);
+			this.MainTab_03.Name = "MainTab_03";
+			this.MainTab_03.Size = new System.Drawing.Size(552, 396);
+			this.MainTab_03.TabIndex = 2;
+			this.MainTab_03.Text = "その他";
+			this.MainTab_03.UseVisualStyleBackColor = true;
+			this.MainTab_03.Click += new System.EventHandler(this.MainTab_03_Click);
 			// 
-			// FontSettingDisplay
+			// タスクバーにアイコンを表示する
 			// 
-			this.FontSettingDisplay.AutoSize = true;
-			this.FontSettingDisplay.Location = new System.Drawing.Point(182, 321);
-			this.FontSettingDisplay.Name = "FontSettingDisplay";
-			this.FontSettingDisplay.Size = new System.Drawing.Size(127, 20);
-			this.FontSettingDisplay.TabIndex = 11;
-			this.FontSettingDisplay.Text = "FontSettingDisplay";
+			this.タスクバーにアイコンを表示する.AutoSize = true;
+			this.タスクバーにアイコンを表示する.Location = new System.Drawing.Point(34, 80);
+			this.タスクバーにアイコンを表示する.Name = "タスクバーにアイコンを表示する";
+			this.タスクバーにアイコンを表示する.Size = new System.Drawing.Size(223, 24);
+			this.タスクバーにアイコンを表示する.TabIndex = 2;
+			this.タスクバーにアイコンを表示する.Text = "タスクバーにアイコンを表示する";
+			this.タスクバーにアイコンを表示する.UseVisualStyleBackColor = true;
+			this.タスクバーにアイコンを表示する.CheckedChanged += new System.EventHandler(this.タスクバーにアイコンを表示する_CheckedChanged);
+			// 
+			// 枠の幅
+			// 
+			this.枠の幅.Location = new System.Drawing.Point(84, 28);
+			this.枠の幅.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+			this.枠の幅.Name = "枠の幅";
+			this.枠の幅.Size = new System.Drawing.Size(80, 27);
+			this.枠の幅.TabIndex = 1;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(30, 30);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(48, 20);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "枠の幅";
 			// 
 			// SettingDlg
 			// 
@@ -412,6 +464,9 @@
 			this.MainTab_02.PerformLayout();
 			this.BackgrounSample.ResumeLayout(false);
 			this.BackgrounSample.PerformLayout();
+			this.MainTab_03.ResumeLayout(false);
+			this.MainTab_03.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.枠の幅)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -449,5 +504,9 @@
 		private System.Windows.Forms.ToolStripMenuItem 非表示ToolStripMenuItem;
 		private System.Windows.Forms.Button Btnフォント;
 		private System.Windows.Forms.Label FontSettingDisplay;
+		private System.Windows.Forms.TabPage MainTab_03;
+		private System.Windows.Forms.NumericUpDown 枠の幅;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.CheckBox タスクバーにアイコンを表示する;
 	}
 }

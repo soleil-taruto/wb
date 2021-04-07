@@ -119,7 +119,7 @@
 			this.Name = "EditPCInstanceDlg";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "AccessLamp_D / インスタンス設定";
+			this.Text = "AccessLamp_D / インスタンス編集";
 			this.TopMost = true;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditPCInstanceDlg_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.EditPCInstanceDlg_FormClosed);

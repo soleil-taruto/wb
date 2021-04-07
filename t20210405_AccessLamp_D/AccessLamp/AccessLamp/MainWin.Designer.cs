@@ -84,6 +84,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MainWin";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "AccessLamp_D";
 			this.TopMost = true;

@@ -8,6 +8,7 @@ namespace AccessLamp
 {
 	public class FontSettingInfo
 	{
+		public string ConverterString;
 		public string Name;
 		public int Size;
 		public bool Bold;
@@ -16,11 +17,12 @@ namespace AccessLamp
 		public bool Underline;
 
 		public FontSettingInfo()
-			: this(new Font("メイリオ", 10))
+			: this(new Font("メイリオ", 10)) // デフォルト_フォント
 		{ }
 
 		public FontSettingInfo(Font font)
 		{
+			this.ConverterString = new FontConverter().ConvertToString(font);
 			this.Name = font.Name;
 			this.Size = (int)(font.Size + 0.5f);
 			this.Bold = font.Bold;
@@ -33,18 +35,11 @@ namespace AccessLamp
 		{
 			try
 			{
-				return new Font(
-					this.Name,
-					this.Size,
-					(this.Bold ? FontStyle.Bold : 0) |
-					(this.Italic ? FontStyle.Italic : 0) |
-					(this.Strikeout ? FontStyle.Strikeout : 0) |
-					(this.Underline ? FontStyle.Underline : 0)
-					);
+				return (Font)new FontConverter().ConvertFrom(this.ConverterString);
 			}
 			catch
 			{
-				return new Font("メイリオ", 10);
+				return new Font("メイリオ", 10); // フォント生成失敗時の代替フォント
 			}
 		}
 
@@ -52,6 +47,7 @@ namespace AccessLamp
 		{
 			return new string[]
 			{
+				this.ConverterString,
 				this.Name,
 				"" + this.Size,
 				"" + (this.Bold ? 1 : 0),
@@ -72,6 +68,7 @@ namespace AccessLamp
 		{
 			int c = 0;
 
+			this.ConverterString = lines[c++];
 			this.Name = lines[c++];
 			this.Size = int.Parse(lines[c++]);
 			this.Bold = int.Parse(lines[c++]) != 0;
@@ -85,10 +82,10 @@ namespace AccessLamp
 			return string.Join(":",
 				this.Name,
 				this.Size,
-				this.Bold ? "Bold" : "",
-				this.Italic ? "Italic" : "",
-				this.Strikeout ? "Strikeout" : "",
-				this.Underline ? "Underline" : ""
+				this.Bold ? "太字" : "",
+				this.Italic ? "斜体" : "",
+				this.Strikeout ? "取り消し線" : "",
+				this.Underline ? "下線" : ""
 				);
 		}
 	}

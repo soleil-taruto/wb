@@ -36,6 +36,10 @@ namespace AccessLamp
 				.ToArray());
 			this.InstanceList.ClearSelected();
 
+			this.枠の幅.Value = Ground.Setting.MainWin_枠の幅;
+
+			this.タスクバーにアイコンを表示する.Checked = Ground.Setting.タスクバーにアイコンを表示する;
+
 			this.UpdateUI();
 		}
 
@@ -72,6 +76,10 @@ namespace AccessLamp
 			Ground.Setting.PCInstances = instances
 				.Where(instance => instance.DisplayFlag)
 				.ToArray();
+
+			Ground.Setting.MainWin_枠の幅 = (int)this.枠の幅.Value;
+
+			Ground.Setting.タスクバーにアイコンを表示する = this.タスクバーにアイコンを表示する.Checked;
 		}
 
 		private void InstanceList_SelectedIndexChanged(object sender, EventArgs e)
@@ -201,6 +209,11 @@ namespace AccessLamp
 			// noop
 		}
 
+		private void MainTab_03_Click(object sender, EventArgs e)
+		{
+			// noop
+		}
+
 		private void 編集ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			this.BtnEdit_Click(null, null);
@@ -245,6 +258,11 @@ namespace AccessLamp
 				}
 			}
 			this.Visible = true;
+		}
+
+		private void タスクバーにアイコンを表示する_CheckedChanged(object sender, EventArgs e)
+		{
+			// noop
 		}
 	}
 }

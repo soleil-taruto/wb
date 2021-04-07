@@ -22,6 +22,10 @@ namespace AccessLamp
 		public int MainWin_L = 0;
 		public int MainWin_T = 0;
 
+		public int MainWin_枠の幅 = 10;
+
+		public bool タスクバーにアイコンを表示する = true;
+
 		public Color BackgroundColor = Color.FromArgb(64, 64, 64);
 		public Color DeniedBackColor = Color.DarkGray;
 		public Color DeniedForeColor = Color.White;
@@ -62,6 +66,10 @@ namespace AccessLamp
 			this.MainWin_L = int.Parse(lines[c++]);
 			this.MainWin_T = int.Parse(lines[c++]);
 
+			this.MainWin_枠の幅 = int.Parse(lines[c++]);
+
+			this.タスクバーにアイコンを表示する = int.Parse(lines[c++]) != 0;
+
 			this.BackgroundColor = Common.ToColor(lines[c++]);
 			this.DeniedBackColor = Common.ToColor(lines[c++]);
 			this.DeniedForeColor = Common.ToColor(lines[c++]);
@@ -94,6 +102,10 @@ namespace AccessLamp
 
 			lines.Add("" + this.MainWin_L);
 			lines.Add("" + this.MainWin_T);
+
+			lines.Add("" + this.MainWin_枠の幅);
+
+			lines.Add("" + (this.タスクバーにアイコンを表示する ? 1 : 0));
 
 			lines.Add(Common.ToString(this.BackgroundColor));
 			lines.Add(Common.ToString(this.DeniedBackColor));
