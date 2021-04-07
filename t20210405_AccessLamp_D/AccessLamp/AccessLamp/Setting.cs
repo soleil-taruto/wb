@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Drawing;
 
 namespace AccessLamp
 {
@@ -16,10 +17,20 @@ namespace AccessLamp
 			}
 		}
 
+		public PCInstanceInfo[] PCInstances = new PCInstanceInfo[] { new PCInstanceInfo() };
+
 		public int MainWin_L = 0;
 		public int MainWin_T = 0;
 
-		public string[] InstanceNames = new string[] { "C:" };
+		public Color BackgroundColor = Color.FromArgb(64, 64, 64);
+		public Color DeniedBackColor = Color.DarkGray;
+		public Color DeniedForeColor = Color.White;
+		public Color IdleBackColor = Color.Cyan;
+		public Color IdleForeColor = Color.Black;
+		public Color BusyBackColor = Color.Orange;
+		public Color BusyForeColor = Color.Black;
+		public Color VeryBusyBackColor = Color.Red;
+		public Color VeryBusyForeColor = Color.Black;
 
 		public void LoadFromFile()
 		{
@@ -29,24 +40,63 @@ namespace AccessLamp
 			string[] lines = File.ReadAllLines(SettingFile, Encoding.UTF8);
 			int c = 0;
 
+			int instanceNum = int.Parse(lines[c++]);
+
+			{
+				List<PCInstanceInfo> dest = new List<PCInstanceInfo>();
+
+				for (int instance_index = 0; instance_index < instanceNum; instance_index++)
+				{
+					string[] instanceLines = Enumerable
+						.Range(0, int.Parse(lines[c++]))
+						.Select(dummy => lines[c++])
+						.ToArray();
+
+					dest.Add(PCInstanceInfo.Deserialize(instanceLines));
+				}
+				this.PCInstances = dest.ToArray();
+			}
+
 			this.MainWin_L = int.Parse(lines[c++]);
 			this.MainWin_T = int.Parse(lines[c++]);
 
-			this.InstanceNames = Enumerable
-				.Range(0, int.Parse(lines[c++]))
-				.Select(dummy => lines[c++])
-				.ToArray();
+			this.BackgroundColor = Common.ToColor(lines[c++]);
+			this.DeniedBackColor = Common.ToColor(lines[c++]);
+			this.DeniedForeColor = Common.ToColor(lines[c++]);
+			this.IdleBackColor = Common.ToColor(lines[c++]);
+			this.IdleForeColor = Common.ToColor(lines[c++]);
+			this.BusyBackColor = Common.ToColor(lines[c++]);
+			this.BusyForeColor = Common.ToColor(lines[c++]);
+			this.VeryBusyBackColor = Common.ToColor(lines[c++]);
+			this.VeryBusyForeColor = Common.ToColor(lines[c++]);
 		}
 
 		public void SaveToFile()
 		{
 			List<string> lines = new List<string>();
 
+			lines.Add("" + this.PCInstances.Length);
+
+			foreach (PCInstanceInfo instance in this.PCInstances)
+			{
+				string[] instanceLines = instance.Serialize();
+
+				lines.Add("" + instanceLines.Length);
+				lines.AddRange(instanceLines);
+			}
+
 			lines.Add("" + this.MainWin_L);
 			lines.Add("" + this.MainWin_T);
 
-			lines.Add("" + this.InstanceNames.Length);
-			lines.AddRange(this.InstanceNames);
+			lines.Add(Common.ToString(this.BackgroundColor));
+			lines.Add(Common.ToString(this.DeniedBackColor));
+			lines.Add(Common.ToString(this.DeniedForeColor));
+			lines.Add(Common.ToString(this.IdleBackColor));
+			lines.Add(Common.ToString(this.IdleForeColor));
+			lines.Add(Common.ToString(this.BusyBackColor));
+			lines.Add(Common.ToString(this.BusyForeColor));
+			lines.Add(Common.ToString(this.VeryBusyBackColor));
+			lines.Add(Common.ToString(this.VeryBusyForeColor));
 
 			File.WriteAllLines(SettingFile, lines, Encoding.UTF8);
 		}

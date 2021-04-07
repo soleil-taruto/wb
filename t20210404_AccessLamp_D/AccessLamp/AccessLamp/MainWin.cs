@@ -27,28 +27,6 @@ namespace AccessLamp
 		private static Color BusyColor = Color.FromArgb(255, 200, 15);
 		private static Color VeryBusyColor = Color.FromArgb(255, 30, 30);
 
-		public List<PerfCntrInfo> PerfCntrList = new List<PerfCntrInfo>();
-
-		private static string GetResourceFile(string localFile)
-		{
-			if (File.Exists(localFile))
-				return localFile;
-
-			try
-			{
-				string selfFile = Assembly.GetEntryAssembly().Location;
-				string selfDir = Path.GetDirectoryName(selfFile);
-				string selfDirFile = Path.Combine(selfDir, localFile);
-
-				if (File.Exists(selfDirFile))
-					return selfDirFile;
-			}
-			catch
-			{ }
-
-			return Path.Combine("..\\..\\..\\..\\doc", localFile);
-		}
-
 		private void UnloadPerfCntrList()
 		{
 			Ground.ReadPerfCntrList.ForEach(perfCntr => perfCntr.Dispose());

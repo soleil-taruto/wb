@@ -27,8 +27,6 @@ namespace AccessLamp
 		private Bitmap BusyPicture;
 		private Bitmap VeryBusyPicture;
 
-		public List<PerfCntrInfo> PerfCntrList = new List<PerfCntrInfo>();
-
 		private static string GetResourceFile(string localFile)
 		{
 			if (File.Exists(localFile))

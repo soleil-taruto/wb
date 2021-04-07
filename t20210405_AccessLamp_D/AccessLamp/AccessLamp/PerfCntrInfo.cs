@@ -38,6 +38,8 @@ namespace AccessLamp
 			}
 			else
 				this.BusyCount = 0;
+
+			this.ErrorCount = 0; // 成功したのでエラーカウント_クリア
 		}
 
 		public enum Status_e

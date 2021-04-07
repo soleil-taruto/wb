@@ -22,33 +22,6 @@ namespace AccessLamp
 			InitializeComponent();
 		}
 
-		private static Color DeniedColor = Color.FromArgb(195, 195, 195);
-		private static Color IdleColor = Color.FromArgb(155, 220, 235);
-		private static Color BusyColor = Color.FromArgb(255, 200, 15);
-		private static Color VeryBusyColor = Color.FromArgb(255, 30, 30);
-
-		public List<PerfCntrInfo> PerfCntrList = new List<PerfCntrInfo>();
-
-		private static string GetResourceFile(string localFile)
-		{
-			if (File.Exists(localFile))
-				return localFile;
-
-			try
-			{
-				string selfFile = Assembly.GetEntryAssembly().Location;
-				string selfDir = Path.GetDirectoryName(selfFile);
-				string selfDirFile = Path.Combine(selfDir, localFile);
-
-				if (File.Exists(selfDirFile))
-					return selfDirFile;
-			}
-			catch
-			{ }
-
-			return Path.Combine("..\\..\\..\\..\\doc", localFile);
-		}
-
 		private void UnloadPerfCntrList()
 		{
 			Ground.ReadPerfCntrList.ForEach(perfCntr => perfCntr.Dispose());
@@ -62,21 +35,21 @@ namespace AccessLamp
 		{
 			this.UnloadPerfCntrList();
 
-			foreach (string instanceName in Ground.Setting.InstanceNames)
+			foreach (PCInstanceInfo instance in Ground.Setting.PCInstances)
 			{
 				PerformanceCounter r = null;
 				PerformanceCounter w = null;
 
 				try
 				{
-					r = new PerformanceCounter("LogicalDisk", "Disk Read Bytes/sec", instanceName);
+					r = new PerformanceCounter("LogicalDisk", "Disk Read Bytes/sec", instance.Name);
 				}
 				catch
 				{ }
 
 				try
 				{
-					w = new PerformanceCounter("LogicalDisk", "Disk Write Bytes/sec", instanceName);
+					w = new PerformanceCounter("LogicalDisk", "Disk Write Bytes/sec", instance.Name);
 				}
 				catch
 				{ }
@@ -87,8 +60,6 @@ namespace AccessLamp
 		}
 
 		private List<Label> MonitorLabels = new List<Label>();
-		private List<Panel> ReadLamps = new List<Panel>();
-		private List<Panel> WriteLamps = new List<Panel>();
 
 		private void UnloadUIControl(Control control)
 		{
@@ -111,12 +82,6 @@ namespace AccessLamp
 		{
 			this.MonitorLabels.ForEach(label => this.UnloadUIControl(label));
 			this.MonitorLabels.Clear();
-
-			this.ReadLamps.ForEach(lamp => this.UnloadUIControl(lamp));
-			this.ReadLamps.Clear();
-
-			this.WriteLamps.ForEach(lamp => this.UnloadUIControl(lamp));
-			this.WriteLamps.Clear();
 		}
 
 		private void PostControlAdded(Control control)
@@ -129,9 +94,9 @@ namespace AccessLamp
 		{
 			this.UnloadUIControls();
 
-			const int MARGIN = 10;
+			const int MARGIN = 5;
 			const int LABEL_H = 20;
-			const int LABEL_LEN_MAX = 10;
+			const int W_EMPTY = 50;
 
 			int perfCntrNum = Ground.ReadPerfCntrList.Count;
 
@@ -140,40 +105,22 @@ namespace AccessLamp
 				Label label;
 
 				label = new Label();
-				label.Left = MARGIN + (Consts.LAMP_W + MARGIN) * index;
+				label.Left = MARGIN + this.MonitorLabels.Select(v => v.Width + MARGIN).Sum();
 				label.Top = MARGIN;
-				label.Width = Consts.LAMP_W;
+				//label.Width = 100;
 				label.Height = LABEL_H;
-				label.ForeColor = Color.White;
-				label.Text = Common.CutTrail(Ground.Setting.InstanceNames[index], LABEL_LEN_MAX);
+				//label.ForeColor = Color.White;
+				//label.BackColor = Color.Gray;
+				label.AutoSize = true;
+				label.Text = Ground.Setting.PCInstances[index].DisplayName;
 				this.Controls.Add(label);
 				this.MonitorLabels.Add(label);
 				this.PostControlAdded(label);
-
-				Panel lamp;
-
-				lamp = new Panel();
-				lamp.Left = MARGIN + (Consts.LAMP_W + MARGIN) * index;
-				lamp.Top = MARGIN + LABEL_H + MARGIN;
-				lamp.Width = Consts.LAMP_W;
-				lamp.Height = Consts.LAMP_H;
-				lamp.BackColor = DeniedColor;
-				this.Controls.Add(lamp);
-				this.ReadLamps.Add(lamp);
-				this.PostControlAdded(lamp);
-
-				lamp = new Panel();
-				lamp.Left = MARGIN + (Consts.LAMP_W + MARGIN) * index;
-				lamp.Top = MARGIN + LABEL_H + MARGIN + Consts.LAMP_H + MARGIN;
-				lamp.Width = Consts.LAMP_W;
-				lamp.Height = Consts.LAMP_H;
-				lamp.BackColor = DeniedColor;
-				this.Controls.Add(lamp);
-				this.WriteLamps.Add(lamp);
-				this.PostControlAdded(lamp);
 			}
-			this.Width = MARGIN + (Consts.LAMP_W + MARGIN) * Math.Max(perfCntrNum, 1);
-			this.Height = MARGIN + LABEL_H + MARGIN + (Consts.LAMP_H + MARGIN) * 2;
+			this.Width = this.MonitorLabels.Count == 0 ? W_EMPTY : MARGIN + this.MonitorLabels.Select(v => v.Width + MARGIN).Sum();
+			this.Height = MARGIN + LABEL_H + MARGIN;
+
+			this.BackColor = Ground.Setting.BackgroundColor;
 		}
 
 		private void MainWin_Load(object sender, EventArgs e)
@@ -246,11 +193,49 @@ namespace AccessLamp
 
 				for (int index = 0; index < perfCntrNum; index++)
 				{
-					currPerfCntr = Ground.ReadPerfCntrList[index];
-					this.UpdateLamp(currPerfCntr, this.ReadLamps[index]);
-					currPerfCntr = Ground.WritePerfCntrList[index];
-					this.UpdateLamp(currPerfCntr, this.WriteLamps[index]);
+					PerfCntrInfo rPc = Ground.ReadPerfCntrList[index];
+					PerfCntrInfo wPc = Ground.WritePerfCntrList[index];
+
+					currPerfCntr = rPc;
+					currPerfCntr.Update();
+					currPerfCntr = wPc;
+					currPerfCntr.Update();
 					currPerfCntr = null;
+
+					PerfCntrInfo.Status_e rSt = rPc.GetStatus();
+					PerfCntrInfo.Status_e wSt = wPc.GetStatus();
+
+					Color backColor;
+					Color foreColor;
+
+					if (rSt == PerfCntrInfo.Status_e.DENIED || wSt == PerfCntrInfo.Status_e.DENIED)
+					{
+						backColor = Ground.Setting.DeniedBackColor;
+						foreColor = Ground.Setting.DeniedForeColor;
+					}
+					else if (rSt == PerfCntrInfo.Status_e.VERY_BUSY || wSt == PerfCntrInfo.Status_e.VERY_BUSY)
+					{
+						backColor = Ground.Setting.VeryBusyBackColor;
+						foreColor = Ground.Setting.VeryBusyForeColor;
+					}
+					else if (rSt == PerfCntrInfo.Status_e.BUSY || wSt == PerfCntrInfo.Status_e.BUSY)
+					{
+						backColor = Ground.Setting.BusyBackColor;
+						foreColor = Ground.Setting.BusyForeColor;
+					}
+					else
+					{
+						backColor = Ground.Setting.IdleBackColor;
+						foreColor = Ground.Setting.IdleForeColor;
+					}
+
+					Label monitorLabel = this.MonitorLabels[index];
+
+					if (monitorLabel.BackColor != backColor)
+						monitorLabel.BackColor = backColor;
+
+					if (monitorLabel.ForeColor != foreColor)
+						monitorLabel.ForeColor = foreColor;
 				}
 			}
 			catch
@@ -268,27 +253,6 @@ namespace AccessLamp
 				this.MT_Busy = false;
 				this.MT_Count++;
 			}
-		}
-
-		private void UpdateLamp(PerfCntrInfo perfCntr, Panel lamp)
-		{
-			perfCntr.Update();
-			perfCntr.ErrorCount = 0; // 成功したのでエラーカウント_クリア
-
-			Color bmp;
-
-			switch (perfCntr.GetStatus())
-			{
-				case PerfCntrInfo.Status_e.DENIED: bmp = DeniedColor; break;
-				case PerfCntrInfo.Status_e.IDLE: bmp = IdleColor; break;
-				case PerfCntrInfo.Status_e.BUSY: bmp = BusyColor; break;
-				case PerfCntrInfo.Status_e.VERY_BUSY: bmp = VeryBusyColor; break;
-
-				default:
-					throw null; // never
-			}
-			if (lamp.BackColor != bmp)
-				lamp.BackColor = bmp;
 		}
 
 		private void 終了ToolStripMenuItem_Click(object sender, EventArgs e)
