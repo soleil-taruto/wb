@@ -25,11 +25,11 @@ namespace AccessLamp
 			Ground.SelfFile = Assembly.GetEntryAssembly().Location;
 			Ground.SelfDir = Path.GetDirectoryName(Ground.SelfFile);
 
-			Mutex mtx = new Mutex(false, "{b5774cb2-bad0-4e36-a5a7-c4f9dbafb6ba}");
+			Mutex mtx = new Mutex(false, "{79181e92-f9c3-4bfc-8649-a57c9685dcaf}");
 
 			if (mtx.WaitOne(0) == false) // 多重起動防止
 			{
-				Mutex mtx_2 = new Mutex(false, "{ab47a3da-7439-4e8e-b978-15bcdf7da6fb}");
+				Mutex mtx_2 = new Mutex(false, "{3539878f-8901-422d-9386-add763482e6f}");
 
 				if (mtx_2.WaitOne(0) == false)
 					return;
