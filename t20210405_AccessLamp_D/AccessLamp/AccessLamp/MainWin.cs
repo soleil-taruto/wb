@@ -148,7 +148,7 @@ namespace AccessLamp
 
 			this.BackColor = Ground.Setting.BackgroundColor;
 
-			//this.ShowInTaskbar = Ground.Setting.タスクバーにアイコンを表示する; // moved -> Lamp再設置前にやる。// ここでやると幅設定に問題あり
+			//this.ShowInTaskbar = Ground.Setting.タスクバーにアイコンを表示する; // moved -> Lamp再設置前にやる。// ここでやるとフォームの幅設定に問題あり
 		}
 
 		private void MainWin_Load(object sender, EventArgs e)
