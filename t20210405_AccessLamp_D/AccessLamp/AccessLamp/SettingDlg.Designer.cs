@@ -62,11 +62,11 @@
 			this.BtnDeniedBackColor = new System.Windows.Forms.Button();
 			this.BtnBackgroundColor = new System.Windows.Forms.Button();
 			this.MainTab_03 = new System.Windows.Forms.TabPage();
+			this.ランプを縦に並べる = new System.Windows.Forms.CheckBox();
+			this.常に手前に表示する = new System.Windows.Forms.CheckBox();
 			this.タスクバーにアイコンを表示する = new System.Windows.Forms.CheckBox();
 			this.枠の幅 = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
-			this.常に手前に表示する = new System.Windows.Forms.CheckBox();
-			this.ランプを縦に並べる = new System.Windows.Forms.CheckBox();
 			this.InstanceListMenu.SuspendLayout();
 			this.MainTab.SuspendLayout();
 			this.MainTab_01.SuspendLayout();
@@ -90,6 +90,7 @@
 			this.InstanceList.Size = new System.Drawing.Size(474, 364);
 			this.InstanceList.TabIndex = 1;
 			this.InstanceList.SelectedIndexChanged += new System.EventHandler(this.InstanceList_SelectedIndexChanged);
+			this.InstanceList.DoubleClick += new System.EventHandler(this.InstanceList_DoubleClick);
 			// 
 			// InstanceListMenu
 			// 
@@ -409,6 +410,28 @@
 			this.MainTab_03.UseVisualStyleBackColor = true;
 			this.MainTab_03.Click += new System.EventHandler(this.MainTab_03_Click);
 			// 
+			// ランプを縦に並べる
+			// 
+			this.ランプを縦に並べる.AutoSize = true;
+			this.ランプを縦に並べる.Location = new System.Drawing.Point(34, 140);
+			this.ランプを縦に並べる.Name = "ランプを縦に並べる";
+			this.ランプを縦に並べる.Size = new System.Drawing.Size(145, 24);
+			this.ランプを縦に並べる.TabIndex = 4;
+			this.ランプを縦に並べる.Text = "ランプを縦に並べる";
+			this.ランプを縦に並べる.UseVisualStyleBackColor = true;
+			this.ランプを縦に並べる.CheckedChanged += new System.EventHandler(this.ランプを縦に並べる_CheckedChanged);
+			// 
+			// 常に手前に表示する
+			// 
+			this.常に手前に表示する.AutoSize = true;
+			this.常に手前に表示する.Location = new System.Drawing.Point(34, 110);
+			this.常に手前に表示する.Name = "常に手前に表示する";
+			this.常に手前に表示する.Size = new System.Drawing.Size(145, 24);
+			this.常に手前に表示する.TabIndex = 3;
+			this.常に手前に表示する.Text = "常に手前に表示する";
+			this.常に手前に表示する.UseVisualStyleBackColor = true;
+			this.常に手前に表示する.CheckedChanged += new System.EventHandler(this.常に手前に表示する_CheckedChanged);
+			// 
 			// タスクバーにアイコンを表示する
 			// 
 			this.タスクバーにアイコンを表示する.AutoSize = true;
@@ -441,28 +464,6 @@
 			this.label1.Size = new System.Drawing.Size(48, 20);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "枠の幅";
-			// 
-			// 常に手前に表示する
-			// 
-			this.常に手前に表示する.AutoSize = true;
-			this.常に手前に表示する.Location = new System.Drawing.Point(34, 110);
-			this.常に手前に表示する.Name = "常に手前に表示する";
-			this.常に手前に表示する.Size = new System.Drawing.Size(145, 24);
-			this.常に手前に表示する.TabIndex = 3;
-			this.常に手前に表示する.Text = "常に手前に表示する";
-			this.常に手前に表示する.UseVisualStyleBackColor = true;
-			this.常に手前に表示する.CheckedChanged += new System.EventHandler(this.常に手前に表示する_CheckedChanged);
-			// 
-			// ランプを縦に並べる
-			// 
-			this.ランプを縦に並べる.AutoSize = true;
-			this.ランプを縦に並べる.Location = new System.Drawing.Point(34, 140);
-			this.ランプを縦に並べる.Name = "ランプを縦に並べる";
-			this.ランプを縦に並べる.Size = new System.Drawing.Size(145, 24);
-			this.ランプを縦に並べる.TabIndex = 4;
-			this.ランプを縦に並べる.Text = "ランプを縦に並べる";
-			this.ランプを縦に並べる.UseVisualStyleBackColor = true;
-			this.ランプを縦に並べる.CheckedChanged += new System.EventHandler(this.ランプを縦に並べる_CheckedChanged);
 			// 
 			// SettingDlg
 			// 

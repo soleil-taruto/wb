@@ -86,11 +86,6 @@ namespace AccessLamp
 			Ground.Setting.ランプを縦に並べる = this.ランプを縦に並べる.Checked;
 		}
 
-		private void InstanceList_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			// noop
-		}
-
 		private void 選択解除ToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			this.InstanceList.ClearSelected();
@@ -279,6 +274,16 @@ namespace AccessLamp
 		private void ランプを縦に並べる_CheckedChanged(object sender, EventArgs e)
 		{
 			// noop
+		}
+
+		private void InstanceList_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			// noop
+		}
+
+		private void InstanceList_DoubleClick(object sender, EventArgs e)
+		{
+			//this.BtnEdit_Click(null, null); // ダブルクリック誤爆の懸念があるため、抑止 // 触った感じ誤爆は無さそうだが、ダブルクリックに対応する必要も無さそうなので、抑止のままとする。
 		}
 	}
 }

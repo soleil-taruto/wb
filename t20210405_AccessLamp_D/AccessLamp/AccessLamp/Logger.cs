@@ -8,38 +8,37 @@ namespace AccessLamp
 {
 	public class Logger : IDisposable
 	{
-		private static string LOG_FILE
-		{
-			get
-			{
-				return Path.Combine(Environment.GetEnvironmentVariable("TMP"), Program.APP_IDENT + ".log");
-			}
-		}
-
 		private const long LOG_FILE_SIZE_MAX = 1000000;
+		private string LogFile;
 
 		public Logger()
 		{
+			string tmpDir = Environment.GetEnvironmentVariable("TMP");
+
+			if (string.IsNullOrEmpty(tmpDir) || !Directory.Exists(tmpDir))
+				throw new Exception("Bad TMP");
+
+			this.LogFile = Path.Combine(tmpDir, Program.APP_IDENT + ".log");
 			this.Clear();
 		}
 
-		public void Clear()
+		private void Clear()
 		{
 			try
 			{
-				File.WriteAllBytes(LOG_FILE, new byte[0]); // 空のファイルを作成する。
+				File.WriteAllBytes(this.LogFile, new byte[0]); // 空のファイルを作成する。
 			}
 			catch
 			{ }
 		}
 
-		// 注意：このインスタンスが生きている間 LOG_FILE は存在しなければならない。
+		// 注意：このインスタンスが生きている間 LogFile は存在しなければならない。
 
 		public void WriteLog(object message)
 		{
 			try
 			{
-				using (StreamWriter writer = new StreamWriter(LOG_FILE, new FileInfo(LOG_FILE).Length < LOG_FILE_SIZE_MAX, Encoding.UTF8))
+				using (StreamWriter writer = new StreamWriter(this.LogFile, new FileInfo(this.LogFile).Length < LOG_FILE_SIZE_MAX, Encoding.UTF8))
 				{
 					writer.WriteLine("[" + DateTime.Now + "] " + message);
 				}
@@ -50,16 +49,20 @@ namespace AccessLamp
 
 		public void Dispose()
 		{
-			this.RemoveIfEmpty();
+			if (this.LogFile != null)
+			{
+				this.RemoveIfEmpty();
+				this.LogFile = null;
+			}
 		}
 
 		private void RemoveIfEmpty()
 		{
 			try
 			{
-				if (new FileInfo(LOG_FILE).Length == 0L)
+				if (new FileInfo(this.LogFile).Length == 0L)
 				{
-					File.Delete(LOG_FILE);
+					File.Delete(this.LogFile);
 				}
 			}
 			catch
