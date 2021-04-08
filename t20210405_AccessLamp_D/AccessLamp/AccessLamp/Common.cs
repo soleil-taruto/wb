@@ -32,9 +32,14 @@ namespace AccessLamp
 			return string.Join(":", color.R, color.G, color.B);
 		}
 
+		/// <summary>
+		/// 指定文字列から制御コードを削除する。
+		/// </summary>
+		/// <param name="str">文字列</param>
+		/// <returns>制御コードを削除した文字列</returns>
 		public static string ToPlainString(string str)
 		{
-			return new string(str.Select(chr => chr < ' ' ? '?' : chr).ToArray());
+			return new string(str.Select(chr => chr <= 0x1f || 0x7f <= chr && chr <= 0xa0 || chr == 0xad ? '?' : chr).ToArray());
 		}
 	}
 }
