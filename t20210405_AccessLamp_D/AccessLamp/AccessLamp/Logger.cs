@@ -6,7 +6,7 @@ using System.IO;
 
 namespace AccessLamp
 {
-	public class Logger
+	public static class Logger
 	{
 		private static string LOG_FILE
 		{
@@ -18,7 +18,7 @@ namespace AccessLamp
 
 		private const long LOG_FILE_SIZE_MAX = 1000000;
 
-		public Logger()
+		public static void Clear()
 		{
 			try
 			{
@@ -28,11 +28,11 @@ namespace AccessLamp
 			{ }
 		}
 
-		public void WriteLog(object message)
+		public static void WriteLog(object message)
 		{
 			try
 			{
-				using (StreamWriter writer = new StreamWriter(LOG_FILE, new FileInfo(LOG_FILE).Length < LOG_FILE_SIZE_MAX, Encoding.UTF8))
+				using (StreamWriter writer = new StreamWriter(LOG_FILE, File.Exists(LOG_FILE) && new FileInfo(LOG_FILE).Length < LOG_FILE_SIZE_MAX, Encoding.UTF8))
 				{
 					writer.WriteLine("[" + DateTime.Now + "] " + message);
 				}
