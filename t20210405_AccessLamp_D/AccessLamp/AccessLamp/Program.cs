@@ -45,8 +45,7 @@ namespace AccessLamp
 					return;
 			}
 
-			Logger.Clear();
-
+			Ground.Logger = new Logger();
 			Ground.Setting.LoadFromFile();
 
 			Application.EnableVisualStyles();

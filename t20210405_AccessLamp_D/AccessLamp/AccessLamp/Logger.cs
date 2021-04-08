@@ -6,7 +6,7 @@ using System.IO;
 
 namespace AccessLamp
 {
-	public static class Logger
+	public class Logger
 	{
 		private static string LOG_FILE
 		{
@@ -18,21 +18,26 @@ namespace AccessLamp
 
 		private const long LOG_FILE_SIZE_MAX = 1000000;
 
-		public static void Clear()
+		public Logger()
+		{
+			this.Clear();
+		}
+
+		public void Clear()
 		{
 			try
 			{
-				File.WriteAllBytes(LOG_FILE, new byte[0]); // ファイルを空にする。
+				File.WriteAllBytes(LOG_FILE, new byte[0]); // 空のファイルを作成する。|| ファイルを空にする。
 			}
 			catch
 			{ }
 		}
 
-		public static void WriteLog(object message)
+		public void WriteLog(object message)
 		{
 			try
 			{
-				using (StreamWriter writer = new StreamWriter(LOG_FILE, File.Exists(LOG_FILE) && new FileInfo(LOG_FILE).Length < LOG_FILE_SIZE_MAX, Encoding.UTF8))
+				using (StreamWriter writer = new StreamWriter(LOG_FILE, new FileInfo(LOG_FILE).Length < LOG_FILE_SIZE_MAX, Encoding.UTF8))
 				{
 					writer.WriteLine("[" + DateTime.Now + "] " + message);
 				}

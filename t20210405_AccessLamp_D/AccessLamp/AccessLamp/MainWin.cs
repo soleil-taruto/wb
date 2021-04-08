@@ -46,7 +46,7 @@ namespace AccessLamp
 				}
 				catch (Exception ex)
 				{
-					Logger.WriteLog(ex);
+					Ground.Logger.WriteLog(ex);
 				}
 
 				try
@@ -55,7 +55,7 @@ namespace AccessLamp
 				}
 				catch (Exception ex)
 				{
-					Logger.WriteLog(ex);
+					Ground.Logger.WriteLog(ex);
 				}
 
 				Ground.ReadPerfCntrList.Add(new PerfCntrInfo(r));
@@ -73,7 +73,7 @@ namespace AccessLamp
 			}
 			catch (Exception ex)
 			{
-				Logger.WriteLog(ex);
+				Ground.Logger.WriteLog(ex);
 			}
 
 			try
@@ -82,7 +82,7 @@ namespace AccessLamp
 			}
 			catch (Exception ex)
 			{
-				Logger.WriteLog(ex);
+				Ground.Logger.WriteLog(ex);
 			}
 		}
 
@@ -276,7 +276,7 @@ namespace AccessLamp
 			}
 			catch (Exception ex)
 			{
-				Logger.WriteLog(ex);
+				Ground.Logger.WriteLog(ex);
 
 				if (currPerfCntr != null)
 				{

@@ -39,7 +39,7 @@ namespace AccessLamp
 			}
 			catch (Exception ex)
 			{
-				Logger.WriteLog(ex);
+				Ground.Logger.WriteLog(ex);
 
 				return new Font("メイリオ", 10); // フォント生成失敗時の代替フォント
 			}

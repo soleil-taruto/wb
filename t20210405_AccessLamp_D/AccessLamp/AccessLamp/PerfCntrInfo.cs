@@ -76,7 +76,7 @@ namespace AccessLamp
 			}
 			catch (Exception ex)
 			{
-				Logger.WriteLog(ex);
+				Ground.Logger.WriteLog(ex);
 			}
 			this.Inner = null;
 		}
