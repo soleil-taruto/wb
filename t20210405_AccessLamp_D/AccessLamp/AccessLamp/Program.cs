@@ -46,6 +46,7 @@ namespace AccessLamp
 			}
 
 			Ground.Logger = new Logger();
+
 			Ground.Setting.LoadFromFile();
 
 			Application.EnableVisualStyles();
@@ -53,6 +54,9 @@ namespace AccessLamp
 			Application.Run(new MainWin());
 
 			Ground.Setting.SaveToFile();
+
+			Ground.Logger.Dispose();
+			Ground.Logger = null;
 
 			mtx.ReleaseMutex();
 			mtx.Close();
