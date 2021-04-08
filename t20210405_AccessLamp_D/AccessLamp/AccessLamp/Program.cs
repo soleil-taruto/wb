@@ -25,11 +25,11 @@ namespace AccessLamp
 			Ground.SelfFile = Assembly.GetEntryAssembly().Location;
 			Ground.SelfDir = Path.GetDirectoryName(Ground.SelfFile);
 
-			Mutex mtx = new Mutex(false, "{79181e92-f9c3-4bfc-8649-a57c9685dcaf}");
+			Mutex mtx = new Mutex(false, APP_IDENT + "_PROC_MTX");
 
 			if (mtx.WaitOne(0) == false) // 多重起動防止
 			{
-				Mutex mtx_2 = new Mutex(false, "{3539878f-8901-422d-9386-add763482e6f}");
+				Mutex mtx_2 = new Mutex(false, APP_IDENT + "_PROC_MTX_2");
 
 				if (mtx_2.WaitOne(0) == false)
 					return;
@@ -45,6 +45,7 @@ namespace AccessLamp
 					return;
 			}
 
+			Ground.Logger = new Logger();
 			Ground.Setting.LoadFromFile();
 
 			Application.EnableVisualStyles();
@@ -57,6 +58,7 @@ namespace AccessLamp
 			mtx.Close();
 		}
 
+		public static string APP_IDENT = "{79181e92-f9c3-4bfc-8649-a57c9685dcaf}";
 		public static string APP_TITLE = "AccessLamp_D";
 
 		private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

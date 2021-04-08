@@ -44,15 +44,19 @@ namespace AccessLamp
 				{
 					r = new PerformanceCounter("LogicalDisk", "Disk Read Bytes/sec", instance.Name);
 				}
-				catch
-				{ }
+				catch (Exception ex)
+				{
+					Ground.Logger.WriteLog(ex);
+				}
 
 				try
 				{
 					w = new PerformanceCounter("LogicalDisk", "Disk Write Bytes/sec", instance.Name);
 				}
-				catch
-				{ }
+				catch (Exception ex)
+				{
+					Ground.Logger.WriteLog(ex);
+				}
 
 				Ground.ReadPerfCntrList.Add(new PerfCntrInfo(r));
 				Ground.WritePerfCntrList.Add(new PerfCntrInfo(w));
@@ -67,15 +71,19 @@ namespace AccessLamp
 			{
 				this.Controls.Remove(control);
 			}
-			catch
-			{ }
+			catch (Exception ex)
+			{
+				Ground.Logger.WriteLog(ex);
+			}
 
 			try
 			{
 				control.Dispose();
 			}
-			catch
-			{ }
+			catch (Exception ex)
+			{
+				Ground.Logger.WriteLog(ex);
+			}
 		}
 
 		private void UnloadUIControls()
@@ -266,8 +274,10 @@ namespace AccessLamp
 						lamp.ForeColor = foreColor;
 				}
 			}
-			catch
+			catch (Exception ex)
 			{
+				Ground.Logger.WriteLog(ex);
+
 				if (currPerfCntr != null)
 				{
 					if (currPerfCntr.ErrorCount < PerfCntrInfo.ERROR_COUNT_MAX)

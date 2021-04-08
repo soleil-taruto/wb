@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="FontSettingInfo.cs" />
     <Compile Include="Ground.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="MainWin.cs">
       <SubType>Form</SubType>
     </Compile>

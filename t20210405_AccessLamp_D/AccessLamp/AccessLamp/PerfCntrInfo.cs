@@ -74,9 +74,10 @@ namespace AccessLamp
 			{
 				this.Inner.Close();
 			}
-			catch
-			{ }
-
+			catch (Exception ex)
+			{
+				Ground.Logger.WriteLog(ex);
+			}
 			this.Inner = null;
 		}
 	}

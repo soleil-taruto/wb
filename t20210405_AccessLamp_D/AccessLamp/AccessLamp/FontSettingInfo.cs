@@ -37,8 +37,10 @@ namespace AccessLamp
 			{
 				return (Font)new FontConverter().ConvertFrom(this.ConverterString);
 			}
-			catch
+			catch (Exception ex)
 			{
+				Ground.Logger.WriteLog(ex);
+
 				return new Font("メイリオ", 10); // フォント生成失敗時の代替フォント
 			}
 		}
