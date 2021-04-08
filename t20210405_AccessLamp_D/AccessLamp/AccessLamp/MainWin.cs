@@ -93,6 +93,7 @@ namespace AccessLamp
 		private void LoadUIControls()
 		{
 			this.ShowInTaskbar = Ground.Setting.タスクバーにアイコンを表示する;
+			this.TopMost = Ground.Setting.常に手前に表示する;
 
 			this.UnloadUIControls();
 
@@ -108,12 +109,17 @@ namespace AccessLamp
 
 				lamp = new Label();
 				lamp.AutoSize = true;
-				lamp.Left = MARGIN + this.Lamps.Select(v => v.Width + MARGIN).Sum();
-				lamp.Top = MARGIN;
-				//lamp.Width = 100;
-				//lamp.Height = 100;
-				//lamp.ForeColor = Color.White;
-				//lamp.BackColor = Color.Gray;
+
+				if (Ground.Setting.ランプを縦に並べる)
+				{
+					lamp.Left = MARGIN;
+					lamp.Top = MARGIN + this.Lamps.Select(v => v.Height + MARGIN).Sum();
+				}
+				else
+				{
+					lamp.Left = MARGIN + this.Lamps.Select(v => v.Width + MARGIN).Sum();
+					lamp.Top = MARGIN;
+				}
 				lamp.Font = Ground.Setting.FontSetting.GetFont();
 				lamp.Text = Ground.Setting.PCInstances[index].DisplayName;
 				this.Controls.Add(lamp);
@@ -123,8 +129,16 @@ namespace AccessLamp
 
 			if (1 <= this.Lamps.Count)
 			{
-				this.Width = MARGIN + this.Lamps.Select(v => v.Width + MARGIN).Sum();
-				this.Height = MARGIN + this.Lamps[0].Height + MARGIN;
+				if (Ground.Setting.ランプを縦に並べる)
+				{
+					this.Width = MARGIN + this.Lamps.Select(v => v.Width).Max() + MARGIN;
+					this.Height = MARGIN + this.Lamps.Select(v => v.Height + MARGIN).Sum();
+				}
+				else
+				{
+					this.Width = MARGIN + this.Lamps.Select(v => v.Width + MARGIN).Sum();
+					this.Height = MARGIN + this.Lamps[0].Height + MARGIN;
+				}
 			}
 			else
 			{

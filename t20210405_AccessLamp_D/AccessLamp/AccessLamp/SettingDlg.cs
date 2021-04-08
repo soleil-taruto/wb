@@ -39,6 +39,8 @@ namespace AccessLamp
 			this.枠の幅.Value = Ground.Setting.MainWin_枠の幅;
 
 			this.タスクバーにアイコンを表示する.Checked = Ground.Setting.タスクバーにアイコンを表示する;
+			this.常に手前に表示する.Checked = Ground.Setting.常に手前に表示する;
+			this.ランプを縦に並べる.Checked = Ground.Setting.ランプを縦に並べる;
 
 			this.UpdateUI();
 		}
@@ -80,6 +82,8 @@ namespace AccessLamp
 			Ground.Setting.MainWin_枠の幅 = (int)this.枠の幅.Value;
 
 			Ground.Setting.タスクバーにアイコンを表示する = this.タスクバーにアイコンを表示する.Checked;
+			Ground.Setting.常に手前に表示する = this.常に手前に表示する.Checked;
+			Ground.Setting.ランプを縦に並べる = this.ランプを縦に並べる.Checked;
 		}
 
 		private void InstanceList_SelectedIndexChanged(object sender, EventArgs e)
@@ -257,7 +261,22 @@ namespace AccessLamp
 			}
 		}
 
+		private void 枠の幅_ValueChanged(object sender, EventArgs e)
+		{
+			// noop
+		}
+
 		private void タスクバーにアイコンを表示する_CheckedChanged(object sender, EventArgs e)
+		{
+			// noop
+		}
+
+		private void 常に手前に表示する_CheckedChanged(object sender, EventArgs e)
+		{
+			// noop
+		}
+
+		private void ランプを縦に並べる_CheckedChanged(object sender, EventArgs e)
 		{
 			// noop
 		}

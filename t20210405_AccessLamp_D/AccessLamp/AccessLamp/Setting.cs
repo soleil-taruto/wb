@@ -25,6 +25,8 @@ namespace AccessLamp
 		public int MainWin_枠の幅 = 10;
 
 		public bool タスクバーにアイコンを表示する = true;
+		public bool 常に手前に表示する = true;
+		public bool ランプを縦に並べる = false;
 
 		public Color BackgroundColor = Color.FromArgb(64, 64, 64);
 		public Color DeniedBackColor = Color.DarkGray;
@@ -69,6 +71,8 @@ namespace AccessLamp
 			this.MainWin_枠の幅 = int.Parse(lines[c++]);
 
 			this.タスクバーにアイコンを表示する = int.Parse(lines[c++]) != 0;
+			this.常に手前に表示する = int.Parse(lines[c++]) != 0;
+			this.ランプを縦に並べる = int.Parse(lines[c++]) != 0;
 
 			this.BackgroundColor = Common.ToColor(lines[c++]);
 			this.DeniedBackColor = Common.ToColor(lines[c++]);
@@ -106,6 +110,8 @@ namespace AccessLamp
 			lines.Add("" + this.MainWin_枠の幅);
 
 			lines.Add("" + (this.タスクバーにアイコンを表示する ? 1 : 0));
+			lines.Add("" + (this.常に手前に表示する ? 1 : 0));
+			lines.Add("" + (this.ランプを縦に並べる ? 1 : 0));
 
 			lines.Add(Common.ToString(this.BackgroundColor));
 			lines.Add(Common.ToString(this.DeniedBackColor));
