@@ -67,6 +67,7 @@
 			this.タスクバーにアイコンを表示する = new System.Windows.Forms.CheckBox();
 			this.枠の幅 = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
+			this.位置を固定する = new System.Windows.Forms.CheckBox();
 			this.InstanceListMenu.SuspendLayout();
 			this.MainTab.SuspendLayout();
 			this.MainTab_01.SuspendLayout();
@@ -397,6 +398,7 @@
 			// 
 			// MainTab_03
 			// 
+			this.MainTab_03.Controls.Add(this.位置を固定する);
 			this.MainTab_03.Controls.Add(this.ランプを縦に並べる);
 			this.MainTab_03.Controls.Add(this.常に手前に表示する);
 			this.MainTab_03.Controls.Add(this.タスクバーにアイコンを表示する);
@@ -413,10 +415,10 @@
 			// ランプを縦に並べる
 			// 
 			this.ランプを縦に並べる.AutoSize = true;
-			this.ランプを縦に並べる.Location = new System.Drawing.Point(34, 140);
+			this.ランプを縦に並べる.Location = new System.Drawing.Point(34, 170);
 			this.ランプを縦に並べる.Name = "ランプを縦に並べる";
 			this.ランプを縦に並べる.Size = new System.Drawing.Size(145, 24);
-			this.ランプを縦に並べる.TabIndex = 4;
+			this.ランプを縦に並べる.TabIndex = 5;
 			this.ランプを縦に並べる.Text = "ランプを縦に並べる";
 			this.ランプを縦に並べる.UseVisualStyleBackColor = true;
 			this.ランプを縦に並べる.CheckedChanged += new System.EventHandler(this.ランプを縦に並べる_CheckedChanged);
@@ -464,6 +466,17 @@
 			this.label1.Size = new System.Drawing.Size(48, 20);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "枠の幅";
+			// 
+			// 位置を固定する
+			// 
+			this.位置を固定する.AutoSize = true;
+			this.位置を固定する.Location = new System.Drawing.Point(34, 140);
+			this.位置を固定する.Name = "位置を固定する";
+			this.位置を固定する.Size = new System.Drawing.Size(119, 24);
+			this.位置を固定する.TabIndex = 4;
+			this.位置を固定する.Text = "位置を固定する";
+			this.位置を固定する.UseVisualStyleBackColor = true;
+			this.位置を固定する.CheckedChanged += new System.EventHandler(this.位置を固定する_CheckedChanged);
 			// 
 			// SettingDlg
 			// 
@@ -538,5 +551,6 @@
 		private System.Windows.Forms.CheckBox タスクバーにアイコンを表示する;
 		private System.Windows.Forms.CheckBox ランプを縦に並べる;
 		private System.Windows.Forms.CheckBox 常に手前に表示する;
+		private System.Windows.Forms.CheckBox 位置を固定する;
 	}
 }

@@ -335,7 +335,7 @@ namespace AccessLamp
 
 		private void MainWin_MouseMove(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
+			if (e.Button == MouseButtons.Left && !Ground.Setting.位置を固定する)
 			{
 				this.Location = new Point(
 					this.Location.X + e.X - this.MouseDown_X,

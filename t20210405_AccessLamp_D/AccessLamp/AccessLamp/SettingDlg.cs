@@ -40,6 +40,7 @@ namespace AccessLamp
 
 			this.タスクバーにアイコンを表示する.Checked = Ground.Setting.タスクバーにアイコンを表示する;
 			this.常に手前に表示する.Checked = Ground.Setting.常に手前に表示する;
+			this.位置を固定する.Checked = Ground.Setting.位置を固定する;
 			this.ランプを縦に並べる.Checked = Ground.Setting.ランプを縦に並べる;
 
 			this.UpdateUI();
@@ -83,6 +84,7 @@ namespace AccessLamp
 
 			Ground.Setting.タスクバーにアイコンを表示する = this.タスクバーにアイコンを表示する.Checked;
 			Ground.Setting.常に手前に表示する = this.常に手前に表示する.Checked;
+			Ground.Setting.位置を固定する = this.位置を固定する.Checked;
 			Ground.Setting.ランプを縦に並べる = this.ランプを縦に並べる.Checked;
 		}
 
@@ -267,6 +269,11 @@ namespace AccessLamp
 		}
 
 		private void 常に手前に表示する_CheckedChanged(object sender, EventArgs e)
+		{
+			// noop
+		}
+
+		private void 位置を固定する_CheckedChanged(object sender, EventArgs e)
 		{
 			// noop
 		}
