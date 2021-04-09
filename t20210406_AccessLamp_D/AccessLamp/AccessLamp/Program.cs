@@ -62,7 +62,7 @@ namespace AccessLamp
 			mtx.Close();
 		}
 
-		public static string APP_IDENT = "{79181e92-f9c3-4bfc-8649-a57c9685dcaf}";
+		public static string APP_IDENT = "{c517f05f-ab13-4514-8e71-f52147d4adf2}";
 		public static string APP_TITLE = "AccessLamp_D";
 
 		private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
