@@ -72,7 +72,7 @@
 			this.Name = "SettingDlg";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "AccessLamp_D 設定";
+			this.Text = "AccessLamp_D / 設定";
 			this.TopMost = true;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingDlg_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SettingDlg_FormClosed);
