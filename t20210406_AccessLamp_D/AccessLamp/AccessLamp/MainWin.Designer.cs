@@ -32,10 +32,16 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWin));
 			this.MainTimer = new System.Windows.Forms.Timer(this.components);
 			this.RClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.設定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.MainWinMenu_Item_設定 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-			this.終了ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.MainWinMenu_Item_終了 = new System.Windows.Forms.ToolStripMenuItem();
+			this.TaskTrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.TaskTrayIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.TaskTrayIconMenu_Item_設定 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+			this.TaskTrayIconMenu_Item_終了 = new System.Windows.Forms.ToolStripMenuItem();
 			this.RClickMenu.SuspendLayout();
+			this.TaskTrayIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// MainTimer
@@ -46,30 +52,64 @@
 			// RClickMenu
 			// 
 			this.RClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.設定ToolStripMenuItem,
+            this.MainWinMenu_Item_設定,
             this.toolStripMenuItem1,
-            this.終了ToolStripMenuItem});
+            this.MainWinMenu_Item_終了});
 			this.RClickMenu.Name = "RClickMenu";
 			this.RClickMenu.Size = new System.Drawing.Size(99, 54);
 			// 
-			// 設定ToolStripMenuItem
+			// MainWinMenu_Item_設定
 			// 
-			this.設定ToolStripMenuItem.Name = "設定ToolStripMenuItem";
-			this.設定ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
-			this.設定ToolStripMenuItem.Text = "設定";
-			this.設定ToolStripMenuItem.Click += new System.EventHandler(this.設定ToolStripMenuItem_Click);
+			this.MainWinMenu_Item_設定.Name = "MainWinMenu_Item_設定";
+			this.MainWinMenu_Item_設定.Size = new System.Drawing.Size(98, 22);
+			this.MainWinMenu_Item_設定.Text = "設定";
+			this.MainWinMenu_Item_設定.Click += new System.EventHandler(this.MainWinMenu_Item_設定_Click);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
 			this.toolStripMenuItem1.Size = new System.Drawing.Size(95, 6);
 			// 
-			// 終了ToolStripMenuItem
+			// MainWinMenu_Item_終了
 			// 
-			this.終了ToolStripMenuItem.Name = "終了ToolStripMenuItem";
-			this.終了ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
-			this.終了ToolStripMenuItem.Text = "終了";
-			this.終了ToolStripMenuItem.Click += new System.EventHandler(this.終了ToolStripMenuItem_Click);
+			this.MainWinMenu_Item_終了.Name = "MainWinMenu_Item_終了";
+			this.MainWinMenu_Item_終了.Size = new System.Drawing.Size(98, 22);
+			this.MainWinMenu_Item_終了.Text = "終了";
+			this.MainWinMenu_Item_終了.Click += new System.EventHandler(this.MainWinMenu_Item_終了_Click);
+			// 
+			// TaskTrayIcon
+			// 
+			this.TaskTrayIcon.ContextMenuStrip = this.TaskTrayIconMenu;
+			this.TaskTrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("TaskTrayIcon.Icon")));
+			this.TaskTrayIcon.Text = "AccessLamp_D";
+			// 
+			// TaskTrayIconMenu
+			// 
+			this.TaskTrayIconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TaskTrayIconMenu_Item_設定,
+            this.toolStripMenuItem2,
+            this.TaskTrayIconMenu_Item_終了});
+			this.TaskTrayIconMenu.Name = "TaskTrayIconMenu";
+			this.TaskTrayIconMenu.Size = new System.Drawing.Size(99, 54);
+			// 
+			// TaskTrayIconMenu_Item_設定
+			// 
+			this.TaskTrayIconMenu_Item_設定.Name = "TaskTrayIconMenu_Item_設定";
+			this.TaskTrayIconMenu_Item_設定.Size = new System.Drawing.Size(98, 22);
+			this.TaskTrayIconMenu_Item_設定.Text = "設定";
+			this.TaskTrayIconMenu_Item_設定.Click += new System.EventHandler(this.TaskTrayIconMenu_Item_設定_Click);
+			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(95, 6);
+			// 
+			// TaskTrayIconMenu_Item_終了
+			// 
+			this.TaskTrayIconMenu_Item_終了.Name = "TaskTrayIconMenu_Item_終了";
+			this.TaskTrayIconMenu_Item_終了.Size = new System.Drawing.Size(98, 22);
+			this.TaskTrayIconMenu_Item_終了.Text = "終了";
+			this.TaskTrayIconMenu_Item_終了.Click += new System.EventHandler(this.TaskTrayIconMenu_Item_終了_Click);
 			// 
 			// MainWin
 			// 
@@ -95,6 +135,7 @@
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainWin_MouseDown);
 			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainWin_MouseMove);
 			this.RClickMenu.ResumeLayout(false);
+			this.TaskTrayIconMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -103,9 +144,14 @@
 
 		private System.Windows.Forms.Timer MainTimer;
 		private System.Windows.Forms.ContextMenuStrip RClickMenu;
-		private System.Windows.Forms.ToolStripMenuItem 設定ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem MainWinMenu_Item_設定;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-		private System.Windows.Forms.ToolStripMenuItem 終了ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem MainWinMenu_Item_終了;
+		private System.Windows.Forms.NotifyIcon TaskTrayIcon;
+		private System.Windows.Forms.ContextMenuStrip TaskTrayIconMenu;
+		private System.Windows.Forms.ToolStripMenuItem TaskTrayIconMenu_Item_設定;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+		private System.Windows.Forms.ToolStripMenuItem TaskTrayIconMenu_Item_終了;
 	}
 }
 

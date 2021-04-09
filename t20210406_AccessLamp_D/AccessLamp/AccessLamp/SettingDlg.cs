@@ -39,6 +39,7 @@ namespace AccessLamp
 			this.余白の幅.Value = Ground.Setting.MainWin_余白の幅;
 
 			this.タスクバーにアイコンを表示する.Checked = Ground.Setting.タスクバーにアイコンを表示する;
+			this.タスクトレイにアイコンを表示する.Checked = Ground.Setting.タスクトレイにアイコンを表示する;
 			this.常に手前に表示する.Checked = Ground.Setting.常に手前に表示する;
 			this.位置を固定する.Checked = Ground.Setting.位置を固定する;
 			this.ランプを縦に並べる.Checked = Ground.Setting.ランプを縦に並べる;
@@ -83,6 +84,7 @@ namespace AccessLamp
 			Ground.Setting.MainWin_余白の幅 = (int)this.余白の幅.Value;
 
 			Ground.Setting.タスクバーにアイコンを表示する = this.タスクバーにアイコンを表示する.Checked;
+			Ground.Setting.タスクトレイにアイコンを表示する = this.タスクトレイにアイコンを表示する.Checked;
 			Ground.Setting.常に手前に表示する = this.常に手前に表示する.Checked;
 			Ground.Setting.位置を固定する = this.位置を固定する.Checked;
 			Ground.Setting.ランプを縦に並べる = this.ランプを縦に並べる.Checked;

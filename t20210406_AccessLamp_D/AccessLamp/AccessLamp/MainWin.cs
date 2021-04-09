@@ -101,6 +101,7 @@ namespace AccessLamp
 		private void LoadUIControls()
 		{
 			this.ShowInTaskbar = Ground.Setting.タスクバーにアイコンを表示する;
+			this.TaskTrayIcon.Visible = Ground.Setting.タスクトレイにアイコンを表示する;
 			this.TopMost = Ground.Setting.常に手前に表示する;
 
 			this.UnloadUIControls();
@@ -188,6 +189,8 @@ namespace AccessLamp
 			Ground.Setting.MainWin_T = this.Top;
 
 			this.UnloadPerfCntrList();
+
+			this.TaskTrayIcon.Visible = false;
 		}
 
 		private bool MT_Enabled;
@@ -293,13 +296,7 @@ namespace AccessLamp
 			}
 		}
 
-		private void 終了ToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			this.MT_Enabled = false;
-			this.Close();
-		}
-
-		private void 設定ToolStripMenuItem_Click(object sender, EventArgs e)
+		private void MainWinMenu_Item_設定_Click(object sender, EventArgs e)
 		{
 			this.MT_Enabled = false;
 			this.Visible = false;
@@ -319,6 +316,12 @@ namespace AccessLamp
 			GC.Collect();
 
 			this.MT_Enabled = true;
+		}
+
+		private void MainWinMenu_Item_終了_Click(object sender, EventArgs e)
+		{
+			this.MT_Enabled = false;
+			this.Close();
 		}
 
 		private int MouseDown_X;
@@ -346,6 +349,16 @@ namespace AccessLamp
 				Ground.Setting.MainWin_T = this.Location.Y;
 				Ground.SaveSettingRequest = true;
 			}
+		}
+
+		private void TaskTrayIconMenu_Item_設定_Click(object sender, EventArgs e)
+		{
+			MainWinMenu_Item_設定_Click(null, null);
+		}
+
+		private void TaskTrayIconMenu_Item_終了_Click(object sender, EventArgs e)
+		{
+			MainWinMenu_Item_終了_Click(null, null);
 		}
 	}
 }

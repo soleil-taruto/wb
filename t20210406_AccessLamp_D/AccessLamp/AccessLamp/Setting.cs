@@ -25,6 +25,7 @@ namespace AccessLamp
 		public int MainWin_余白の幅 = 10;
 
 		public bool タスクバーにアイコンを表示する = true;
+		public bool タスクトレイにアイコンを表示する = false;
 		public bool 常に手前に表示する = true;
 		public bool 位置を固定する = false;
 		public bool ランプを縦に並べる = false;
@@ -72,6 +73,7 @@ namespace AccessLamp
 			this.MainWin_余白の幅 = int.Parse(lines[c++]);
 
 			this.タスクバーにアイコンを表示する = int.Parse(lines[c++]) != 0;
+			this.タスクトレイにアイコンを表示する = int.Parse(lines[c++]) != 0;
 			this.常に手前に表示する = int.Parse(lines[c++]) != 0;
 			this.位置を固定する = int.Parse(lines[c++]) != 0;
 			this.ランプを縦に並べる = int.Parse(lines[c++]) != 0;
@@ -112,6 +114,7 @@ namespace AccessLamp
 			lines.Add("" + this.MainWin_余白の幅);
 
 			lines.Add("" + (this.タスクバーにアイコンを表示する ? 1 : 0));
+			lines.Add("" + (this.タスクトレイにアイコンを表示する ? 1 : 0));
 			lines.Add("" + (this.常に手前に表示する ? 1 : 0));
 			lines.Add("" + (this.位置を固定する ? 1 : 0));
 			lines.Add("" + (this.ランプを縦に並べる ? 1 : 0));
