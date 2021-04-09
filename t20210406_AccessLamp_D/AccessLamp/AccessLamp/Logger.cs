@@ -8,7 +8,7 @@ namespace AccessLamp
 {
 	public class Logger : IDisposable
 	{
-		private const long LOG_FILE_SIZE_MAX = 1000000;
+		private const long LOG_FILE_SIZE_MAX = 300000;
 		private string LogFile;
 
 		public Logger()
