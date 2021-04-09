@@ -36,7 +36,7 @@ namespace AccessLamp
 				.ToArray());
 			this.InstanceList.ClearSelected();
 
-			this.枠の幅.Value = Ground.Setting.MainWin_枠の幅;
+			this.余白の幅.Value = Ground.Setting.MainWin_余白の幅;
 
 			this.タスクバーにアイコンを表示する.Checked = Ground.Setting.タスクバーにアイコンを表示する;
 			this.常に手前に表示する.Checked = Ground.Setting.常に手前に表示する;
@@ -80,7 +80,7 @@ namespace AccessLamp
 				.Where(instance => instance.DisplayFlag)
 				.ToArray();
 
-			Ground.Setting.MainWin_枠の幅 = (int)this.枠の幅.Value;
+			Ground.Setting.MainWin_余白の幅 = (int)this.余白の幅.Value;
 
 			Ground.Setting.タスクバーにアイコンを表示する = this.タスクバーにアイコンを表示する.Checked;
 			Ground.Setting.常に手前に表示する = this.常に手前に表示する.Checked;

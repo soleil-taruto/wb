@@ -22,7 +22,7 @@ namespace AccessLamp
 		public int MainWin_L = 0;
 		public int MainWin_T = 0;
 
-		public int MainWin_枠の幅 = 10;
+		public int MainWin_余白の幅 = 10;
 
 		public bool タスクバーにアイコンを表示する = true;
 		public bool 常に手前に表示する = true;
@@ -69,7 +69,7 @@ namespace AccessLamp
 			this.MainWin_L = int.Parse(lines[c++]);
 			this.MainWin_T = int.Parse(lines[c++]);
 
-			this.MainWin_枠の幅 = int.Parse(lines[c++]);
+			this.MainWin_余白の幅 = int.Parse(lines[c++]);
 
 			this.タスクバーにアイコンを表示する = int.Parse(lines[c++]) != 0;
 			this.常に手前に表示する = int.Parse(lines[c++]) != 0;
@@ -109,7 +109,7 @@ namespace AccessLamp
 			lines.Add("" + this.MainWin_L);
 			lines.Add("" + this.MainWin_T);
 
-			lines.Add("" + this.MainWin_枠の幅);
+			lines.Add("" + this.MainWin_余白の幅);
 
 			lines.Add("" + (this.タスクバーにアイコンを表示する ? 1 : 0));
 			lines.Add("" + (this.常に手前に表示する ? 1 : 0));

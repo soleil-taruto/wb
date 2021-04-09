@@ -105,7 +105,7 @@ namespace AccessLamp
 
 			this.UnloadUIControls();
 
-			int MARGIN = Ground.Setting.MainWin_枠の幅;
+			int MARGIN = Ground.Setting.MainWin_余白の幅;
 			const int W_EMPTY = 50;
 			const int H_EMPTY = 50;
 

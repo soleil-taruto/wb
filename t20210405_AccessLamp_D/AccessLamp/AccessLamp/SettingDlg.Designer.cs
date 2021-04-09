@@ -38,7 +38,7 @@
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
 			this.表示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.非表示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.InstanceList説明 = new System.Windows.Forms.Label();
+			this.InstanceListHint = new System.Windows.Forms.Label();
 			this.BtnUp = new System.Windows.Forms.Button();
 			this.BtnDown = new System.Windows.Forms.Button();
 			this.BtnEdit = new System.Windows.Forms.Button();
@@ -62,19 +62,19 @@
 			this.BtnDeniedBackColor = new System.Windows.Forms.Button();
 			this.BtnBackgroundColor = new System.Windows.Forms.Button();
 			this.MainTab_03 = new System.Windows.Forms.TabPage();
+			this.位置を固定する = new System.Windows.Forms.CheckBox();
 			this.ランプを縦に並べる = new System.Windows.Forms.CheckBox();
 			this.常に手前に表示する = new System.Windows.Forms.CheckBox();
 			this.タスクバーにアイコンを表示する = new System.Windows.Forms.CheckBox();
-			this.枠の幅 = new System.Windows.Forms.NumericUpDown();
-			this.label1 = new System.Windows.Forms.Label();
-			this.位置を固定する = new System.Windows.Forms.CheckBox();
+			this.余白の幅 = new System.Windows.Forms.NumericUpDown();
+			this.余白の幅ラベル = new System.Windows.Forms.Label();
 			this.InstanceListMenu.SuspendLayout();
 			this.MainTab.SuspendLayout();
 			this.MainTab_01.SuspendLayout();
 			this.MainTab_02.SuspendLayout();
 			this.BackgrounSample.SuspendLayout();
 			this.MainTab_03.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.枠の幅)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.余白の幅)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// InstanceList
@@ -143,14 +143,15 @@
 			this.非表示ToolStripMenuItem.Text = "非表示";
 			this.非表示ToolStripMenuItem.Click += new System.EventHandler(this.非表示ToolStripMenuItem_Click);
 			// 
-			// InstanceList説明
+			// InstanceListHint
 			// 
-			this.InstanceList説明.AutoSize = true;
-			this.InstanceList説明.Location = new System.Drawing.Point(6, 3);
-			this.InstanceList説明.Name = "InstanceList説明";
-			this.InstanceList説明.Size = new System.Drawing.Size(392, 20);
-			this.InstanceList説明.TabIndex = 0;
-			this.InstanceList説明.Text = "行選択して ... Edit 押下で編集 / Up , Down 押下でオーダー変更";
+			this.InstanceListHint.AutoSize = true;
+			this.InstanceListHint.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.InstanceListHint.Location = new System.Drawing.Point(6, 3);
+			this.InstanceListHint.Name = "InstanceListHint";
+			this.InstanceListHint.Size = new System.Drawing.Size(491, 20);
+			this.InstanceListHint.TabIndex = 0;
+			this.InstanceListHint.Text = "行選択して ... Up , Down 押下でオーダー変更 / Edit 押下で編集 / 右ClkMnuあり";
 			// 
 			// BtnUp
 			// 
@@ -203,7 +204,7 @@
 			// 
 			this.MainTab_01.Controls.Add(this.InstanceList);
 			this.MainTab_01.Controls.Add(this.BtnUp);
-			this.MainTab_01.Controls.Add(this.InstanceList説明);
+			this.MainTab_01.Controls.Add(this.InstanceListHint);
 			this.MainTab_01.Controls.Add(this.BtnEdit);
 			this.MainTab_01.Controls.Add(this.BtnDown);
 			this.MainTab_01.Location = new System.Drawing.Point(4, 29);
@@ -402,8 +403,8 @@
 			this.MainTab_03.Controls.Add(this.ランプを縦に並べる);
 			this.MainTab_03.Controls.Add(this.常に手前に表示する);
 			this.MainTab_03.Controls.Add(this.タスクバーにアイコンを表示する);
-			this.MainTab_03.Controls.Add(this.枠の幅);
-			this.MainTab_03.Controls.Add(this.label1);
+			this.MainTab_03.Controls.Add(this.余白の幅);
+			this.MainTab_03.Controls.Add(this.余白の幅ラベル);
 			this.MainTab_03.Location = new System.Drawing.Point(4, 29);
 			this.MainTab_03.Name = "MainTab_03";
 			this.MainTab_03.Size = new System.Drawing.Size(552, 396);
@@ -411,6 +412,17 @@
 			this.MainTab_03.Text = "その他";
 			this.MainTab_03.UseVisualStyleBackColor = true;
 			this.MainTab_03.Click += new System.EventHandler(this.MainTab_03_Click);
+			// 
+			// 位置を固定する
+			// 
+			this.位置を固定する.AutoSize = true;
+			this.位置を固定する.Location = new System.Drawing.Point(34, 140);
+			this.位置を固定する.Name = "位置を固定する";
+			this.位置を固定する.Size = new System.Drawing.Size(119, 24);
+			this.位置を固定する.TabIndex = 4;
+			this.位置を固定する.Text = "位置を固定する";
+			this.位置を固定する.UseVisualStyleBackColor = true;
+			this.位置を固定する.CheckedChanged += new System.EventHandler(this.位置を固定する_CheckedChanged);
 			// 
 			// ランプを縦に並べる
 			// 
@@ -445,38 +457,27 @@
 			this.タスクバーにアイコンを表示する.UseVisualStyleBackColor = true;
 			this.タスクバーにアイコンを表示する.CheckedChanged += new System.EventHandler(this.タスクバーにアイコンを表示する_CheckedChanged);
 			// 
-			// 枠の幅
+			// 余白の幅
 			// 
-			this.枠の幅.Location = new System.Drawing.Point(84, 28);
-			this.枠の幅.Maximum = new decimal(new int[] {
+			this.余白の幅.Location = new System.Drawing.Point(97, 28);
+			this.余白の幅.Maximum = new decimal(new int[] {
             300,
             0,
             0,
             0});
-			this.枠の幅.Name = "枠の幅";
-			this.枠の幅.Size = new System.Drawing.Size(80, 27);
-			this.枠の幅.TabIndex = 1;
-			this.枠の幅.ValueChanged += new System.EventHandler(this.枠の幅_ValueChanged);
+			this.余白の幅.Name = "余白の幅";
+			this.余白の幅.Size = new System.Drawing.Size(80, 27);
+			this.余白の幅.TabIndex = 1;
+			this.余白の幅.ValueChanged += new System.EventHandler(this.枠の幅_ValueChanged);
 			// 
-			// label1
+			// 余白の幅ラベル
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(30, 30);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(48, 20);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "枠の幅";
-			// 
-			// 位置を固定する
-			// 
-			this.位置を固定する.AutoSize = true;
-			this.位置を固定する.Location = new System.Drawing.Point(34, 140);
-			this.位置を固定する.Name = "位置を固定する";
-			this.位置を固定する.Size = new System.Drawing.Size(119, 24);
-			this.位置を固定する.TabIndex = 4;
-			this.位置を固定する.Text = "位置を固定する";
-			this.位置を固定する.UseVisualStyleBackColor = true;
-			this.位置を固定する.CheckedChanged += new System.EventHandler(this.位置を固定する_CheckedChanged);
+			this.余白の幅ラベル.AutoSize = true;
+			this.余白の幅ラベル.Location = new System.Drawing.Point(30, 30);
+			this.余白の幅ラベル.Name = "余白の幅ラベル";
+			this.余白の幅ラベル.Size = new System.Drawing.Size(61, 20);
+			this.余白の幅ラベル.TabIndex = 0;
+			this.余白の幅ラベル.Text = "余白の幅";
 			// 
 			// SettingDlg
 			// 
@@ -507,7 +508,7 @@
 			this.BackgrounSample.PerformLayout();
 			this.MainTab_03.ResumeLayout(false);
 			this.MainTab_03.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.枠の幅)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.余白の幅)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -515,7 +516,7 @@
 		#endregion
 
 		private System.Windows.Forms.ListBox InstanceList;
-		private System.Windows.Forms.Label InstanceList説明;
+		private System.Windows.Forms.Label InstanceListHint;
 		private System.Windows.Forms.Button BtnUp;
 		private System.Windows.Forms.Button BtnDown;
 		private System.Windows.Forms.Button BtnEdit;
@@ -546,8 +547,8 @@
 		private System.Windows.Forms.Button Btnフォント;
 		private System.Windows.Forms.Label FontSettingDisplay;
 		private System.Windows.Forms.TabPage MainTab_03;
-		private System.Windows.Forms.NumericUpDown 枠の幅;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.NumericUpDown 余白の幅;
+		private System.Windows.Forms.Label 余白の幅ラベル;
 		private System.Windows.Forms.CheckBox タスクバーにアイコンを表示する;
 		private System.Windows.Forms.CheckBox ランプを縦に並べる;
 		private System.Windows.Forms.CheckBox 常に手前に表示する;
