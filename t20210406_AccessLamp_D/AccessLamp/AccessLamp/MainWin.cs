@@ -300,6 +300,7 @@ namespace AccessLamp
 		{
 			this.MT_Enabled = false;
 			this.Visible = false;
+			this.TaskTrayIcon.Visible = false;
 
 			using (SettingDlg f = new SettingDlg())
 			{
