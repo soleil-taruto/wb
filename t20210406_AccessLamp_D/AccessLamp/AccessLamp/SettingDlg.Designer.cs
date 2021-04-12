@@ -382,7 +382,7 @@
 			this.BtnBackgroundColor.Name = "BtnBackgroundColor";
 			this.BtnBackgroundColor.Size = new System.Drawing.Size(346, 50);
 			this.BtnBackgroundColor.TabIndex = 0;
-			this.BtnBackgroundColor.Text = "背景色";
+			this.BtnBackgroundColor.Text = "余白の色 (背景色)";
 			this.BtnBackgroundColor.UseVisualStyleBackColor = true;
 			this.BtnBackgroundColor.Click += new System.EventHandler(this.BtnBackgroundColor_Click);
 			// 
