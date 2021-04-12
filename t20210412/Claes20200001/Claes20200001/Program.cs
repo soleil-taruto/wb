@@ -48,7 +48,29 @@ namespace Charlotte
 
 		private void Main4()
 		{
-			// none
+			Dictionary<string, int> map = SCommon.CreateDictionary<int>();
+
+			using (CsvFileReader reader = new CsvFileReader(Consts.R_FILE, Encoding.UTF8))
+			{
+				foreach (string[] row in reader.ReadToEnd())
+				{
+					string key = int.Parse(row[0]) / 100 + "_" + row[4];
+
+					if (!map.ContainsKey(key))
+						map.Add(key, 0);
+
+					map[key] += int.Parse(row[1]);
+				}
+			}
+			using (CsvFileWriter writer = new CsvFileWriter(Consts.W_FILE, false, Encoding.UTF8))
+			{
+				foreach (string key in map.Keys.Sort(SCommon.Comp))
+				{
+					writer.WriteCell(key);
+					writer.WriteCell("" + map[key]);
+					writer.EndRow();
+				}
+			}
 		}
 	}
 }
