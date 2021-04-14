@@ -50,8 +50,15 @@ namespace Charlotte.Tests
 			P_Distinct(list1);
 			list1.Sort((a, b) => a - b);
 
+#if true
+			list2 = list2
+				.OrderBy((a, b) => a - b)
+				.OrderedDistinct((a, b) => a == b)
+				.ToList();
+#else
 			list2.Sort((a, b) => a - b);
-			list2 = list2.SortedDistinct((a, b) => a == b).ToList();
+			list2 = list2.OrderedDistinct((a, b) => a == b).ToList();
+#endif
 
 			if (SCommon.Comp(list1, list2, (a, b) => a - b) != 0)
 				throw null; // BUG !!!

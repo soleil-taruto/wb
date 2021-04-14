@@ -64,7 +64,7 @@ namespace Charlotte
 			}
 			using (CsvFileWriter writer = new CsvFileWriter(Consts.W_FILE, false, Encoding.UTF8))
 			{
-				foreach (string key in map.Keys.Sort(SCommon.Comp))
+				foreach (string key in map.Keys.OrderBy(SCommon.Comp))
 				{
 					writer.WriteCell(key);
 					writer.WriteCell("" + map[key]);
