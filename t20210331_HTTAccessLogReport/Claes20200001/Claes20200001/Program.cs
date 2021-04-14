@@ -109,7 +109,7 @@ namespace Charlotte
 			using (Aggregate aggrDomain = new Aggregate())
 			using (Aggregate aggrPath = new Aggregate())
 			using (Aggregate aggrPath_Zip = new Aggregate())
-			using (Aggregate aggrPath_Zip_IP = new Aggregate())
+			using (Aggregate aggrPath_IP_Zip = new Aggregate())
 			using (Aggregate aggrStatus = new Aggregate())
 			{
 				foreach (string logFile in logFiles)
@@ -135,7 +135,7 @@ namespace Charlotte
 							if (SCommon.EndsWithIgnoreCase(record.Path, ".zip"))
 							{
 								aggrPath_Zip.Add(record.Path);
-								aggrPath_Zip_IP.Add(record.Path + " " + record.IP);
+								aggrPath_IP_Zip.Add(record.IP + " " + record.Path);
 							}
 							aggrStatus.Add(record.Status);
 						}
@@ -148,7 +148,7 @@ namespace Charlotte
 				PrintReportLines(aggrDomain, "Domain");
 				PrintReportLines(aggrPath, "Path");
 				PrintReportLines(aggrPath_Zip, "Path_Zip");
-				PrintReportLines(aggrPath_Zip_IP, "Path_Zip_IP");
+				PrintReportLines(aggrPath_IP_Zip, "Path_IP_Zip");
 				PrintReportLines(aggrStatus, "Status");
 			}
 		}
