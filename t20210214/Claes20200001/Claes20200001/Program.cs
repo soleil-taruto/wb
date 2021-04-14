@@ -44,7 +44,7 @@ namespace Charlotte
 
 		private void Main3_a(string dir)
 		{
-			foreach (string file in Directory.GetFiles(dir).Sort(SCommon.CompIgnoreCase))
+			foreach (string file in Directory.GetFiles(dir).OrderBy(SCommon.CompIgnoreCase))
 			{
 				Canvas canvas = Canvas.Load(file);
 
