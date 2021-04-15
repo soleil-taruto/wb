@@ -65,6 +65,24 @@ namespace Charlotte
 
 		private List<DistanceInfo> Distances = new List<DistanceInfo>();
 
+		private class VelocityInfo
+		{
+			public DistanceInfo A;
+			public DistanceInfo B;
+			public double Velocity;
+		}
+
+		private List<VelocityInfo> Velocities = new List<VelocityInfo>();
+
+		private class VelocityDiffInfo
+		{
+			public VelocityInfo A;
+			public VelocityInfo B;
+			public double VelocityDiff;
+		}
+
+		private List<VelocityDiffInfo> VelocityDiffs = new List<VelocityDiffInfo>();
+
 		private void Main4_a2(IEnumerable<string> lines)
 		{
 			foreach (string line in lines)
@@ -99,6 +117,7 @@ namespace Charlotte
 
 			Distances.Sort((a, b) => SCommon.Comp(a.TimeStamp.ToTimeStamp(), b.TimeStamp.ToTimeStamp()));
 
+			// Check
 			for (int index = 1; index < Distances.Count; index++)
 				if (Distances[index].TimeStamp - Distances[index - 1].TimeStamp == 0) // ? 同じ日時
 					if (Distances[index].StrDistance != Distances[index - 1].StrDistance) // ? 異なる距離
@@ -106,9 +125,41 @@ namespace Charlotte
 
 			Distances = Distances.OrderedDistinct((a, b) => a.TimeStamp - b.TimeStamp == 0).ToList();
 
+			// Check
+			foreach (DistanceInfo d in Distances)
+				if (
+					d.TimeStamp.Hour != 1 ||
+					d.TimeStamp.Minute != 0 ||
+					d.TimeStamp.Second != 0
+					)
+					throw null; // 想定外 -- いつも 01:00:00 みたい
+
+			// Check
+			for (int index = 1; index < Distances.Count; index++)
+				if (Distances[index].TimeStamp - Distances[index - 1].TimeStamp != 86400) // ? 24時間差ではない
+					throw null; // 想定外
+
 			foreach (DistanceInfo d in Distances)
 				d.Distance = double.Parse(d.StrDistance);
 
+#if true
+			for (int index = 1; index < Distances.Count; index++)
+			{
+				DistanceInfo d1 = Distances[index];
+				DistanceInfo d2 = Distances[index - 1];
+
+				double velocity = (d1.Distance - d2.Distance) / 86400.0;
+
+				Console.WriteLine("velocity: " + velocity.ToString("F19"));
+
+				Velocities.Add(new VelocityInfo()
+				{
+					A = d2,
+					B = d1,
+					Velocity = velocity,
+				});
+			}
+#else
 			SCommon.SimpleDateTime startTimeStamp = Distances[0].TimeStamp;
 			SCommon.SimpleDateTime endTimeStamp = Distances[Distances.Count - 1].TimeStamp;
 
@@ -120,6 +171,34 @@ namespace Charlotte
 				double velocity = (d1.Distance - d2.Distance) / (d1.TimeStamp.ToSec() - d2.TimeStamp.ToSec());
 
 				Console.WriteLine(timeStamp + " ==> " + velocity.ToString("F19") + " km/s");
+			}
+#endif
+
+			for (int index = 1; index < Velocities.Count; index++)
+			{
+				VelocityInfo v1 = Velocities[index];
+				VelocityInfo v2 = Velocities[index - 1];
+
+				double velocityDiff = v1.Velocity - v2.Velocity;
+
+				Console.WriteLine("velocityDiff: " + velocityDiff.ToString("F19"));
+
+				VelocityDiffs.Add(new VelocityDiffInfo()
+				{
+					A = v2,
+					B = v1,
+					VelocityDiff = velocityDiff,
+				});
+			}
+
+			for (int index = 1; index < VelocityDiffs.Count; index++)
+			{
+				VelocityDiffInfo v1 = VelocityDiffs[index];
+				VelocityDiffInfo v2 = VelocityDiffs[index - 1];
+
+				double velocityDiffDiff = v1.VelocityDiff - v2.VelocityDiff;
+
+				Console.WriteLine("velocityDiffDiff: " + velocityDiffDiff.ToString("F19"));
 			}
 		}
 	}
