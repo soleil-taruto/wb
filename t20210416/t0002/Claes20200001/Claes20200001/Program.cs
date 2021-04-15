@@ -43,50 +43,83 @@ namespace Charlotte
 
 			// --
 
-			//Common.Pause();
+			Common.Pause();
 		}
 
 		private void Main4()
 		{
-			CollectMail_File(@"C:\temp\gmail.mbox");
+			Main4_a(@"C:\temp\messages");
 		}
 
-		private void CollectMail_File(string file)
+		private void Main4_a(string dir)
 		{
-			CollectMail(File.ReadAllLines(file, Encoding.ASCII));
+			Main4_a2(SCommon.Concat(Directory.GetFiles(dir).Select(file => File.ReadAllLines(file, Encoding.UTF8))));
 		}
 
-		private void CollectMail(string[] lines)
+		private class DistanceInfo
 		{
-			List<byte[]> messages = new List<byte[]>();
+			public SCommon.SimpleDateTime TimeStamp;
+			public string StrDistance;
+			public double Distance;
+		}
 
-			for (int index = 0; index < lines.Length; index++)
+		private List<DistanceInfo> Distances = new List<DistanceInfo>();
+
+		private void Main4_a2(IEnumerable<string> lines)
+		{
+			foreach (string line in lines)
 			{
-				string line = lines[index];
-
-				if (line == "X-Mailer: stm")
+				if (
+					line.StartsWith("S1A: ") ||
+					line.StartsWith("S1B: ")
+					)
 				{
-					line = lines[++index];
-
-					if (line != "")
+					if (!Regex.IsMatch(line.Substring(5), "^[0-9]{4}/[0-9]{2}/[0-9]{2} \\([月火水木金土日]\\) [0-9]{2}:[0-9]{2}:[0-9]{2}, [.0-9]+$"))
 						throw null; // 想定外
 
-					line = lines[++index];
+					long valTimeStamp =
+						long.Parse(line.Substring(5, 4)) * 10000000000 +
+						long.Parse(line.Substring(10, 2)) * 100000000 +
+						long.Parse(line.Substring(13, 2)) * 1000000 +
+						long.Parse(line.Substring(20, 2)) * 10000 +
+						long.Parse(line.Substring(23, 2)) * 100 +
+						long.Parse(line.Substring(26, 2));
 
-					if (!Regex.IsMatch(line, "^[A-Za-z0-9\\+\\/]*[\\=]{0,3}$")) // ? not BASE-64
-						throw null; // 想定外
+					SCommon.SimpleDateTime timeStamp = SCommon.SimpleDateTime.FromTimeStamp(valTimeStamp);
 
-					messages.Add(SCommon.Base64.I.Decode(line));
-					line = lines[++index];
+					string strDistance = line.Substring(30);
 
-					if (line != "")
-						throw null; // 想定外
+					Distances.Add(new DistanceInfo()
+					{
+						TimeStamp = timeStamp,
+						StrDistance = strDistance,
+					});
 				}
 			}
 
-			foreach (byte[] message in messages)
+			Distances.Sort((a, b) => SCommon.Comp(a.TimeStamp.ToTimeStamp(), b.TimeStamp.ToTimeStamp()));
+
+			for (int index = 1; index < Distances.Count; index++)
+				if (Distances[index].TimeStamp - Distances[index - 1].TimeStamp == 0) // ? 同じ日時
+					if (Distances[index].StrDistance != Distances[index - 1].StrDistance) // ? 異なる距離
+						throw null; // 想定外
+
+			Distances = Distances.OrderedDistinct((a, b) => a.TimeStamp - b.TimeStamp == 0).ToList();
+
+			foreach (DistanceInfo d in Distances)
+				d.Distance = double.Parse(d.StrDistance);
+
+			SCommon.SimpleDateTime startTimeStamp = Distances[0].TimeStamp;
+			SCommon.SimpleDateTime endTimeStamp = Distances[Distances.Count - 1].TimeStamp;
+
+			for (SCommon.SimpleDateTime timeStamp = startTimeStamp + 12 * 3600; timeStamp.ToTimeStamp() < endTimeStamp.ToTimeStamp(); timeStamp += 24 * 3600)
 			{
-				File.WriteAllBytes(Common.NextOutputPath() + ".txt", message);
+				DistanceInfo d1 = Distances.Last(d => d.TimeStamp.ToTimeStamp() < timeStamp.ToTimeStamp());
+				DistanceInfo d2 = Distances.First(d => timeStamp.ToTimeStamp() < d.TimeStamp.ToTimeStamp());
+
+				double velocity = (d1.Distance - d2.Distance) / (d1.TimeStamp.ToSec() - d2.TimeStamp.ToSec());
+
+				Console.WriteLine(timeStamp + " ==> " + velocity.ToString("F19") + " km/s");
 			}
 		}
 	}
