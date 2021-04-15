@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Charlotte.Commons;
 
 namespace Charlotte.Tests
 {
@@ -26,7 +25,7 @@ namespace Charlotte.Tests
 
 			File.WriteAllLines(
 				outputFile,
-				File.ReadAllLines(inputFile, Encoding.UTF8).Where(line => !SCommon.Contains(removeTargs, line)),
+				File.ReadAllLines(inputFile, Encoding.UTF8).Where(line => !Common.Contains(removeTargs, line)),
 				Encoding.UTF8
 				);
 		}

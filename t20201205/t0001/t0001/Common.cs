@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace Charlotte.Commons
+namespace Charlotte
 {
-	public static class SCommon
+	public static class Common
 	{
 		public static bool Contains(string[] lines, string targLine)
 		{
