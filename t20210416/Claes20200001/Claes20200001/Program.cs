@@ -48,7 +48,46 @@ namespace Charlotte
 
 		private void Main4()
 		{
-			// none
+			CollectMail_File(@"C:\temp\gmail.mbox");
+		}
+
+		private void CollectMail_File(string file)
+		{
+			CollectMail(File.ReadAllLines(file, Encoding.ASCII));
+		}
+
+		private void CollectMail(string[] lines)
+		{
+			List<byte[]> messages = new List<byte[]>();
+
+			for (int index = 0; index < lines.Length; index++)
+			{
+				string line = lines[index];
+
+				if (line == "X-Mailer: stm")
+				{
+					line = lines[++index];
+
+					if (line != "")
+						throw null; // 想定外
+
+					line = lines[++index];
+
+					if (!Regex.IsMatch(line, "^[A-Za-z0-9\\+\\/]*[\\=]{0,3}$")) // ? not BASE-64
+						throw null; // 想定外
+
+					messages.Add(SCommon.Base64.I.Decode(line));
+					line = lines[++index];
+
+					if (line != "")
+						throw null; // 想定外
+				}
+			}
+
+			foreach (byte[] message in messages)
+			{
+				File.WriteAllBytes(Common.NextOutputPath() + ".txt", message);
+			}
 		}
 	}
 }
