@@ -48,7 +48,7 @@ namespace Charlotte
 
 		private void Main4()
 		{
-			CollectMail_File(@"C:\temp\gmail.mbox");
+			CollectMail_File(@"C:\wb\20210416_gmail\すべてのメール.mbox");
 		}
 
 		private void CollectMail_File(string file)

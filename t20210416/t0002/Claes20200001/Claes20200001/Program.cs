@@ -48,7 +48,7 @@ namespace Charlotte
 
 		private void Main4()
 		{
-			Main4_a(@"C:\temp\messages");
+			Main4_a(@"C:\temp\t0001_out");
 		}
 
 		private void Main4_a(string dir)
@@ -199,6 +199,28 @@ namespace Charlotte
 				double velocityDiffDiff = v1.VelocityDiff - v2.VelocityDiff;
 
 				Console.WriteLine("velocityDiffDiff: " + velocityDiffDiff.ToString("F19"));
+			}
+
+			// ----
+
+			Console.WriteLine("====");
+
+			foreach (VelocityInfo v in Velocities)
+			{
+				SCommon.SimpleDateTime timeStamp = v.A.TimeStamp + 12 * 3600;
+				double velocity = v.Velocity;
+
+				Console.WriteLine(timeStamp + " ==> " + velocity.ToString("F19") + " km/s");
+			}
+			Console.WriteLine("====");
+
+			using (CsvFileWriter writer = new CsvFileWriter(Common.NextOutputPath() + ".csv"))
+			{
+				foreach (VelocityInfo v in Velocities)
+				{
+					writer.WriteCell("" + v.Velocity.ToString("F19"));
+					writer.EndRow();
+				}
 			}
 		}
 	}
