@@ -199,15 +199,16 @@ namespace AccessLamp
 						Ground.Setting.SaveToFile();
 						Ground.SaveSettingRequest = false;
 					}
-					if (this.MT_Count % 300 == 0) // 30秒毎に実行
+					if (this.MT_Count % 300 == 0) // 30秒毎に実行 // 上位の周期の倍数であること。
 					{
 						if (Ground.Setting.切断されたランプの再接続を試みる)
 							foreach (PerfCntrInfo pc in Ground.ReadPerfCntrList.Concat(Ground.WritePerfCntrList))
 								pc.Rebirth();
-					}
-					if (this.MT_Count % 6000 == 0) // 10分毎に実行
-					{
-						GC.Collect();
+
+						if (this.MT_Count % 6000 == 0) // 10分毎に実行 // 上位の周期の倍数であること。
+						{
+							GC.Collect();
+						}
 					}
 				}
 

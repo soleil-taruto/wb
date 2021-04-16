@@ -220,7 +220,7 @@ namespace AccessLamp
 						Ground.Setting.SaveToFile();
 						Ground.SaveSettingRequest = false;
 					}
-					if (this.MT_Count % 6000 == 0) // 10分毎に実行
+					if (this.MT_Count % 6000 == 0) // 10分毎に実行 // 上位の周期の倍数であること。
 					{
 						GC.Collect();
 					}
