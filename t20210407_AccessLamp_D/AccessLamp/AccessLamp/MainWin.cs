@@ -207,10 +207,6 @@ namespace AccessLamp
 			this.MT_Busy = true;
 			try
 			{
-				if (this.MT_Count % 6000 == 0) // 10分毎に実行
-				{
-					GC.Collect();
-				}
 				if (this.MT_Count % 30 == 0) // 3秒毎に実行
 				{
 					if (Ground.Ev停止.WaitOne(0))
@@ -223,6 +219,10 @@ namespace AccessLamp
 					{
 						Ground.Setting.SaveToFile();
 						Ground.SaveSettingRequest = false;
+					}
+					if (this.MT_Count % 6000 == 0) // 10分毎に実行
+					{
+						GC.Collect();
 					}
 				}
 
