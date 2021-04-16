@@ -185,6 +185,17 @@ namespace Charlotte.Tests
 
 			Console.WriteLine(SimpleDateTime.FromTimeStamp(99991231235959).ToDateTime()); // DateTime.MaxValue
 			//Console.WriteLine(SimpleDateTime.FromTimeStamp(100000101000000).ToDateTime()); // DateTime.MaxValue + 1 // 例外
+
+			{
+				SimpleDateTime a = SimpleDateTime.FromTimeStamp(20210101000000);
+				SimpleDateTime b = SimpleDateTime.FromTimeStamp(20210101000000);
+				SimpleDateTime c = SimpleDateTime.FromTimeStamp(20221231235959);
+
+				Console.WriteLine(a == b);
+				Console.WriteLine(a == c);
+				Console.WriteLine(a != b);
+				Console.WriteLine(a != c);
+			}
 		}
 
 		public void Test05()
