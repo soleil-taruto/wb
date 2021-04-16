@@ -29,6 +29,7 @@ namespace AccessLamp
 		public bool 常に手前に表示する = true;
 		public bool 位置を固定する = false;
 		public bool ランプを縦に並べる = false;
+		public bool 切断されたランプの再接続を試みる = false;
 
 		public Color BackgroundColor = Color.FromArgb(64, 64, 64);
 		public Color DeniedBackColor = Color.DarkGray;
@@ -77,6 +78,7 @@ namespace AccessLamp
 			this.常に手前に表示する = int.Parse(lines[c++]) != 0;
 			this.位置を固定する = int.Parse(lines[c++]) != 0;
 			this.ランプを縦に並べる = int.Parse(lines[c++]) != 0;
+			this.切断されたランプの再接続を試みる = int.Parse(lines[c++]) != 0;
 
 			this.BackgroundColor = Common.ToColor(lines[c++]);
 			this.DeniedBackColor = Common.ToColor(lines[c++]);
@@ -118,6 +120,7 @@ namespace AccessLamp
 			lines.Add("" + (this.常に手前に表示する ? 1 : 0));
 			lines.Add("" + (this.位置を固定する ? 1 : 0));
 			lines.Add("" + (this.ランプを縦に並べる ? 1 : 0));
+			lines.Add("" + (this.切断されたランプの再接続を試みる ? 1 : 0));
 
 			lines.Add(Common.ToString(this.BackgroundColor));
 			lines.Add(Common.ToString(this.DeniedBackColor));

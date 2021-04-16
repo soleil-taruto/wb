@@ -12,11 +12,31 @@ namespace AccessLamp
 	/// </summary>
 	public class PerfCntrInfo : IDisposable
 	{
+		private string CategoryName;
+		private string CounterName;
+		private string InstanceName;
 		private PerformanceCounter Inner;
 
-		public PerfCntrInfo(PerformanceCounter binding_inner)
+		public PerfCntrInfo(string categoryName, string counterName, string instanceName)
 		{
-			this.Inner = binding_inner;
+			this.CategoryName = categoryName;
+			this.CounterName = counterName;
+			this.InstanceName = instanceName;
+			this.TryCreatePerformanceCounter();
+		}
+
+		private void TryCreatePerformanceCounter()
+		{
+			try
+			{
+				this.Inner = new PerformanceCounter(this.CategoryName, this.CounterName, this.InstanceName);
+			}
+			catch (Exception ex)
+			{
+				Ground.Logger.WriteLog(ex);
+
+				this.Inner = null;
+			}
 		}
 
 		private bool NextValue()
@@ -66,6 +86,26 @@ namespace AccessLamp
 				return Status_e.BUSY;
 
 			return Status_e.VERY_BUSY;
+		}
+
+		public void Rebirth()
+		{
+			if (this.Inner != null)
+				return;
+
+			this.TryCreatePerformanceCounter();
+
+			if (this.Inner == null)
+				return;
+
+			try
+			{
+				this.NextValue();
+			}
+			catch
+			{
+				this.Dispose();
+			}
 		}
 
 		public void Dispose()

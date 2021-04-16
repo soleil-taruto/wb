@@ -68,6 +68,7 @@
 			this.タスクバーにアイコンを表示する = new System.Windows.Forms.CheckBox();
 			this.余白の幅 = new System.Windows.Forms.NumericUpDown();
 			this.余白の幅ラベル = new System.Windows.Forms.Label();
+			this.切断されたランプの再接続を試みる = new System.Windows.Forms.CheckBox();
 			this.InstanceListMenu.SuspendLayout();
 			this.MainTab.SuspendLayout();
 			this.MainTab_01.SuspendLayout();
@@ -388,6 +389,7 @@
 			// 
 			// MainTab_03
 			// 
+			this.MainTab_03.Controls.Add(this.切断されたランプの再接続を試みる);
 			this.MainTab_03.Controls.Add(this.タスクトレイにアイコンを表示する);
 			this.MainTab_03.Controls.Add(this.位置を固定する);
 			this.MainTab_03.Controls.Add(this.ランプを縦に並べる);
@@ -479,6 +481,17 @@
 			this.余白の幅ラベル.TabIndex = 0;
 			this.余白の幅ラベル.Text = "余白の幅";
 			// 
+			// 切断されたランプの再接続を試みる
+			// 
+			this.切断されたランプの再接続を試みる.AutoSize = true;
+			this.切断されたランプの再接続を試みる.Location = new System.Drawing.Point(34, 230);
+			this.切断されたランプの再接続を試みる.Name = "切断されたランプの再接続を試みる";
+			this.切断されたランプの再接続を試みる.Size = new System.Drawing.Size(236, 24);
+			this.切断されたランプの再接続を試みる.TabIndex = 7;
+			this.切断されたランプの再接続を試みる.Text = "切断されたランプの再接続を試みる";
+			this.切断されたランプの再接続を試みる.UseVisualStyleBackColor = true;
+			this.切断されたランプの再接続を試みる.CheckedChanged += new System.EventHandler(this.切断されたランプの再接続を試みる_CheckedChanged);
+			// 
 			// SettingDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -552,5 +565,6 @@
 		private System.Windows.Forms.CheckBox 常に手前に表示する;
 		private System.Windows.Forms.CheckBox 位置を固定する;
 		private System.Windows.Forms.CheckBox タスクトレイにアイコンを表示する;
+		private System.Windows.Forms.CheckBox 切断されたランプの再接続を試みる;
 	}
 }

@@ -37,29 +37,8 @@ namespace AccessLamp
 
 			foreach (PCInstanceInfo instance in Ground.Setting.PCInstances)
 			{
-				PerformanceCounter r = null;
-				PerformanceCounter w = null;
-
-				try
-				{
-					r = new PerformanceCounter("LogicalDisk", "Disk Read Bytes/sec", instance.Name);
-				}
-				catch (Exception ex)
-				{
-					Ground.Logger.WriteLog(ex);
-				}
-
-				try
-				{
-					w = new PerformanceCounter("LogicalDisk", "Disk Write Bytes/sec", instance.Name);
-				}
-				catch (Exception ex)
-				{
-					Ground.Logger.WriteLog(ex);
-				}
-
-				Ground.ReadPerfCntrList.Add(new PerfCntrInfo(r));
-				Ground.WritePerfCntrList.Add(new PerfCntrInfo(w));
+				Ground.ReadPerfCntrList.Add(new PerfCntrInfo("LogicalDisk", "Disk Read Bytes/sec", instance.Name));
+				Ground.WritePerfCntrList.Add(new PerfCntrInfo("LogicalDisk", "Disk Write Bytes/sec", instance.Name));
 			}
 		}
 
@@ -207,10 +186,6 @@ namespace AccessLamp
 			this.MT_Busy = true;
 			try
 			{
-				if (this.MT_Count % 6000 == 0) // 10分毎に実行
-				{
-					GC.Collect();
-				}
 				if (this.MT_Count % 30 == 0) // 3秒毎に実行
 				{
 					if (Ground.Ev停止.WaitOne(0))
@@ -223,6 +198,16 @@ namespace AccessLamp
 					{
 						Ground.Setting.SaveToFile();
 						Ground.SaveSettingRequest = false;
+					}
+					if (this.MT_Count % 300 == 0) // 30秒毎に実行
+					{
+						if (Ground.Setting.切断されたランプの再接続を試みる)
+							foreach (PerfCntrInfo pc in Ground.ReadPerfCntrList.Concat(Ground.WritePerfCntrList))
+								pc.Rebirth();
+					}
+					if (this.MT_Count % 6000 == 0) // 10分毎に実行
+					{
+						GC.Collect();
 					}
 				}
 

@@ -43,6 +43,7 @@ namespace AccessLamp
 			this.常に手前に表示する.Checked = Ground.Setting.常に手前に表示する;
 			this.位置を固定する.Checked = Ground.Setting.位置を固定する;
 			this.ランプを縦に並べる.Checked = Ground.Setting.ランプを縦に並べる;
+			this.切断されたランプの再接続を試みる.Checked = Ground.Setting.切断されたランプの再接続を試みる;
 
 			this.UpdateUI();
 		}
@@ -88,6 +89,7 @@ namespace AccessLamp
 			Ground.Setting.常に手前に表示する = this.常に手前に表示する.Checked;
 			Ground.Setting.位置を固定する = this.位置を固定する.Checked;
 			Ground.Setting.ランプを縦に並べる = this.ランプを縦に並べる.Checked;
+			Ground.Setting.切断されたランプの再接続を試みる = this.切断されたランプの再接続を試みる.Checked;
 		}
 
 		private void 選択解除ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -281,6 +283,11 @@ namespace AccessLamp
 		}
 
 		private void ランプを縦に並べる_CheckedChanged(object sender, EventArgs e)
+		{
+			// noop
+		}
+
+		private void 切断されたランプの再接続を試みる_CheckedChanged(object sender, EventArgs e)
 		{
 			// noop
 		}
