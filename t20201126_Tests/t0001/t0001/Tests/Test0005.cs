@@ -191,10 +191,28 @@ namespace Charlotte.Tests
 				SimpleDateTime b = SimpleDateTime.FromTimeStamp(20210101000000);
 				SimpleDateTime c = SimpleDateTime.FromTimeStamp(20221231235959);
 
-				Console.WriteLine(a == b);
-				Console.WriteLine(a == c);
-				Console.WriteLine(a != b);
-				Console.WriteLine(a != c);
+				Console.WriteLine(a == b); // True
+				Console.WriteLine(a == c); // False
+				Console.WriteLine(c == a); // False
+
+				Console.WriteLine(a != b); // False
+				Console.WriteLine(a != c); // True
+
+				Console.WriteLine(a < b); // False
+				Console.WriteLine(a < c); // True
+				Console.WriteLine(c < a); // False
+
+				Console.WriteLine(a > b); // False
+				Console.WriteLine(a > c); // False
+				Console.WriteLine(c > a); // True
+
+				Console.WriteLine(a <= b); // True
+				Console.WriteLine(a <= c); // True
+				Console.WriteLine(c <= a); // False
+
+				Console.WriteLine(a >= b); // True
+				Console.WriteLine(a >= c); // False
+				Console.WriteLine(c >= a); // True
 			}
 		}
 
