@@ -119,11 +119,11 @@ namespace Charlotte
 
 			// Check
 			for (int index = 1; index < Distances.Count; index++)
-				if (Distances[index].TimeStamp - Distances[index - 1].TimeStamp == 0) // ? 同じ日時
+				if (Distances[index].TimeStamp == Distances[index - 1].TimeStamp) // ? 同じ日時
 					if (Distances[index].StrDistance != Distances[index - 1].StrDistance) // ? 異なる距離
 						throw null; // 想定外
 
-			Distances = Distances.OrderedDistinct((a, b) => a.TimeStamp - b.TimeStamp == 0).ToList();
+			Distances = Distances.OrderedDistinct((a, b) => a.TimeStamp == b.TimeStamp).ToList();
 
 			// Check
 			foreach (DistanceInfo d in Distances)
@@ -136,7 +136,7 @@ namespace Charlotte
 
 			// Check
 			for (int index = 1; index < Distances.Count; index++)
-				if (Distances[index].TimeStamp - Distances[index - 1].TimeStamp != 86400) // ? 24時間差ではない
+				if (Distances[index].TimeStamp != Distances[index - 1].TimeStamp + 86400) // ? 24時間差ではない
 					throw null; // 想定外
 
 			foreach (DistanceInfo d in Distances)
