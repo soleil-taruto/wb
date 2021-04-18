@@ -10,6 +10,8 @@ namespace Charlotte.Tests
 {
 	public class Test0001
 	{
+		// 注意：ここで調べたサンプル位置は「開始位置・終了位置」なので SetLoopByStEnd を使用すること。
+
 		public void Test01()
 		{
 			// -- choose one --
