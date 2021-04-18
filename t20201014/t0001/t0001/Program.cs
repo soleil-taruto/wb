@@ -37,7 +37,8 @@ namespace Charlotte
 				case Test0001.E0001_e.C: Console.WriteLine("C"); break;
 
 				default:
-					throw null; // ここへ来る。
+					Console.WriteLine("Unknown"); // ここへ来る。
+					break;
 			}
 		}
 	}
