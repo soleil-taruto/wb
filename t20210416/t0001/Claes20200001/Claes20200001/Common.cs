@@ -16,8 +16,6 @@ namespace Charlotte
 			Console.ReadLine();
 		}
 
-		// sync > @ GetOutputDir
-
 		#region GetOutputDir
 
 		private static string GOD_Dir;
@@ -70,7 +68,5 @@ namespace Charlotte
 		}
 
 		#endregion
-
-		// < sync
 	}
 }

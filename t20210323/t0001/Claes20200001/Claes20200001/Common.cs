@@ -10,8 +10,6 @@ namespace Charlotte
 {
 	public static class Common
 	{
-		// sync > @ GetOutputDir
-
 		#region GetOutputDir
 
 		private static string GOD_Dir;
@@ -64,8 +62,6 @@ namespace Charlotte
 		}
 
 		#endregion
-
-		// < sync
 
 		public static bool IsPrime(int value)
 		{

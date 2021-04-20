@@ -16,8 +16,6 @@ namespace Charlotte
 			Console.ReadLine();
 		}
 
-		// sync > @ GetOutputDir
-
 		#region GetOutputDir
 
 		private static string GOD_Dir;
@@ -70,8 +68,6 @@ namespace Charlotte
 		}
 
 		#endregion
-
-		// < sync
 
 		public static string LPad(string str, int minlen, string padding)
 		{
