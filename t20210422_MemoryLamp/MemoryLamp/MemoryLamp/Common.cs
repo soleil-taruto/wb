@@ -5,7 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace AccessLamp
+namespace MemoryLamp
 {
 	public class Common
 	{

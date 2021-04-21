@@ -8,8 +8,8 @@
     <ProjectGuid>{94E7FC3A-E3A4-40F9-9683-4EAB027D4080}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AccessLamp</RootNamespace>
-    <AssemblyName>AccessLamp</AssemblyName>
+    <RootNamespace>MemoryLamp</RootNamespace>
+    <AssemblyName>MemoryLamp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

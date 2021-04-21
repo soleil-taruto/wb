@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C# Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessLamp", "AccessLamp\AccessLamp.csproj", "{94E7FC3A-E3A4-40F9-9683-4EAB027D4080}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryLamp", "MemoryLamp\MemoryLamp.csproj", "{94E7FC3A-E3A4-40F9-9683-4EAB027D4080}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

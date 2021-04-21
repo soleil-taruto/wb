@@ -11,7 +11,7 @@ using System.Security.Permissions;
 using System.Text;
 using System.Windows.Forms;
 
-namespace AccessLamp
+namespace MemoryLamp
 {
 	public partial class MainWin : Form
 	{

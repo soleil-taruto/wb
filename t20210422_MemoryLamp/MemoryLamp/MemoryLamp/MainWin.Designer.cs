@@ -1,4 +1,4 @@
-﻿namespace AccessLamp
+﻿namespace MemoryLamp
 {
 	partial class MainWin
 	{
@@ -81,7 +81,7 @@
 			// 
 			this.TaskTrayIcon.ContextMenuStrip = this.TaskTrayIconMenu;
 			this.TaskTrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("TaskTrayIcon.Icon")));
-			this.TaskTrayIcon.Text = "AccessLamp_D";
+			this.TaskTrayIcon.Text = "MemoryLamp";
 			// 
 			// TaskTrayIconMenu
 			// 
@@ -126,7 +126,7 @@
 			this.Name = "MainWin";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "AccessLamp_D";
+			this.Text = "MemoryLamp";
 			this.TopMost = true;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWin_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWin_FormClosed);

@@ -8,7 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace AccessLamp
+namespace MemoryLamp
 {
 	static class Program
 	{
@@ -63,7 +63,7 @@ namespace AccessLamp
 		}
 
 		public static string APP_IDENT = "{c517f05f-ab13-4514-8e71-f52147d4adf2}";
-		public static string APP_TITLE = "AccessLamp_D";
+		public static string APP_TITLE = "MemoryLamp";
 
 		private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
 		{

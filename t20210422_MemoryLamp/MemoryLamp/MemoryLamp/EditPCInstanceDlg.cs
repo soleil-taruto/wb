@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace AccessLamp
+namespace MemoryLamp
 {
 	public partial class EditPCInstanceDlg : Form
 	{

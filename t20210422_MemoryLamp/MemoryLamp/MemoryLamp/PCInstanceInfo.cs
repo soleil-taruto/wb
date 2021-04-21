@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AccessLamp
+namespace MemoryLamp
 {
 	/// <summary>
 	/// パフォーマンスカウンタのインスタンスの情報

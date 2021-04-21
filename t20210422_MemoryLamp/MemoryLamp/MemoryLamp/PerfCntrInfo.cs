@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace AccessLamp
+namespace MemoryLamp
 {
 	/// <summary>
 	/// モニタ中のパフォーマンスカウンタの状態

@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Drawing;
 
-namespace AccessLamp
+namespace MemoryLamp
 {
 	public class Setting
 	{
