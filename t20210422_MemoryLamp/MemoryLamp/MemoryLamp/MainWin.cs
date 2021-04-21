@@ -78,7 +78,7 @@ namespace MemoryLamp
 
 		private bool MT_Enabled;
 		//private bool MT_Busy;
-		//private long MT_Count;
+		private long MT_Count;
 
 		private void MainTimer_Tick(object sender, EventArgs e)
 		{
@@ -88,7 +88,7 @@ namespace MemoryLamp
 
 			//this.MT_Busy = true;
 
-			//if (this.MT_Count % xxx == 0)
+			//if (this.MT_Count % 1 == 0) // 1秒毎に実行
 			{
 				if (Ground.Ev停止.WaitOne(0))
 				{
@@ -113,10 +113,15 @@ namespace MemoryLamp
 					if (this.TaskTrayIcon.Text != text)
 						this.TaskTrayIcon.Text = text;
 				}
+
+				if (this.MT_Count % 600 == 0) // 10分毎に実行 // 上位の周期の倍数であること。
+				{
+					GC.Collect();
+				}
 			}
 
 			//this.MT_Busy = false;
-			//this.MT_Count++;
+			this.MT_Count++;
 		}
 
 		private void TaskTrayIconMenu_Item_終了_Click(object sender, EventArgs e)
