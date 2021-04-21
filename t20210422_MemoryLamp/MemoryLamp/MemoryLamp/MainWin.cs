@@ -53,13 +53,16 @@ namespace MemoryLamp
 				LoadIcon("MemoryUsage_80-90_Pct.ico"),
 				LoadIcon("MemoryUsage_90-100_Pct.ico"),
 			};
+
+			this.TaskTrayIcon.Icon = this.MemoryUsageIcons[0];
+			this.TaskTrayIcon.Text = "準備しています...";
 		}
 
 		private void MainWin_Shown(object sender, EventArgs e)
 		{
 			this.Visible = false;
-			this.MT_Enabled = true;
 			this.TaskTrayIcon.Visible = true;
+			this.MT_Enabled = true;
 		}
 
 		private void MainWin_FormClosing(object sender, FormClosingEventArgs e)

@@ -45,14 +45,9 @@ namespace MemoryLamp
 					return;
 			}
 
-			Ground.Logger = new Logger();
-
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainWin());
-
-			Ground.Logger.Dispose();
-			Ground.Logger = null;
 
 			mtx.ReleaseMutex();
 			mtx.Close();

@@ -12,7 +12,5 @@ namespace MemoryLamp
 		public static string SelfDir;
 
 		public static EventWaitHandle Ev停止 = new EventWaitHandle(false, EventResetMode.AutoReset, Program.APP_IDENT + "_EV_STOP");
-
-		public static Logger Logger;
 	}
 }
