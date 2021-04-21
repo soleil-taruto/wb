@@ -47,13 +47,9 @@ namespace MemoryLamp
 
 			Ground.Logger = new Logger();
 
-			Ground.Setting.LoadFromFile();
-
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainWin());
-
-			Ground.Setting.SaveToFile();
 
 			Ground.Logger.Dispose();
 			Ground.Logger = null;
@@ -62,7 +58,7 @@ namespace MemoryLamp
 			mtx.Close();
 		}
 
-		public static string APP_IDENT = "{c517f05f-ab13-4514-8e71-f52147d4adf2}";
+		public static string APP_IDENT = "{153b665d-154d-4bfa-9728-3fa688cb8823}";
 		public static string APP_TITLE = "MemoryLamp";
 
 		private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

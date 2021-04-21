@@ -53,13 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Consts.cs" />
-    <Compile Include="EditPCInstanceDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditPCInstanceDlg.Designer.cs">
-      <DependentUpon>EditPCInstanceDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FontSettingInfo.cs" />
     <Compile Include="Ground.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MainWin.cs">
@@ -68,21 +61,10 @@
     <Compile Include="MainWin.Designer.cs">
       <DependentUpon>MainWin.cs</DependentUpon>
     </Compile>
-    <Compile Include="PerfCntrInfo.cs" />
-    <Compile Include="PCInstanceInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="Setting.cs" />
-    <Compile Include="SettingDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SettingDlg.Designer.cs">
-      <DependentUpon>SettingDlg.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="EditPCInstanceDlg.resx">
-      <DependentUpon>EditPCInstanceDlg.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="Win32.cs" />
     <EmbeddedResource Include="MainWin.resx">
       <DependentUpon>MainWin.cs</DependentUpon>
     </EmbeddedResource>
@@ -95,9 +77,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SettingDlg.resx">
-      <DependentUpon>SettingDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

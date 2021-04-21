@@ -14,11 +14,5 @@ namespace MemoryLamp
 		public static EventWaitHandle Ev停止 = new EventWaitHandle(false, EventResetMode.AutoReset, Program.APP_IDENT + "_EV_STOP");
 
 		public static Logger Logger;
-
-		public static Setting Setting = new Setting();
-		public static bool SaveSettingRequest = false;
-
-		public static List<PerfCntrInfo> ReadPerfCntrList = new List<PerfCntrInfo>();
-		public static List<PerfCntrInfo> WritePerfCntrList = new List<PerfCntrInfo>();
 	}
 }
