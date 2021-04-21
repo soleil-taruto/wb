@@ -26,7 +26,8 @@ namespace Charlotte
 
 			// -- choose one --
 
-			MakeButtons_20210421();
+			//MakeButtons_20210421_DoremyRockman();
+			MakeButtons_20210421_SSAGame();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -37,9 +38,19 @@ namespace Charlotte
 			//Console.ReadLine();
 		}
 
-		private void MakeButtons_20210421()
+		private void MakeButtons_20210421_DoremyRockman()
 		{
 			I4Color color = new I4Color(255, 64, 64, 255);
+
+			MakeButtons_20210209_a(2400, color, "ゲームスタート", 60);
+			MakeButtons_20210209_a(2400, color, "コンテニュー", 180);
+			MakeButtons_20210209_a(2400, color, "設定", 675);
+			MakeButtons_20210209_a(2400, color, "終了", 675);
+		}
+
+		private void MakeButtons_20210421_SSAGame()
+		{
+			I4Color color = new I4Color(233, 255, 33, 255);
 
 			MakeButtons_20210209_a(2400, color, "ゲームスタート", 60);
 			MakeButtons_20210209_a(2400, color, "コンテニュー", 180);
