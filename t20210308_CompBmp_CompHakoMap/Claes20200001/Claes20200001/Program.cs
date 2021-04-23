@@ -29,7 +29,7 @@ namespace Charlotte
 			//Main3();
 			//Main3_20210309();
 			//Main3_20210315();
-			Main3_20210316(); // Hako
+			Main3_20210316(); // Hako, Hakonoko
 			//Main3_20210318(); // Hako2
 			//new Test0001().Test01();
 			//new Test0001().Test02();
@@ -76,8 +76,9 @@ namespace Charlotte
 
 		private void Main3_20210316()
 		{
+			Main3_20210316_a(@"C:\Dev\Elsa2\e20210244_Hakonoko\dat\res", @"C:\Dev\Elsa2\e20210245_Hakonoko\dat\res");
 			//Main3_20210316_a(@"C:\temp\20210316165906\e20130001_Hako", @"C:\temp\20210316203551\e20130001_Hako");
-			Main3_20210316_a(@"C:\temp\0001", @"C:\temp\0002");
+			//Main3_20210316_a(@"C:\temp\0001", @"C:\temp\0002");
 		}
 
 		private void Main3_20210316_a(string dir1, string dir2) // for Hako
