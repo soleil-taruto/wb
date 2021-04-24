@@ -68,5 +68,16 @@ namespace Charlotte
 		}
 
 		#endregion
+
+		public static int GetIndentLength(string line)
+		{
+			int index;
+
+			for (index = 0; index < line.Length; index++)
+				if (line[index] != '\t')
+					break;
+
+			return index;
+		}
 	}
 }
