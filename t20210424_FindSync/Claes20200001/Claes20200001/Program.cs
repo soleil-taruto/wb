@@ -165,6 +165,8 @@ namespace Charlotte
 
 		private int GetClosingLineIndex(string[] lines, int startLineIndex, int targIndentLen, string closingLineEntity, string closingLineEntity_収集対象外)
 		{
+			// HACK: 改行可能なリテラル文字列内に想定外のインデント幅が存在する可能性があるが、考慮してない。
+
 			for (int index = startLineIndex; index < lines.Length; index++)
 			{
 				int indentLen = Common.GetIndentLength(lines[index]);
