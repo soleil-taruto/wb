@@ -79,5 +79,25 @@ namespace Charlotte
 
 			return index;
 		}
+
+		public static string FindProjectFileDir(string file)
+		{
+			string dir = SCommon.MakeFullPath(file);
+
+			for (; ; )
+			{
+				if (dir.Length == 3) // ? ルートDIRまで到達した。-> プロジェクトファイルが見つからない。
+					throw new Exception("プロジェクトファイルが無い。");
+
+				if (dir.Length < 3)
+					throw null; // never
+
+				dir = Path.GetDirectoryName(dir);
+
+				if (Directory.GetFiles(dir, "*.csproj").FirstOrDefault() != null) // ? プロジェクトファイルを見つけた。
+					break;
+			}
+			return dir;
+		}
 	}
 }

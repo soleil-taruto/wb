@@ -110,7 +110,7 @@ namespace Charlotte
 			}
 		}
 
-		private int GetClosingLineIndex(string[] lines, int startLineIndex, int targIndentLen, string closingLineEntity, string closingLineEntity_NG)
+		private int GetClosingLineIndex(string[] lines, int startLineIndex, int targIndentLen, string closingLineEntity, string closingLineEntity_収集対象外)
 		{
 			for (int index = startLineIndex; index < lines.Length; index++)
 			{
@@ -130,7 +130,7 @@ namespace Charlotte
 					if (entity == closingLineEntity)
 						return index;
 
-					if (entity == closingLineEntity_NG)
+					if (entity == closingLineEntity_収集対象外)
 						return -1;
 				}
 			}
@@ -139,11 +139,7 @@ namespace Charlotte
 
 		private void ReportMain()
 		{
-			// TODO
-			// TODO
-			// TODO
-
-			using (CsvFileWriter writer = new CsvFileWriter(Common.NextOutputPath() + ".csv"))
+			using (CsvFileWriter writer = new CsvFileWriter(Common.NextOutputPath() + ".csv", false, Encoding.UTF8))
 			{
 				foreach (SourceCodeRange sourceCodeRange in this.SourceCodeRanges)
 				{

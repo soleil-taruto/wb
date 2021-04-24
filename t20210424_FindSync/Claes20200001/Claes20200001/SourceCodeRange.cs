@@ -24,8 +24,16 @@ namespace Charlotte
 			this.LineIndexOfFile = 0;
 			this.Lines = File.ReadAllLines(file, Encoding.UTF8);
 			this.IndentLength = 0;
-			this.Name = Path.GetFileName(file);
+			this.Name = FileToName(file);
 			this.Hash = SCommon.Hex.ToString(SCommon.GetSHA512(File.ReadAllBytes(file)));
+		}
+
+		private string FileToName(string file)
+		{
+			file = SCommon.MakeFullPath(file);
+			string projectFileDir = Common.FindProjectFileDir(file);
+			string relPath = SCommon.ChangeRoot(file, projectFileDir, "<Project>");
+			return relPath;
 		}
 
 		public SourceCodeRange(string file, int firstLineIndex, int lineCount)
