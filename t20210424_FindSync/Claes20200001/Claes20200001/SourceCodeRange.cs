@@ -28,20 +28,20 @@ namespace Charlotte
 			this.Hash = SCommon.Hex.ToString(SCommon.GetSHA512(File.ReadAllBytes(file)));
 		}
 
-		private string FileToName(string file)
+		private static string FileToName(string file)
 		{
 			file = SCommon.MakeFullPath(file);
 			string projectFileDir = Common.FindProjectFileDir(file);
-			string relPath = SCommon.ChangeRoot(file, projectFileDir, "<Project>");
-			return relPath;
+			string name = SCommon.ChangeRoot(file, projectFileDir, "<Project>");
+			return name;
 		}
 
-		public SourceCodeRange(string file, int firstLineIndex, int lineCount)
+		public SourceCodeRange(string file, string[] fileLines, int firstLineIndex, int lineCount, int declareLineIndex)
 		{
 			this.WholeFile = false;
 			this.FilePath = file;
 			this.LineIndexOfFile = firstLineIndex;
-			this.Lines = File.ReadAllLines(file, Encoding.UTF8)
+			this.Lines = fileLines
 				.Skip(firstLineIndex)
 				.Take(lineCount)
 				.ToArray();
@@ -66,7 +66,7 @@ namespace Charlotte
 					this.Lines[index] = this.Lines[index].Substring(this.IndentLength - 1); // 最小のインデント幅が1になるように調整する。
 				}
 			}
-			this.Name = this.Lines[0].Substring(this.IndentLength);
+			this.Name = fileLines[declareLineIndex].Substring(this.IndentLength);
 			this.Hash = SCommon.Hex.ToString(SCommon.GetSHA512(Encoding.UTF8.GetBytes(SCommon.LinesToText(this.Lines))));
 		}
 	}

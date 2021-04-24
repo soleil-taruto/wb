@@ -54,13 +54,48 @@ namespace Charlotte
 				throw new Exception("no ROOT_DIR");
 
 			this.CollectMain();
+
+			this.SourceCodeRanges.Sort((a, b) =>
+			{
+				if (a == b) // ? 同じレンジ
+					return 0;
+
+				int ret;
+
+				ret = SCommon.Comp(a.Name, b.Name);
+				if (ret != 0)
+					return ret;
+
+				ret = SCommon.Comp(a.Hash, b.Hash);
+				if (ret != 0)
+					return ret;
+
+				ret = SCommon.Comp(a.FilePath, b.FilePath);
+				if (ret != 0)
+					return ret;
+
+				ret = a.LineIndexOfFile - b.LineIndexOfFile;
+				if (ret != 0)
+					return ret;
+
+				throw null; // never -- 同じレンジ && 異なるインスタンス -> 有り得ない。
+			});
+
 			this.ReportMain();
 		}
 
 		private void CollectMain()
 		{
-			foreach (string csFile in Directory.GetFiles(Consts.ROOT_DIR, "*.cs", SearchOption.AllDirectories))
+			foreach (string csFile in Directory.GetFiles(Consts.ROOT_DIR, "*.cs", SearchOption.AllDirectories)
+				.Select(v => SCommon.MakeFullPath(v)) // 2bs
+				)
 			{
+				if (SCommon.ContainsIgnoreCase(csFile, "\\Properties\\")) // ? プロジェクトのプロパティ配下 -> 除外する。
+					continue;
+
+				if (SCommon.EndsWithIgnoreCase(csFile, ".Designer.cs")) // ? フォームデザイナ -> 除外する。
+					continue;
+
 				this.SourceCodeRanges.Add(new SourceCodeRange(csFile));
 				this.CollectInCSFile(csFile);
 			}
@@ -93,7 +128,22 @@ namespace Charlotte
 							int closingLineIndex = GetClosingLineIndex(lines, index + 2, indentLen, "}", "};");
 
 							if (closingLineIndex != -1)
-								this.SourceCodeRanges.Add(new SourceCodeRange(csFile, index, (closingLineIndex + 1) - index));
+							{
+								int declareIndex = index;
+
+								// クラス・メソッドのコメント部分まで拡張する。
+								while (
+									1 <= index &&
+									Common.GetIndentLength(lines[index - 1]) == indentLen &&
+									lines[index - 1].Substring(indentLen).StartsWith("///")
+									)
+									index--;
+
+								int lineCount = (closingLineIndex + 1) - index;
+								this.SourceCodeRanges.Add(new SourceCodeRange(csFile, lines, index, lineCount, declareIndex));
+								index += lineCount - 1;
+								continue;
+							}
 						}
 					}
 
@@ -104,7 +154,10 @@ namespace Charlotte
 						if (closingLineIndex == -1)
 							throw null; // never
 
-						this.SourceCodeRanges.Add(new SourceCodeRange(csFile, index, (closingLineIndex + 1) - index));
+						int lineCount = (closingLineIndex + 1) - index;
+						this.SourceCodeRanges.Add(new SourceCodeRange(csFile, lines, index, lineCount, index));
+						index += lineCount - 1;
+						continue;
 					}
 				}
 			}
@@ -139,13 +192,22 @@ namespace Charlotte
 
 		private void ReportMain()
 		{
-			using (CsvFileWriter writer = new CsvFileWriter(Common.NextOutputPath() + ".csv", false, Encoding.UTF8))
+			using (StreamWriter writer = new StreamWriter(Path.Combine(Common.GetOutputDir(), "全データ.txt"), false, Encoding.UTF8))
 			{
 				foreach (SourceCodeRange sourceCodeRange in this.SourceCodeRanges)
 				{
-					writer.WriteCell(sourceCodeRange.Name);
-					writer.WriteCell(sourceCodeRange.Hash);
-					writer.EndRow();
+					writer.WriteLine(sourceCodeRange.Name);
+					writer.WriteLine("\t" + sourceCodeRange.Hash);
+					writer.WriteLine("\t" + (sourceCodeRange.WholeFile ? "ファイル全体" : "ファイル部分"));
+					writer.WriteLine("\t" + sourceCodeRange.FilePath);
+					writer.WriteLine("\t" + (sourceCodeRange.LineIndexOfFile + 1));
+					writer.WriteLine("\t" + sourceCodeRange.Lines.Length);
+					writer.WriteLine("\t" + sourceCodeRange.IndentLength);
+
+					for (int index = 0; index < sourceCodeRange.Lines.Length; index++)
+						writer.WriteLine("\t[" + (index + 1).ToString("D4") + "]\t" + sourceCodeRange.Lines[index]);
+
+					writer.WriteLine("");
 				}
 			}
 		}
