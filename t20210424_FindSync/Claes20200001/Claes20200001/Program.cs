@@ -101,44 +101,57 @@ namespace Charlotte
 					{
 						int closingLineIndex = GetClosingLineIndex(lines, index + 1, indentLen, "#endregion", null);
 
-						if (closingLineIndex != -1)
-							this.SourceCodeRanges.Add(new SourceCodeRange(csFile, index, (closingLineIndex + 1) - index));
+						if (closingLineIndex == -1)
+							throw null; // never
+
+						this.SourceCodeRanges.Add(new SourceCodeRange(csFile, index, (closingLineIndex + 1) - index));
 					}
 				}
 			}
 		}
 
-		private int GetClosingLineIndex(string[] lines, int startLineIndex, int targIndentLen, string closingLineEntity, string closingLineEntity_02)
+		private int GetClosingLineIndex(string[] lines, int startLineIndex, int targIndentLen, string closingLineEntity, string closingLineEntity_NG)
 		{
 			for (int index = startLineIndex; index < lines.Length; index++)
 			{
 				int indentLen = Common.GetIndentLength(lines[index]);
 
-				if (indentLen == 0)
+				if (indentLen == 0) // ? インデント無し -- #if true など
 				{
 					// noop
 				}
-				else
+				else // ? インデント有り
 				{
-					if (indentLen < targIndentLen)
-						break;
+					if (indentLen < targIndentLen) // ? 想定外のインデント幅
+						throw new Exception("Bad indentLen");
 
 					string entity = lines[index].Substring(targIndentLen);
 
 					if (entity == closingLineEntity)
 						return index;
 
-					if (entity == closingLineEntity_02)
+					if (entity == closingLineEntity_NG)
 						return -1;
 				}
 			}
-			Console.WriteLine("イレギュラーなフォーマット"); // test test test
-			return -1;
+			throw new Exception("閉じていない。");
 		}
 
 		private void ReportMain()
 		{
 			// TODO
+			// TODO
+			// TODO
+
+			using (CsvFileWriter writer = new CsvFileWriter(Common.NextOutputPath() + ".csv"))
+			{
+				foreach (SourceCodeRange sourceCodeRange in this.SourceCodeRanges)
+				{
+					writer.WriteCell(sourceCodeRange.Name);
+					writer.WriteCell(sourceCodeRange.Hash);
+					writer.EndRow();
+				}
+			}
 		}
 	}
 }

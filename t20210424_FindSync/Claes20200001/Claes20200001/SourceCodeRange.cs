@@ -46,11 +46,11 @@ namespace Charlotte
 			{
 				int indentLen = Common.GetIndentLength(this.Lines[index]);
 
-				if (indentLen == 0)
+				if (indentLen == 0) // ? インデント無し -- #if true など
 				{
-					// インデント無しなら何もしない。-- #if true など
+					// noop
 				}
-				else
+				else // ? インデント有り
 				{
 					if (indentLen < this.IndentLength) // ? 想定外のインデント幅
 						throw new Exception("Bad indentLen");
