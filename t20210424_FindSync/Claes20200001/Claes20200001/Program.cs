@@ -114,36 +114,36 @@ namespace Charlotte
 					string entity = lines[index].Substring(indentLen);
 
 					if (
-						entity.StartsWith("public ") ||
-						entity.StartsWith("protected ") ||
-						entity.StartsWith("private ")
+						2 <= indentLen && // ファイル全体(WholeFile == true)があるので、アウタークラスは除外する。
+						(
+							entity.StartsWith("public ") ||
+							entity.StartsWith("protected ") ||
+							entity.StartsWith("private ")
+							) &&
+						index + 2 < lines.Length && // "{", "}" それぞれの行が存在するはず。
+						Common.GetIndentLength(lines[index + 1]) == indentLen &&
+						lines[index + 1].Substring(indentLen) == "{"
 						)
 					{
-						if (
-							index + 2 < lines.Length &&
-							Common.GetIndentLength(lines[index + 1]) == indentLen &&
-							lines[index + 1].Substring(indentLen) == "{"
-							)
+						int closingLineIndex = GetClosingLineIndex(lines, index + 2, indentLen, "}", "};");
+
+						if (closingLineIndex != -1)
 						{
-							int closingLineIndex = GetClosingLineIndex(lines, index + 2, indentLen, "}", "};");
+							int declareIndex = index;
 
-							if (closingLineIndex != -1)
-							{
-								int declareIndex = index;
+							// インナークラス・メソッドのコメント部分まで拡張する。
+							while (
+								1 <= index &&
+								Common.GetIndentLength(lines[index - 1]) == indentLen &&
+								lines[index - 1].Substring(indentLen).StartsWith("///")
+								)
+								index--;
 
-								// クラス・メソッドのコメント部分まで拡張する。
-								while (
-									1 <= index &&
-									Common.GetIndentLength(lines[index - 1]) == indentLen &&
-									lines[index - 1].Substring(indentLen).StartsWith("///")
-									)
-									index--;
-
-								int lineCount = (closingLineIndex + 1) - index;
-								this.SourceCodeRanges.Add(new SourceCodeRange(csFile, lines, index, lineCount, declareIndex));
-								index += lineCount - 1;
-								continue;
-							}
+							int lineCount = (closingLineIndex + 1) - index;
+							this.SourceCodeRanges.Add(new SourceCodeRange(csFile, lines, index, lineCount, declareIndex));
+							//index += lineCount - 1; // このインナークラス・メソッドをスキップ
+							index = declareIndex + 1; // "{" をスキップ
+							continue;
 						}
 					}
 
@@ -156,7 +156,7 @@ namespace Charlotte
 
 						int lineCount = (closingLineIndex + 1) - index;
 						this.SourceCodeRanges.Add(new SourceCodeRange(csFile, lines, index, lineCount, index));
-						index += lineCount - 1;
+						//index += lineCount - 1; // このリージョンをスキップ
 						continue;
 					}
 				}
