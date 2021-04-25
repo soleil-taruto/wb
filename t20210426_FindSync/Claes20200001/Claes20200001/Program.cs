@@ -62,6 +62,8 @@ namespace Charlotte
 
 				int ret;
 
+				// ソートキー { Name, IndentLength, Hash } までは後続の OrderedGrouping によって想定される。
+
 				ret = SCommon.Comp(a.Name, b.Name); // 1
 				if (ret != 0)
 					return ret;
