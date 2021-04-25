@@ -99,5 +99,23 @@ namespace Charlotte
 			}
 			return dir;
 		}
+
+		public static IEnumerable<T[]> OrderedGrouping<T>(IList<T> list, Func<T, T, bool> match)
+		{
+			List<T> group = new List<T>();
+
+			group.Add(list[0]);
+
+			for (int index = 1; index < list.Count; index++)
+			{
+				if (!match(group[0], list[index]))
+				{
+					yield return group.ToArray();
+					group.Clear();
+				}
+				group.Add(list[index]);
+			}
+			yield return group.ToArray();
+		}
 	}
 }

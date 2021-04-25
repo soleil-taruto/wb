@@ -62,15 +62,15 @@ namespace Charlotte
 
 				int ret;
 
-				ret = SCommon.Comp(a.Name, b.Name);
+				ret = SCommon.Comp(a.Name, b.Name); // 1
 				if (ret != 0)
 					return ret;
 
-				ret = a.IndentLength - b.IndentLength;
+				ret = a.IndentLength - b.IndentLength; // 2
 				if (ret != 0)
 					return ret;
 
-				ret = SCommon.Comp(a.Hash, b.Hash);
+				ret = SCommon.Comp(a.Hash, b.Hash); // 3
 				if (ret != 0)
 					return ret;
 
@@ -203,6 +203,80 @@ namespace Charlotte
 						writer.WriteLine("\t[" + (index + 1).ToString("D4") + "]\t" + sourceCodeRange.Lines[index]);
 
 					writer.WriteLine("");
+				}
+			}
+			using (CsvFileWriter writer = new CsvFileWriter(Path.Combine(Common.GetOutputDir(), "全リスト.csv"), false, Encoding.UTF8))
+			{
+				writer.WriteCell("名前");
+				writer.WriteCell("インデント幅");
+				writer.WriteCell("ハッシュ値");
+				writer.EndRow();
+
+				foreach (SourceCodeRange sourceCodeRange in this.SourceCodeRanges)
+				{
+					writer.WriteCell(sourceCodeRange.Name, true);
+					writer.WriteCell("" + sourceCodeRange.IndentLength);
+					writer.WriteCell(sourceCodeRange.Hash);
+					writer.EndRow();
+				}
+			}
+			using (CsvFileWriter writer = new CsvFileWriter(Path.Combine(Common.GetOutputDir(), "名前.csv"), false, Encoding.UTF8))
+			{
+				writer.WriteCell("名前");
+				writer.WriteCell("(インデント幅の)種類数");
+				writer.WriteCell("種類数");
+				writer.WriteCell("件数");
+				writer.EndRow();
+
+				foreach (SourceCodeRange[] group in Common.OrderedGrouping(this.SourceCodeRanges, (a, b) =>
+					a.Name == b.Name))
+				{
+					writer.WriteCell(group[0].Name);
+					writer.WriteCell("" + Common.OrderedGrouping(group, (a, b) => a.IndentLength == b.IndentLength).Count()); // (インデント幅の)種類数
+					writer.WriteCell("" + Common.OrderedGrouping(group, (a, b) => a.IndentLength == b.IndentLength && a.Hash == b.Hash).Count()); // 種類数
+					writer.WriteCell("" + group.Length); // 件数
+					writer.EndRow();
+				}
+			}
+			using (CsvFileWriter writer = new CsvFileWriter(Path.Combine(Common.GetOutputDir(), "名前とインデント幅.csv"), false, Encoding.UTF8))
+			{
+				writer.WriteCell("名前");
+				writer.WriteCell("インデント幅");
+				writer.WriteCell("種類数");
+				writer.WriteCell("件数");
+				writer.EndRow();
+
+				foreach (SourceCodeRange[] group in Common.OrderedGrouping(this.SourceCodeRanges, (a, b) =>
+					a.Name == b.Name &&
+					a.IndentLength == b.IndentLength))
+				{
+					writer.WriteCell(group[0].Name);
+					writer.WriteCell("" + group[0].IndentLength);
+					writer.WriteCell("" + Common.OrderedGrouping(group, (a, b) => a.Hash == b.Hash).Count()); // 種類数
+					writer.WriteCell("" + group.Length); // 件数
+					writer.EndRow();
+				}
+			}
+			using (CsvFileWriter writer = new CsvFileWriter(Path.Combine(Common.GetOutputDir(), "名前とインデント幅とハッシュ値.csv"), false, Encoding.UTF8))
+			{
+				writer.WriteCell("名前");
+				writer.WriteCell("インデント幅");
+				writer.WriteCell("ハッシュ値");
+				//writer.WriteCell("種類数");
+				writer.WriteCell("件数");
+				writer.EndRow();
+
+				foreach (SourceCodeRange[] group in Common.OrderedGrouping(this.SourceCodeRanges, (a, b) =>
+					a.Name == b.Name &&
+					a.IndentLength == b.IndentLength &&
+					a.Hash == b.Hash))
+				{
+					writer.WriteCell(group[0].Name);
+					writer.WriteCell("" + group[0].IndentLength);
+					writer.WriteCell("" + group[0].Hash);
+					//writer.WriteCell("" + Common.OrderedGrouping(group, (a, b) => true).Count()); // 種類数
+					writer.WriteCell("" + group.Length); // 件数
+					writer.EndRow();
 				}
 			}
 		}
