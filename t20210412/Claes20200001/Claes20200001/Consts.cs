@@ -7,9 +7,7 @@ namespace Charlotte
 {
 	public static class Consts
 	{
-		// _#Include_Resource // lite-sensitive
-
-		public const string R_FILE = @"C:\etz\\u4ed5\u4e8b\u3068\u304b\\u4ed5\u4e8b\u95a2\u4fc2\2020\u5e74\u5ea6\u78ba\u5b9a\u7533\u544a\\u9818\u53ce\u66f8_\u7533\u544a\u5206.csv";
-		public const string W_FILE = @"C:\temp\\u9818\u53ce\u66f8_\u7533\u544a\u5206_\u6708\u5225.csv";
+		public const string R_FILE = @"C:\etz\仕事とか\仕事関係\2020年度確定申告\領収書_申告分.csv";
+		public const string W_FILE = @"C:\temp\領収書_申告分_月別.csv";
 	}
 }
