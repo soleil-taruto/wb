@@ -66,6 +66,10 @@ namespace Charlotte
 				if (ret != 0)
 					return ret;
 
+				ret = a.IndentLength - b.IndentLength;
+				if (ret != 0)
+					return ret;
+
 				ret = SCommon.Comp(a.Hash, b.Hash);
 				if (ret != 0)
 					return ret;
@@ -163,24 +167,13 @@ namespace Charlotte
 			}
 		}
 
-		private int GetClosingLineIndex(string[] lines, int startLineIndex, int targIndentLen, string closingLineEntity, string closingLineEntity_収集対象外)
+		private int GetClosingLineIndex(string[] lines, int startLineIndex, int indentLen, string closingLineEntity, string closingLineEntity_収集対象外)
 		{
-			// HACK: 改行可能なリテラル文字列内に想定外のインデント幅が存在する可能性があるが、考慮してない。
-
 			for (int index = startLineIndex; index < lines.Length; index++)
 			{
-				int indentLen = Common.GetIndentLength(lines[index]);
-
-				if (indentLen == 0) // ? インデント無し -- #if true など
+				if (indentLen == Common.GetIndentLength(lines[index]))
 				{
-					// noop
-				}
-				else // ? インデント有り
-				{
-					if (indentLen < targIndentLen) // ? 想定外のインデント幅
-						throw new Exception("Bad indentLen");
-
-					string entity = lines[index].Substring(targIndentLen);
+					string entity = lines[index].Substring(indentLen);
 
 					if (entity == closingLineEntity)
 						return index;
@@ -198,13 +191,13 @@ namespace Charlotte
 			{
 				foreach (SourceCodeRange sourceCodeRange in this.SourceCodeRanges)
 				{
-					writer.WriteLine(sourceCodeRange.Name);
+					writer.WriteLine(sourceCodeRange.IndentLength + ":" + sourceCodeRange.Name);
 					writer.WriteLine("\t" + sourceCodeRange.Hash);
 					writer.WriteLine("\t" + (sourceCodeRange.WholeFile ? "ファイル全体" : "ファイル部分"));
 					writer.WriteLine("\t" + sourceCodeRange.FilePath);
 					writer.WriteLine("\t" + (sourceCodeRange.LineIndexOfFile + 1));
 					writer.WriteLine("\t" + sourceCodeRange.Lines.Length);
-					writer.WriteLine("\t" + sourceCodeRange.IndentLength);
+					//writer.WriteLine("\t" + sourceCodeRange.IndentLength);
 
 					for (int index = 0; index < sourceCodeRange.Lines.Length; index++)
 						writer.WriteLine("\t[" + (index + 1).ToString("D4") + "]\t" + sourceCodeRange.Lines[index]);

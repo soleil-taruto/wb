@@ -45,7 +45,7 @@ namespace Charlotte
 				.Skip(firstLineIndex)
 				.Take(lineCount)
 				.ToArray();
-			this.IndentLength = Common.GetIndentLength(this.Lines[0]);
+			this.IndentLength = Common.GetIndentLength(fileLines[declareLineIndex]);
 
 			if (this.IndentLength < 1)
 				throw new Exception("Bad IndentLength");

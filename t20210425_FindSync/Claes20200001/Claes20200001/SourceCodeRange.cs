@@ -45,27 +45,7 @@ namespace Charlotte
 				.Skip(firstLineIndex)
 				.Take(lineCount)
 				.ToArray();
-			this.IndentLength = Common.GetIndentLength(this.Lines[0]);
-
-			if (this.IndentLength < 1)
-				throw new Exception("Bad IndentLength");
-
-			for (int index = 0; index < this.Lines.Length; index++)
-			{
-				int indentLen = Common.GetIndentLength(this.Lines[index]);
-
-				if (indentLen == 0) // ? インデント無し -- #if true など
-				{
-					// noop
-				}
-				else // ? インデント有り
-				{
-					if (indentLen < this.IndentLength) // ? 想定外のインデント幅
-						throw new Exception("Bad indentLen");
-
-					this.Lines[index] = this.Lines[index].Substring(this.IndentLength - 1); // 最小のインデント幅が1になるように調整する。
-				}
-			}
+			this.IndentLength = Common.GetIndentLength(fileLines[declareLineIndex]);
 			this.Name = fileLines[declareLineIndex].Substring(this.IndentLength);
 			this.Hash = SCommon.Hex.ToString(SCommon.GetSHA512(Encoding.UTF8.GetBytes(SCommon.LinesToText(this.Lines))));
 		}
