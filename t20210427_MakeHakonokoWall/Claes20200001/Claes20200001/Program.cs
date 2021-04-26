@@ -26,8 +26,7 @@ namespace Charlotte
 
 			// -- choose one --
 
-			//MakeButtons_20210421_DoremyRockman();
-			MakeButtons_20210421_SSAGame();
+			MakeHakonokoWall();
 			//new Test0001().Test01();
 			//new Test0001().Test02();
 			//new Test0002().Test01();
@@ -38,75 +37,73 @@ namespace Charlotte
 			//Console.ReadLine();
 		}
 
-		private void MakeButtons_20210421_DoremyRockman()
+		private void MakeHakonokoWall()
 		{
-			I4Color color = new I4Color(255, 64, 64, 255);
-
-			MakeButtons_20210209_a(2400, color, "ゲームスタート", 60);
-			MakeButtons_20210209_a(2400, color, "コンテニュー", 180);
-			MakeButtons_20210209_a(2400, color, "設定", 675);
-			MakeButtons_20210209_a(2400, color, "終了", 675);
+			MakeHakonokoWall_File(new I3Color(0, 120, 180));
+			MakeHakonokoWall_File(new I3Color(0, 180, 220));
+			MakeHakonokoWall_File(new I3Color(200, 150, 0));
+			MakeHakonokoWall_File(new I3Color(60, 120, 90));
+			MakeHakonokoWall_File(new I3Color(120, 30, 150));
+			MakeHakonokoWall_File(new I3Color(200, 150, 150));
+			MakeHakonokoWall_File(new I3Color(75, 70, 75));
+			MakeHakonokoWall_File(new I3Color(130, 130, 130));
+			MakeHakonokoWall_File(new I3Color(105, 105, 100));
+			MakeHakonokoWall_File(new I3Color(100, 220, 100));
+			MakeHakonokoWall_File(new I3Color(120, 120, 120));
+			MakeHakonokoWall_File(new I3Color(60, 75, 75));
+			MakeHakonokoWall_File(new I3Color(135, 40, 70));
+			MakeHakonokoWall_File(new I3Color(145, 175, 255));
+			MakeHakonokoWall_File(new I3Color(135, 135, 90));
+			MakeHakonokoWall_File(new I3Color(165, 165, 150));
+			MakeHakonokoWall_File(new I3Color(45, 0, 0));
+			MakeHakonokoWall_File(new I3Color(30, 45, 30));
 		}
 
-		private void MakeButtons_20210421_SSAGame()
+		private void MakeHakonokoWall_File(I3Color themeColor)
 		{
-			I4Color color = new I4Color(233, 255, 33, 255);
+			MakeHakonokoWall_Main(
+				themeColor,
+				@"C:\Dev\Elsa2\e20210245_Hakonoko\dat\dat\Novel\背景.png",
+				color => color.R,
+				color => color.B
+				);
 
-			MakeButtons_20210209_a(2400, color, "ゲームスタート", 60);
-			MakeButtons_20210209_a(2400, color, "コンテニュー", 180);
-			MakeButtons_20210209_a(2400, color, "設定", 675);
-			MakeButtons_20210209_a(2400, color, "終了", 675);
+			MakeHakonokoWall_Main(
+				themeColor,
+				@"C:\Dev\Elsa2\e20210245_Hakonoko\dat\dat\箱から出る\背景.png",
+				color => color.B,
+				color => color.R
+				);
 		}
 
-		private void MakeButtons_20210209_a(int w, I4Color frameColor, string text, int text_x)
+		private int OutputCounter = 0;
+
+		private void MakeHakonokoWall_Main(I3Color themeColor, string srcImageFile, Func<I4Color, int> getDarkLevel, Func<I4Color, int> getLightLevel)
 		{
-			//int w = 2400;
-			int h = 480;
-			int frame = 60;
+			Canvas src = Canvas.Load(srcImageFile);
+			Canvas dest = new Canvas(src.W, src.H);
 
-			I4Color backColor = new I4Color(255, 255, 255, 0);
-			//I4Color frameColor = new I4Color(255, 128, 192, 255);
-			I4Color textColor = new I4Color(255, 255, 255, 255);
-			//I4Color textColor = new I4Color(0, 0, 255, 255); // test
-
-			Canvas canvas = new Canvas(w, h);
-
-			canvas.Fill(backColor);
-			canvas.DrawCircle(new D2Point(0 + h / 2, h / 2), h / 2, frameColor);
-			canvas.DrawCircle(new D2Point(w - h / 2, h / 2), h / 2, frameColor);
-			canvas.FillRect(new I4Rect(h / 2, frame * 0, w - h, h - frame * 0), frameColor);
-			canvas.FillRect(new I4Rect(h / 2, frame * 1, w - h, h - frame * 2), backColor);
-
+			for (int x = 0; x < src.W; x++)
 			{
-				Func<I4Color, I4Color> a_fill = col =>
+				for (int y = 0; y < src.H; y++)
 				{
-					col.R /= 2;
-					col.G /= 2;
-					col.B /= 2;
+					int darkLevel = getDarkLevel(src[x, y]);
+					int lightLevel = getLightLevel(src[x, y]);
 
-					return col;
-				};
-
-				canvas.FillRect(new I4Rect(1 * w / 2, 0 * h / 2, w / 2, h / 2), a_fill);
-				canvas.FillRect(new I4Rect(0 * w / 2, 1 * h / 2, w / 2, h / 2), a_fill);
-			}
-
-			string name = text;
-
-			{
-				int p = text.IndexOf(':');
-
-				if (p != -1)
-				{
-					name = text.Substring(0, p);
-					text = text.Substring(p + 1);
+					dest[x, y] = new I4Color(
+						GetColorLevel(darkLevel, lightLevel, themeColor.R),
+						GetColorLevel(darkLevel, lightLevel, themeColor.G),
+						GetColorLevel(darkLevel, lightLevel, themeColor.B),
+						255
+						);
 				}
 			}
+			dest.Save(@"C:\temp\" + (OutputCounter++) + ".png");
+		}
 
-			canvas = canvas.DrawString(text, 180, textColor, h / 2 + text_x, 70);
-			canvas = canvas.Expand(w / 12, h / 12);
-			//canvas = canvas.Expand(w / 6, h / 6); // old
-			canvas.Save(Path.Combine(Consts.OUTPUT_DIR, Common.ZenToHan(name) + ".png"));
+		private int GetColorLevel(int darkLevel, int lightLevel, int themeLevel)
+		{
+			return SCommon.ToInt(Common.AToBRate(darkLevel, lightLevel, themeLevel / 255.0));
 		}
 	}
 }
