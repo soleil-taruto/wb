@@ -16,6 +16,7 @@ namespace Charlotte
 		public readonly int IndentLength;
 		public readonly string Name;
 		public readonly string Hash;
+		public SCommon.SimpleDateTime FileTime { get; private set; }
 
 		public SourceCodeRange(string file)
 		{
@@ -26,6 +27,7 @@ namespace Charlotte
 			this.IndentLength = 0;
 			this.Name = FileToName(file);
 			this.Hash = SCommon.Hex.ToString(SCommon.GetSHA512(File.ReadAllBytes(file)));
+			this.CtorCommon();
 		}
 
 		private static string FileToName(string file)
@@ -48,6 +50,20 @@ namespace Charlotte
 			this.IndentLength = Common.GetIndentLength(fileLines[declareLineIndex]);
 			this.Name = fileLines[declareLineIndex].Substring(this.IndentLength);
 			this.Hash = SCommon.Hex.ToString(SCommon.GetSHA512(Encoding.UTF8.GetBytes(SCommon.LinesToText(this.Lines))));
+			this.CtorCommon();
+		}
+
+		private void CtorCommon()
+		{
+			FileInfo fileInfo = new FileInfo(this.FilePath);
+
+			SCommon.SimpleDateTime fileCreateTime = new SCommon.SimpleDateTime(fileInfo.CreationTime);
+			SCommon.SimpleDateTime fileUpdateTime = new SCommon.SimpleDateTime(fileInfo.LastWriteTime);
+
+			this.FileTime = new SCommon.SimpleDateTime(Math.Max(
+				fileCreateTime.ToSec(),
+				fileUpdateTime.ToSec()
+				));
 		}
 	}
 }

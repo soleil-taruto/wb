@@ -197,6 +197,7 @@ namespace Charlotte
 					writer.WriteLine("\t" + sourceCodeRange.Hash);
 					writer.WriteLine("\t" + (sourceCodeRange.WholeFile ? "ファイル全体" : "ファイル部分"));
 					writer.WriteLine("\t" + sourceCodeRange.FilePath);
+					writer.WriteLine("\t" + sourceCodeRange.FileTime);
 					writer.WriteLine("\t" + (sourceCodeRange.LineIndexOfFile + 1));
 					writer.WriteLine("\t" + sourceCodeRange.Lines.Length);
 					//writer.WriteLine("\t" + sourceCodeRange.IndentLength);
