@@ -64,6 +64,7 @@ namespace Charlotte
 
 		private void MakeHakonokoWall2()
 		{
+			MakeHakonokoWall_File("Floor0", new I3Color(0, 0, 0));
 			MakeHakonokoWall_File("Floor1", new I3Color(0, 120, 180));
 			MakeHakonokoWall_File("Floor2", new I3Color(200, 150, 0));
 			MakeHakonokoWall_File("Floor3", new I3Color(120, 30, 150));
@@ -80,7 +81,7 @@ namespace Charlotte
 			MakeHakonokoWall_Main(
 				"Novel_背景_" + name,
 				themeColor,
-				@"C:\Dev\Elsa2\e20210245_Hakonoko\dat\dat\Novel\背景.png",
+				@"C:\Dev\Elsa2\e20210245_Hakonoko\dat\dat\Novel\_背景.png",
 				color => color.R,
 				color => color.B
 				);
@@ -88,7 +89,7 @@ namespace Charlotte
 			MakeHakonokoWall_Main(
 				"箱から出る_背景_" + name,
 				themeColor,
-				@"C:\Dev\Elsa2\e20210245_Hakonoko\dat\dat\箱から出る\背景.png",
+				@"C:\Dev\Elsa2\e20210245_Hakonoko\dat\dat\箱から出る\_背景.png",
 				color => color.B,
 				color => color.R
 				);
