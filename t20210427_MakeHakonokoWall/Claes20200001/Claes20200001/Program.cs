@@ -73,7 +73,7 @@ namespace Charlotte
 			MakeHakonokoWall_File("Floor6", new I3Color(120, 90, 60));
 			MakeHakonokoWall_File("Floor7", new I3Color(135, 40, 70));
 			MakeHakonokoWall_File("Floor8", new I3Color(135, 135, 90));
-			MakeHakonokoWall_File("Floor9", new I3Color(60, 45, 30));
+			MakeHakonokoWall_File("Floor9", new I3Color(200, 0, 0));
 		}
 
 		private void MakeHakonokoWall_File(string name, I3Color themeColor)
