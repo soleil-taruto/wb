@@ -64,6 +64,7 @@ namespace Charlotte
 			File.Copy(mst_indexFile, indexFile);
 
 			Main4_Args(indexFile, outputDir, "http://example.com/dummy/", ".jpg"); // 2回目
+			Main4_Args(indexFile, outputDir, "http://example.com/dummy/", ".jpg"); // 3回目 -- 例外を投げる。
 		}
 
 		private void Main4(ArgsReader ar)
@@ -116,6 +117,10 @@ namespace Charlotte
 							throw new Exception("Bad imageUrl");
 
 						string imageUrlNew = imageUrlPrefix + Common.IndexToImageLocalName(imageUrls.Count) + imageFileSuffix;
+
+						if (imageUrl == imageUrlNew)
+							throw new Exception("イメージURLが更新されていません。(indexファイルが更新されていない可能性あり)");
+
 						lines[index] = encl.Left + imageUrlNew + encl.Right;
 						imageUrls.Add(imageUrl);
 					}
