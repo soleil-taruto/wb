@@ -68,5 +68,64 @@ namespace Charlotte
 		}
 
 		#endregion
+
+		public class Enclosed
+		{
+			public string BeforeOpenTag;
+			public string OpenTag;
+			public string Left { get { return this.BeforeOpenTag + this.OpenTag; } }
+			public string Inner;
+			public string Right { get { return this.CloseTag + this.AfterCloseTag; } }
+			public string CloseTag;
+			public string AfterCloseTag;
+		}
+
+		public static Enclosed GetEnclosed(string str, string openTag, string closeTag, int startIndex = 0)
+		{
+			int p = str.IndexOf(openTag, startIndex);
+
+			if (p == -1)
+				return null;
+
+			int q = str.IndexOf(closeTag, p + openTag.Length);
+
+			if (q == -1)
+				return null;
+
+			int p1 = 0;
+			int p2 = p;
+			int p3 = p + openTag.Length;
+			int p4 = q;
+			int p5 = q + closeTag.Length;
+			int p6 = str.Length;
+
+			return new Enclosed()
+			{
+				BeforeOpenTag = str.Substring(p1, p2 - p1),
+				OpenTag = str.Substring(p2, p3 - p2),
+				Inner = str.Substring(p3, p4 - p3),
+				CloseTag = str.Substring(p4, p5 - p4),
+				AfterCloseTag = str.Substring(p5, p6 - p5),
+			};
+		}
+
+		public static string IndexToImageLocalName(int index)
+		{
+			return index.ToString("D4");
+		}
+
+		public static bool LiteValidate(string str, char minchr, char maxchr, int minlen, int maxlen)
+		{
+			return minlen <= str.Length && str.Length <= maxlen && !str.Any(chr => chr < minchr || maxchr < chr);
+		}
+
+		public static void AdjustCount<T>(List<T> list, int mincnt, int maxcnt, T dummyElement)
+		{
+			while (list.Count < mincnt)
+				list.Add(dummyElement);
+
+			while (maxcnt < list.Count)
+				list.RemoveAt(list.Count - 1);
+		}
 	}
 }
