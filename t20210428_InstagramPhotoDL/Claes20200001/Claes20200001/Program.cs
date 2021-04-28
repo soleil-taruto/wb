@@ -43,7 +43,7 @@ namespace Charlotte
 
 			// --
 
-			//Common.Pause();
+			Common.Pause();
 		}
 
 		private void Test01()
@@ -58,7 +58,12 @@ namespace Charlotte
 			SCommon.DeletePath(outputDir);
 			SCommon.CreateDir(outputDir);
 
-			Main4_Args(indexFile, outputDir, "http://example.com/dummy/", ".jpg");
+			Main4_Args(indexFile, outputDir, "http://example.com/dummy/", ".jpg"); // 1回目
+
+			SCommon.DeletePath(indexFile);
+			File.Copy(mst_indexFile, indexFile);
+
+			Main4_Args(indexFile, outputDir, "http://example.com/dummy/", ".jpg"); // 2回目
 		}
 
 		private void Main4(ArgsReader ar)
@@ -118,34 +123,53 @@ namespace Charlotte
 				File.WriteAllLines(indexFile, lines, Consts.INDEX_FILE_ENCODING);
 			}
 
+			Console.WriteLine("imageUrl_count: " + imageUrls.Count); // cout
+
 			if (Consts.IMAGE_URL_COUNT_MAX < imageUrls.Count)
-				throw new Exception("Too many imageUrl");
+				throw new Exception("イメージURLが多すぎる。");
 
-			string knownImageUrlListFile = Path.Combine(outputDir, Consts.KNOWN_IMAGE_URL_LIST_LOCAL_FILE);
-			List<string> knownImageUrls;
+			string lastImageUrlListFile = Path.Combine(outputDir, Consts.LAST_IMAGE_URL_LIST_LOCAL_FILE);
+			List<string> lastImageUrls;
 
-			if (File.Exists(knownImageUrlListFile))
-				knownImageUrls = File.ReadAllLines(knownImageUrlListFile, Encoding.UTF8).ToList();
+			if (File.Exists(lastImageUrlListFile))
+				lastImageUrls = File.ReadAllLines(lastImageUrlListFile, Encoding.UTF8).ToList();
 			else
-				knownImageUrls = new List<string>();
+				lastImageUrls = new List<string>();
 
-			Common.AdjustCount(knownImageUrls, imageUrls.Count, imageUrls.Count, Consts.DUMMY_URL);
+			Common.AdjustCount(lastImageUrls, imageUrls.Count, imageUrls.Count, Consts.DUMMY_URL);
 
 			for (int index = 0; index < imageUrls.Count; index++)
 			{
 				string imageUrl = imageUrls[index];
 
-				if (imageUrl != knownImageUrls[index])
+				Console.WriteLine("imageUrl_index: " + index); // cout
+				Console.WriteLine("imageUrl: " + imageUrl); // cout
+				Console.WriteLine("lastImageUrl: " + lastImageUrls[index]); // cout
+
+				if (imageUrl != lastImageUrls[index])
 				{
+					Console.WriteLine("★★★画像が更新されたようなのでダウンロードします。"); // cout
+
 					byte[] imageFileData = DownloadByHGet.Download(imageUrl);
 					string imageFile = Path.Combine(outputDir, Common.IndexToImageLocalName(index) + imageFileSuffix);
 
+					Console.WriteLine("< " + imageFileData.Length + " byte(s) image data"); // cout
+					Console.WriteLine("> " + imageFile); // cout
+
 					File.WriteAllBytes(imageFile, imageFileData);
 
-					knownImageUrls[index] = imageUrl;
+					lastImageUrls[index] = imageUrl;
 
-					File.WriteAllLines(knownImageUrlListFile, knownImageUrls, Encoding.UTF8);
+					File.WriteAllLines(lastImageUrlListFile, lastImageUrls, Encoding.UTF8);
 				}
+			}
+			for (int index = imageUrls.Count; index < Consts.IMAGE_URL_COUNT_MAX; index++)
+			{
+				string imageFile = Path.Combine(outputDir, Common.IndexToImageLocalName(index) + imageFileSuffix);
+
+				Console.WriteLine("* " + imageFile); // cout
+
+				SCommon.DeletePath(imageFile);
 			}
 		}
 	}

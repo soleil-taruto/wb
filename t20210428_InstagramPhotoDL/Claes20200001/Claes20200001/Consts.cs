@@ -21,7 +21,7 @@ namespace Charlotte
 		/// 直前のイメージURLのリストを保存するファイル
 		/// 出力フォルダの直下に置く
 		/// </summary>
-		public const string KNOWN_IMAGE_URL_LIST_LOCAL_FILE = "KnownImageUrlList.txt";
+		public const string LAST_IMAGE_URL_LIST_LOCAL_FILE = "LastImageUrlList.txt";
 
 		/// <summary>
 		/// ダミーURL

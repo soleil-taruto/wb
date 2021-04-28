@@ -111,7 +111,7 @@ namespace Charlotte
 
 		public static string IndexToImageLocalName(int index)
 		{
-			return index.ToString("D4");
+			return (index + 1).ToString("D4");
 		}
 
 		public static bool LiteValidate(string str, char minchr, char maxchr, int minlen, int maxlen)
