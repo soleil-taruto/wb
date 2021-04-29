@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Charlotte.Commons;
 using Charlotte.Tests;
-using System.Drawing;
-using System.Drawing.Imaging;
 
 namespace Charlotte
 {
