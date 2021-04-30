@@ -14,6 +14,8 @@ namespace Charlotte
 		public DDMusic MUS_BOSS_01_v300 = new DDMusic(@"dat\Mirror of ES\nc213704_v300.mp3");
 		public DDMusic MUS_BOSS_02 = new DDMusic(@"dat\Reda\nc136551.mp3");
 
+		public DDMusic 地鳴り = new DDMusic(@"dat\DovaSyndrome\ゴゴゴ_激しい地鳴り音.mp3");
+
 		public ResourceMusic()
 		{
 			//this.Dummy.Volume = 0.1; // 非推奨

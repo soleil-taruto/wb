@@ -23,19 +23,23 @@ namespace Charlotte.Tests
 			//Test01a(Ground.I.Music.MUS_BOSS_01, 28000, 5238000);
 			//Test01a(Ground.I.Music.MUS_BOSS_01, 30000, 5240000); // これを採用
 
-			Test01a(Ground.I.Music.MUS_BOSS_01_v300, 30000, 5240000); // これで問題無くね？
+			//Test01a(Ground.I.Music.MUS_BOSS_01_v300, 30000, 5240000); // これで問題無くね？
 
 			// - - -
 
 			//Test01a(Ground.I.Music.MUS_BOSS_02, 625000, 7365000);
 
 			// --
+
+			Test01a(Ground.I.Music.地鳴り, 44100 + 12345, 44100 * 18 + 12345);
+
+			// --
 		}
 
-		//private const int PLAY_START_POS_FROM_END = 50000;
+		private const int PLAY_START_POS_FROM_END = 50000;
 		//private const int PLAY_START_POS_FROM_END = 100000;
 		//private const int PLAY_START_POS_FROM_END = 150000;
-		private const int PLAY_START_POS_FROM_END = 300000;
+		//private const int PLAY_START_POS_FROM_END = 300000;
 
 		private void Test01a(DDMusic music, int startPos, int endPos)
 		{
