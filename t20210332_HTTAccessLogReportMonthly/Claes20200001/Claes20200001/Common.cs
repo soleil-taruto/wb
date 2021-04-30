@@ -77,5 +77,10 @@ namespace Charlotte
 			}
 			return line;
 		}
+
+		public static string GetLastLogFileSaveFile(string identSuffix)
+		{
+			return Consts.LAST_LOG_FILE_SAVE_FILE_PREFIX + identSuffix + Consts.LAST_LOG_FILE_SAVE_FILE_SUFFIX;
+		}
 	}
 }

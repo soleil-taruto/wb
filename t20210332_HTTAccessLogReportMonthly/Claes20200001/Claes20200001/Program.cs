@@ -47,11 +47,13 @@ namespace Charlotte
 
 		private int RankMax;
 		private int LogLineLenMax;
+		private string IdentSuffix;
 
 		private void Main4(ArgsReader ar)
 		{
 			RankMax = int.Parse(ar.NextArg());
 			LogLineLenMax = int.Parse(ar.NextArg());
+			IdentSuffix = ar.NextArg();
 
 			if (!Directory.Exists(Consts.LOG_DIR))
 				throw new Exception("no LOG_DIR");
@@ -82,16 +84,18 @@ namespace Charlotte
 
 		private void EraseKnownLogFiles(ref string[] logFiles)
 		{
-			if (File.Exists(Consts.LAST_LOG_FILE_SAVE_FILE))
+			string lastLogFileSaveFile = Common.GetLastLogFileSaveFile(IdentSuffix);
+
+			if (File.Exists(lastLogFileSaveFile))
 			{
-				string lastLogFile = File.ReadAllText(Consts.LAST_LOG_FILE_SAVE_FILE, Encoding.UTF8);
+				string lastLogFile = File.ReadAllText(lastLogFileSaveFile, Encoding.UTF8);
 				int p = SCommon.IndexOf(logFiles, logFile => SCommon.EqualsIgnoreCase(logFile, lastLogFile));
 
 				if (p != -1)
 					logFiles = logFiles.Skip(p + 1).ToArray(); // pまで(pを含めて)除去する。
 			}
 			if (1 <= logFiles.Length)
-				File.WriteAllText(Consts.LAST_LOG_FILE_SAVE_FILE, logFiles[logFiles.Length - 1], Encoding.UTF8); // 更新
+				File.WriteAllText(lastLogFileSaveFile, logFiles[logFiles.Length - 1], Encoding.UTF8); // 更新
 		}
 
 		private void AggregateAndReport(string[] logFiles)
