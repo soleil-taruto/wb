@@ -48,7 +48,42 @@ namespace Charlotte
 
 		private void Main4()
 		{
-			// none
+			using (CsvFileWriter writer = new CsvFileWriter(Common.NextOutputPath() + ".csv"))
+			{
+				for (int permil = 1; permil <= 1000; permil++)
+				{
+					Console.WriteLine("permil: " + permil); // cout
+
+					writer.WriteCell("" + (permil / 1000.0).ToString("F3"));
+					writer.WriteCell("" + GetTryCountAverage(permil).ToString("F3"));
+					writer.EndRow();
+				}
+			}
+		}
+
+		private double GetTryCountAverage(int permil)
+		{
+			const int TEST_COUNT = 30000;
+			int tryCountSum = 0;
+
+			for (int testCount = 0; testCount < TEST_COUNT; testCount++)
+				tryCountSum += GetTryCount(permil);
+
+			return (double)tryCountSum / TEST_COUNT;
+		}
+
+		private int GetTryCount(int permil)
+		{
+			int tryCount = 0;
+
+			for (; ; )
+			{
+				tryCount++;
+
+				if (SCommon.CRandom.GetInt(1000) < permil)
+					break;
+			}
+			return tryCount;
 		}
 	}
 }
