@@ -50,38 +50,43 @@ namespace Charlotte
 		{
 			using (CsvFileWriter writer = new CsvFileWriter(Common.NextOutputPath() + ".csv"))
 			{
-				for (int permil = 1; permil <= 1000; permil++)
+				for (int variation = 1; variation <= 1000; variation++)
 				{
-					Console.WriteLine("permil: " + permil); // cout
+					Console.WriteLine("variation: " + variation); // cout
 
-					writer.WriteCell("" + (permil / 1000.0).ToString("F3"));
-					writer.WriteCell("" + GetTryCountAverage(permil).ToString("F3"));
+					writer.WriteCell("" + variation);
+					writer.WriteCell("" + GetTryCountAverage(variation).ToString("F3"));
 					writer.EndRow();
 				}
 			}
 		}
 
-		private double GetTryCountAverage(int permil)
+		private double GetTryCountAverage(int variation)
 		{
 			const int TEST_COUNT = 30000;
 			int tryCountSum = 0;
 
 			for (int testCount = 0; testCount < TEST_COUNT; testCount++)
-				tryCountSum += GetTryCount(permil);
+				tryCountSum += GetTryCount(variation);
 
 			return (double)tryCountSum / TEST_COUNT;
 		}
 
-		private int GetTryCount(int permil)
+		private int GetTryCount(int variation)
 		{
+			bool[] knownMap = new bool[variation];
 			int tryCount = 0;
 
 			for (; ; )
 			{
 				tryCount++;
 
-				if (SCommon.CRandom.GetInt(1000) < permil)
+				int value = SCommon.CRandom.GetInt(variation);
+
+				if (knownMap[value])
 					break;
+
+				knownMap[value] = true;
 			}
 			return tryCount;
 		}
