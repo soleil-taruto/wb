@@ -131,11 +131,15 @@ namespace Charlotte
 						{
 							int declareIndex = index;
 
-							// インナークラス・メソッドのコメント部分まで拡張する。
+							Predicate<string> a_entityIsDocCommentOrAnnotation = v =>
+								v.StartsWith("///") ||
+								v.StartsWith("[");
+
+							// インナークラス・メソッドのドキュメンテーション_コメント・アノテーションまで拡張する。
 							while (
 								1 <= index &&
 								Common.GetIndentLength(lines[index - 1]) == indentLen &&
-								lines[index - 1].Substring(indentLen).StartsWith("///")
+								a_entityIsDocCommentOrAnnotation(lines[index - 1].Substring(indentLen))
 								)
 								index--;
 
