@@ -132,7 +132,10 @@ namespace Charlotte
 							aggrDomain.Add(record.Domain);
 							aggrPath.Add(record.Path);
 
-							if (SCommon.EndsWithIgnoreCase(record.Path, ".zip"))
+							if (
+								SCommon.EndsWithIgnoreCase(record.Path, ".zip") ||
+								SCommon.EndsWithIgnoreCase(record.Path, ".alt.txt")
+								)
 							{
 								aggrPath_Zip.Add(record.Path);
 								aggrPath_IP_Zip.Add(record.IP + " " + record.Path);
