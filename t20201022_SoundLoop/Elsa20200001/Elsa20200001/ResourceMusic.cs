@@ -16,6 +16,9 @@ namespace Charlotte
 
 		public DDMusic 地鳴り = new DDMusic(@"dat\DovaSyndrome\ゴゴゴ_激しい地鳴り音.mp3");
 
+		public DDMusic Floor_07 = new DDMusic(@"dat\甘茶の音楽工房\moeochirusakura_muon-100-100.mp3");
+		public DDMusic Floor_08 = new DDMusic(@"dat\甘茶の音楽工房\kanashiminotexture2_muon-100-100.mp3");
+
 		public ResourceMusic()
 		{
 			//this.Dummy.Volume = 0.1; // 非推奨
