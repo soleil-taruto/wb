@@ -59,7 +59,10 @@ namespace Charlotte
 			try
 			{
 				foreach (string file in Directory.GetFiles(Consts.SCREENSHOTS_DIR))
-					if (SCommon.EqualsIgnoreCase(Path.GetExtension(file), Consts.SCREENSHOT_EXT))
+					if (
+						SCommon.EqualsIgnoreCase(Path.GetExtension(file), Consts.SCREENSHOT_EXT_01) ||
+						SCommon.EqualsIgnoreCase(Path.GetExtension(file), Consts.SCREENSHOT_EXT_02)
+						)
 						this.Conv(file);
 			}
 			finally

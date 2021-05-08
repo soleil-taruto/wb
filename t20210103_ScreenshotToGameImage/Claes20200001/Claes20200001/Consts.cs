@@ -8,7 +8,8 @@ namespace Charlotte
 	public static class Consts
 	{
 		public const string SCREENSHOTS_DIR = @"C:\temp";
-		public const string SCREENSHOT_EXT = ".bmp";
+		public const string SCREENSHOT_EXT_01 = ".bmp";
+		public const string SCREENSHOT_EXT_02 = ".png"; // .pngで保存したスクショの再利用を想定
 
 		public const string OUTPUT_DIR = @"C:\108";
 
