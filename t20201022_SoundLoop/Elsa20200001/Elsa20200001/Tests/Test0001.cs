@@ -36,7 +36,10 @@ namespace Charlotte.Tests
 			// --
 
 			//Test01a(Ground.I.Music.Floor_07, 793000, 3930000);
-			Test01a(Ground.I.Music.Floor_08, 654000, 4560000);
+			//Test01a(Ground.I.Music.Floor_08, 654000, 4560000);
+			//Test01a(Ground.I.Music.Floor_06, 44100 * 1 + 12345 * 5, 44100 * 97 + 12345 * 5);
+			//Test01a(Ground.I.Music.Floor_01, 44100 * 36 + 12345 * 1, 44100 * 84 + 12345 * 1);
+			Test01a(Ground.I.Music.Floor_02, 44100 * 10 + 1234 * 4, 44100 * 143 + 1234 * 0);
 
 			// --
 		}

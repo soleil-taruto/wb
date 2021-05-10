@@ -18,6 +18,9 @@ namespace Charlotte
 
 		public DDMusic Floor_07 = new DDMusic(@"dat\甘茶の音楽工房\moeochirusakura_muon-100-100.mp3");
 		public DDMusic Floor_08 = new DDMusic(@"dat\甘茶の音楽工房\kanashiminotexture2_muon-100-100.mp3");
+		public DDMusic Floor_01 = new DDMusic(@"dat\甘茶の音楽工房\orb1_muon-100-100.mp3");
+		public DDMusic Floor_02 = new DDMusic(@"dat\甘茶の音楽工房\orb2_muon-100-100.mp3");
+		public DDMusic Floor_06 = new DDMusic(@"dat\甘茶の音楽工房\kanashiminotexture1_muon-100-100.mp3");
 
 		public ResourceMusic()
 		{
