@@ -46,9 +46,42 @@ namespace Charlotte
 			//Common.Pause();
 		}
 
+		private Canvas Canvas;
+
 		private void Main4()
 		{
-			// none
+			Canvas = new Canvas(800, 600);
+
+			Canvas.Fill(new I4Color(0, 0, 0, 0));
+
+			I3Color mainFrameColor = new I3Color(200, 100, 0);
+			I3Color subFrameColor = new I3Color(0, 200, 100);
+
+			DrawFrame(25, 29, 295, 569, mainFrameColor);
+			DrawFrame(306, 24, 389, 145, subFrameColor);
+			DrawFrame(412, 24, 495, 145, subFrameColor);
+			DrawFrame(506, 29, 776, 569, mainFrameColor);
+
+			Canvas.Save(Common.NextOutputPath() + ".png");
+		}
+
+		private void DrawFrame(int l, int t, int r, int b, I3Color frameColor)
+		{
+			const int FRAME_WIDTH = 3;
+			I4Color BACK_COLOR = new I4Color(0, 0, 0, 128);
+			I4Rect rect = I4Rect.LTRB(l, t, r, b);
+
+			Canvas.FillRect(
+				I4Rect.LTRB(
+					rect.L - FRAME_WIDTH,
+					rect.T - FRAME_WIDTH,
+					rect.R + FRAME_WIDTH,
+					rect.B + FRAME_WIDTH
+					),
+				frameColor.WithAlpha()
+				);
+
+			Canvas.FillRect(rect, BACK_COLOR);
 		}
 	}
 }
