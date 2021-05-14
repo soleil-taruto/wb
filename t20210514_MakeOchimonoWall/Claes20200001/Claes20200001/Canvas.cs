@@ -173,6 +173,15 @@ namespace Charlotte
 		}
 
 		/// <summary>
+		/// キャンパス全体を塗り潰す。
+		/// </summary>
+		/// <param name="a_fill">塗り潰しアクション</param>
+		public void Fill(Func<I4Color, I4Color> a_fill)
+		{
+			this.FillRect(new I4Rect(0, 0, this.W, this.H), a_fill);
+		}
+
+		/// <summary>
 		/// 矩形領域を塗り潰す。
 		/// 透過率を考慮しない。
 		/// </summary>
@@ -258,6 +267,15 @@ namespace Charlotte
 				}
 			}
 			return dest;
+		}
+
+		/// <summary>
+		/// このキャンパスのコピーを作成する。
+		/// </summary>
+		/// <returns>このキャンパスのコピー</returns>
+		public Canvas Copy()
+		{
+			return this.Cut(new I4Rect(0, 0, this.W, this.H));
 		}
 
 		/// <summary>

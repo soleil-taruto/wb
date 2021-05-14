@@ -7,6 +7,6 @@ namespace Charlotte
 {
 	public static class Consts
 	{
-		// none
+		public const string ROOT_DIR = @"C:\Dev\Henrietta\e20190002_Ochimono\dat\Puzzle\場所";
 	}
 }

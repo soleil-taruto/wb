@@ -46,42 +46,87 @@ namespace Charlotte
 			//Common.Pause();
 		}
 
-		private Canvas Canvas;
-
 		private void Main4()
 		{
-			Canvas = new Canvas(800, 600);
+			foreach (string dir in Directory.GetDirectories(Consts.ROOT_DIR))
+			{
+				Proc場所Dir(dir);
+			}
+		}
 
-			Canvas.Fill(new I4Color(0, 0, 0, 0));
+		Canvas _canvas;
+
+		private void Proc場所Dir(string dir)
+		{
+			ProcMain.WriteLog("dir: " + dir); // cout
+
+			string srcImgFile = GetSourceImageFile(dir);
+			Canvas srcImg = Canvas.Load(srcImgFile);
+
+			ProcMain.WriteLog("Expand Start");
+			srcImg = srcImg.Expand(800, 600);
+			ProcMain.WriteLog("Expand OK");
+
+			// ==== 背景 ====
+
+			_canvas = srcImg.Copy();
+
+			_canvas.Fill(dot => new I4Color(
+				(dot.R + 255) / 2,
+				(dot.G + 255) / 2,
+				(dot.B + 255) / 2,
+				dot.A
+				));
+
+			_canvas.Save(Path.Combine(dir, "背景.png"));
+
+			// ==== 枠 ====
+
+			_canvas = srcImg.Copy();
 
 			I3Color mainFrameColor = new I3Color(200, 100, 0);
 			I3Color subFrameColor = new I3Color(0, 200, 100);
 
-			DrawFrame(25, 29, 295, 569, mainFrameColor);
-			DrawFrame(306, 24, 389, 145, subFrameColor);
-			DrawFrame(412, 24, 495, 145, subFrameColor);
-			DrawFrame(506, 29, 776, 569, mainFrameColor);
+			DrawFrame(25, 29, 295, 569, mainFrameColor, 2);
+			DrawFrame(306, 24, 389, 145, subFrameColor, 4);
+			DrawFrame(412, 24, 495, 145, subFrameColor, 4);
+			DrawFrame(506, 29, 776, 569, mainFrameColor, 2);
 
-			Canvas.Save(Common.NextOutputPath() + ".png");
+			_canvas.Save(Path.Combine(dir, "枠.png"));
+
+			// ====
+
+			ProcMain.WriteLog("dir_done"); // cout
 		}
 
-		private void DrawFrame(int l, int t, int r, int b, I3Color frameColor)
+		private string GetSourceImageFile(string dir)
 		{
-			const int FRAME_WIDTH = 3;
-			I4Color BACK_COLOR = new I4Color(0, 0, 0, 128);
+			string[] files = Directory.GetFiles(Path.Combine(dir, "_orig"))
+				.Where(v => !SCommon.EndsWithIgnoreCase(v, ".txt"))
+				.ToArray();
+
+			if (files.Length != 1)
+				throw new Exception("元画像ファイルを１つに絞れない。");
+
+			return files[0];
+		}
+
+		private void DrawFrame(int l, int t, int r, int b, I3Color frameColor, int frameWidth)
+		{
+			I4Color BACK_COLOR = new I4Color(255, 255, 255, 0);
 			I4Rect rect = I4Rect.LTRB(l, t, r, b);
 
-			Canvas.FillRect(
+			_canvas.FillRect(
 				I4Rect.LTRB(
-					rect.L - FRAME_WIDTH,
-					rect.T - FRAME_WIDTH,
-					rect.R + FRAME_WIDTH,
-					rect.B + FRAME_WIDTH
+					rect.L - frameWidth,
+					rect.T - frameWidth,
+					rect.R + frameWidth,
+					rect.B + frameWidth
 					),
 				frameColor.WithAlpha()
 				);
 
-			Canvas.FillRect(rect, BACK_COLOR);
+			_canvas.FillRect(rect, BACK_COLOR);
 		}
 	}
 }
