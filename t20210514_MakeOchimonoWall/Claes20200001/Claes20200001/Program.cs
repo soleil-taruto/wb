@@ -72,9 +72,9 @@ namespace Charlotte
 			_canvas = srcImg.Copy();
 
 			_canvas.Fill(dot => new I4Color(
-				(dot.R + 255) / 2,
-				(dot.G + 255) / 2,
-				(dot.B + 255) / 2,
+				(dot.R + 255 + 255) / 3,
+				(dot.G + 255 + 255) / 3,
+				(dot.B + 255 + 255) / 3,
 				dot.A
 				));
 
@@ -87,10 +87,10 @@ namespace Charlotte
 			I3Color mainFrameColor = new I3Color(200, 100, 0);
 			I3Color subFrameColor = new I3Color(0, 200, 100);
 
-			DrawFrame(25, 29, 295, 569, mainFrameColor, 2);
-			DrawFrame(306, 24, 389, 145, subFrameColor, 4);
-			DrawFrame(412, 24, 495, 145, subFrameColor, 4);
-			DrawFrame(506, 29, 776, 569, mainFrameColor, 2);
+			DrawFrame(25, 29, 295, 569, 2);
+			DrawFrame(306, 24, 389, 145, 4);
+			DrawFrame(412, 24, 495, 145, 4);
+			DrawFrame(506, 29, 776, 569, 2);
 
 			_canvas.Save(Path.Combine(dir, "枠.png"));
 
@@ -111,7 +111,7 @@ namespace Charlotte
 			return files[0];
 		}
 
-		private void DrawFrame(int l, int t, int r, int b, I3Color frameColor, int frameWidth)
+		private void DrawFrame(int l, int t, int r, int b, int frameWidth)
 		{
 			I4Color BACK_COLOR = new I4Color(255, 255, 255, 0);
 			I4Rect rect = I4Rect.LTRB(l, t, r, b);
@@ -123,7 +123,12 @@ namespace Charlotte
 					rect.R + frameWidth,
 					rect.B + frameWidth
 					),
-				frameColor.WithAlpha()
+				dot => new I4Color(
+					dot.R / 2,
+					dot.G / 2,
+					dot.B / 2,
+					dot.A
+					)
 				);
 
 			_canvas.FillRect(rect, BACK_COLOR);
