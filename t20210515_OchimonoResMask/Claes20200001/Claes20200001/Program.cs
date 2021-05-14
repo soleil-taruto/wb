@@ -48,90 +48,32 @@ namespace Charlotte
 
 		private void Main4()
 		{
-			foreach (string dir in Directory.GetDirectories(Consts.ROOT_DIR))
+			if (!Directory.Exists(Consts.ROOT_DIR))
+				throw new Exception("no ROOT_DIR");
+
+			MaskAllPicture();
+			MaskAllText();
+		}
+
+		private void MaskAllPicture()
+		{
+			foreach (string file in Directory.GetFiles(Consts.ROOT_DIR, "*.png", SearchOption.AllDirectories))
 			{
-				Proc場所Dir(dir);
+				Canvas canvas = Canvas.Load(file);
+				canvas.Fill(new I4Color(
+					SCommon.CRandom.GetInt(256),
+					SCommon.CRandom.GetInt(256),
+					SCommon.CRandom.GetInt(256), 255)); // ランダムな単色で塗り潰す。
+				canvas.Save(file);
 			}
 		}
 
-		Canvas _canvas;
-
-		private void Proc場所Dir(string dir)
+		private void MaskAllText()
 		{
-			ProcMain.WriteLog("dir: " + dir); // cout
-
-			string srcImgFile = GetSourceImageFile(dir);
-			Canvas srcImg = Canvas.Load(srcImgFile);
-
-			ProcMain.WriteLog("Expand Start");
-			srcImg = srcImg.Expand(800, 600);
-			ProcMain.WriteLog("Expand OK");
-
-			// ==== 背景 ====
-
-			_canvas = srcImg.Copy();
-
-			_canvas.Fill(dot => new I4Color(
-				(dot.R + 255 + 255) / 3,
-				(dot.G + 255 + 255) / 3,
-				(dot.B + 255 + 255) / 3,
-				dot.A
-				));
-
-			_canvas.Save(Path.Combine(dir, "背景.png"));
-
-			// ==== 枠 ====
-
-			_canvas = srcImg.Copy();
-
-			I3Color mainFrameColor = new I3Color(200, 100, 0);
-			I3Color subFrameColor = new I3Color(0, 200, 100);
-
-			DrawFrame(25, 29, 295, 569, 2);
-			DrawFrame(306, 24, 389, 145, 4);
-			DrawFrame(412, 24, 495, 145, 4);
-			DrawFrame(506, 29, 776, 569, 2);
-
-			_canvas.Save(Path.Combine(dir, "枠.png"));
-
-			// ====
-
-			ProcMain.WriteLog("dir_done"); // cout
-		}
-
-		private string GetSourceImageFile(string dir)
-		{
-			string[] files = Directory.GetFiles(Path.Combine(dir, "_orig"))
-				.Where(v => !SCommon.EndsWithIgnoreCase(v, ".txt"))
-				.ToArray();
-
-			if (files.Length != 1)
-				throw new Exception("元画像ファイルを１つに絞れない。");
-
-			return files[0];
-		}
-
-		private void DrawFrame(int l, int t, int r, int b, int frameWidth)
-		{
-			I4Color BACK_COLOR = new I4Color(255, 255, 255, 0);
-			I4Rect rect = I4Rect.LTRB(l, t, r, b);
-
-			_canvas.FillRect(
-				I4Rect.LTRB(
-					rect.L - frameWidth,
-					rect.T - frameWidth,
-					rect.R + frameWidth,
-					rect.B + frameWidth
-					),
-				dot => new I4Color(
-					dot.R / 2,
-					dot.G / 2,
-					dot.B / 2,
-					dot.A
-					)
-				);
-
-			_canvas.FillRect(rect, BACK_COLOR);
+			foreach (string file in Directory.GetFiles(Consts.ROOT_DIR, "*.txt", SearchOption.AllDirectories))
+			{
+				File.WriteAllText(file, "テキスト削除済み", Encoding.UTF8);
+			}
 		}
 	}
 }
