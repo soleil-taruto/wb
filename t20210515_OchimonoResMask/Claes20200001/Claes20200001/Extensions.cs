@@ -62,5 +62,33 @@ namespace Charlotte
 				}
 			}
 		}
+
+		public static IEnumerable<T> ProgressBar<T>(this IEnumerable<T> src)
+		{
+			T[] arr = src.ToArray();
+
+			Console.Write("[*");
+
+			const int STAR_MAX = 76;
+			int star = 0;
+
+			for (int index = 0; index < arr.Length; index++)
+			{
+				int targStar = (index * STAR_MAX) / arr.Length;
+
+				while (star < targStar)
+				{
+					Console.Write("*");
+					star++;
+				}
+				yield return arr[index];
+			}
+			while (star < STAR_MAX)
+			{
+				Console.Write("*");
+				star++;
+			}
+			Console.WriteLine("]");
+		}
 	}
 }

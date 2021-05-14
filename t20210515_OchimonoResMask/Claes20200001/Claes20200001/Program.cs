@@ -51,26 +51,29 @@ namespace Charlotte
 			if (!Directory.Exists(Consts.ROOT_DIR))
 				throw new Exception("no ROOT_DIR");
 
+			ProcMain.WriteLog("*1");
 			MaskAllPicture();
+			ProcMain.WriteLog("*2");
 			MaskAllText();
+			ProcMain.WriteLog("*3");
 		}
 
 		private void MaskAllPicture()
 		{
-			foreach (string file in Directory.GetFiles(Consts.ROOT_DIR, "*.png", SearchOption.AllDirectories))
+			foreach (string file in Directory.GetFiles(Consts.ROOT_DIR, "*.png", SearchOption.AllDirectories).ProgressBar())
 			{
+				string relFile = SCommon.ChangeRoot(file, Consts.ROOT_DIR);
+
 				Canvas canvas = Canvas.Load(file);
-				canvas.Fill(new I4Color(
-					SCommon.CRandom.GetInt(256),
-					SCommon.CRandom.GetInt(256),
-					SCommon.CRandom.GetInt(256), 255)); // ランダムな単色で塗り潰す。
+				canvas.Fill(new I4Color(255, 255, 0, 255)); // 黄色で塗り潰す。
+				canvas = canvas.DrawString(relFile, 10, new I4Color(0, 0, 255, 255), 0, 0); // このファイルのパスを(青色で)記述する。
 				canvas.Save(file);
 			}
 		}
 
 		private void MaskAllText()
 		{
-			foreach (string file in Directory.GetFiles(Consts.ROOT_DIR, "*.txt", SearchOption.AllDirectories))
+			foreach (string file in Directory.GetFiles(Consts.ROOT_DIR, "*.txt", SearchOption.AllDirectories).ProgressBar())
 			{
 				File.WriteAllText(file, "テキスト削除済み", Encoding.UTF8);
 			}
