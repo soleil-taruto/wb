@@ -73,7 +73,7 @@ namespace Charlotte
 			MakeBlock("お邪魔", 1.0, 1.0, 1.0);
 			MakeBlock("黄", 1.0, 1.0, 0.0);
 			MakeBlock("紫", 1.0, 0.5, 1.0);
-			MakeBlock("青", 0.0, 1.0, 1.0);
+			MakeBlock("青", 0.0, 0.7, 1.0);
 			MakeBlock("赤", 1.0, 0.0, 0.0);
 			MakeBlock("緑", 0.5, 1.0, 0.5);
 		}
