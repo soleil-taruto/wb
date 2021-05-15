@@ -65,7 +65,7 @@ namespace Charlotte
 				128 * ((chain >> 0) & 1),
 				128 * ((chain >> 1) & 1),
 				128 * ((chain >> 2) & 1), 200));
-			canvas = canvas.DrawString(chain.ToString("D2") + " CHAIN", 20, "Tahoma", new I4Color(255, 255, 255, 255), 0, 0);
+			canvas = canvas.DrawString(chain.ToString("D2") + " CHAIN !", 20, "Impact", new I4Color(255, 255, 255, 255), 0, 0);
 
 			canvas.Save(Path.Combine(Consts.ROOT_DIR, chain.ToString("D2") + "連鎖.png"));
 		}
