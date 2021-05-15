@@ -46,37 +46,38 @@ namespace Charlotte
 			//Common.Pause();
 		}
 
+		private string RFile = @"C:\Dev\Henrietta\e20190002_Ochimono\dat\補助\Dummy.png";
+		private string Res_WDirs = @"
+
+C:\Dev\Henrietta\e20190002_Ochimono\dat\Puzzle\Pair
+C:\Dev\Henrietta\e20190002_Ochimono\dat\Puzzle\Solo
+C:\Dev\Henrietta\e20190002_Ochimono\dat\Puzzle\必殺
+C:\Dev\Henrietta\e20190002_Ochimono\dat\System\Config
+C:\Dev\Henrietta\e20190002_Ochimono\dat\カットイン
+C:\Dev\Henrietta\e20190002_Ochimono\dat\シナリオ\System
+C:\Dev\Henrietta\e20190002_Ochimono\dat\シナリオ\エンディング
+C:\Dev\Henrietta\e20190002_Ochimono\dat\シナリオ\画像
+C:\Dev\Henrietta\e20190002_Ochimono\dat\シナリオ\選択肢
+
+";
+
 		private void Main4()
 		{
-			if (!Directory.Exists(Consts.ROOT_DIR))
-				throw new Exception("no ROOT_DIR");
+			string[] wDirs = SCommon.TextToLines(Res_WDirs)
+				.Where(wDir => wDir != "")
+				.ToArray();
 
-			ProcMain.WriteLog("*1");
-			MaskAllPicture();
-			ProcMain.WriteLog("*2");
-			MaskAllText();
-			ProcMain.WriteLog("*3");
-		}
+			if (!File.Exists(RFile))
+				throw new Exception("no RFile");
 
-		private void MaskAllPicture()
-		{
-			foreach (string file in Directory.GetFiles(Consts.ROOT_DIR, "*.png", SearchOption.AllDirectories).ProgressBar())
-			{
-				string relFile = SCommon.ChangeRoot(file, Consts.ROOT_DIR);
+			if (wDirs.Any(wDir => !Directory.Exists(wDir)))
+				throw new Exception("Bad wDirs");
 
-				Canvas canvas = Canvas.Load(file);
-				canvas.Fill(new I4Color(255, 255, 0, 255)); // 黄色で塗り潰す。
-				canvas = canvas.DrawString(relFile, 10, new I4Color(0, 0, 255, 255), 0, 0); // このファイルのパスを(青色で)記述する。
-				canvas.Save(file);
-			}
-		}
+			byte[] fileData = File.ReadAllBytes(RFile);
+			string[] wFiles = SCommon.Concat(wDirs.Select(wDir => Directory.GetFiles(wDir, "*.png", SearchOption.AllDirectories))).ToArray();
 
-		private void MaskAllText()
-		{
-			foreach (string file in Directory.GetFiles(Consts.ROOT_DIR, "*.txt", SearchOption.AllDirectories).ProgressBar())
-			{
-				File.WriteAllText(file, "テキスト削除済み", Encoding.UTF8);
-			}
+			foreach (string wFile in wFiles)
+				File.WriteAllBytes(wFile, fileData);
 		}
 	}
 }
