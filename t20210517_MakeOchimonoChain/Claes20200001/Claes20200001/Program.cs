@@ -51,64 +51,23 @@ namespace Charlotte
 			if (!Directory.Exists(Consts.ROOT_DIR))
 				throw new Exception("no ROOT_DIR");
 
-			MakeAllBlock("ブロック", "", 255);
-			MakeAllBlock("散り", "散り", 200);
-		}
-
-		private Canvas _srcCanvas;
-		private string _destNamePrefix;
-		private int _destAlpha;
-
-		private void MakeAllBlock(string srcName, string destNamePrefix, int destAlpha)
-		{
-			string srcImgFile = Path.Combine(Consts.ROOT_DIR, "_orig", srcName + ".png");
-
-			if (!File.Exists(srcImgFile))
-				throw new Exception("no srcImgFile");
-
-			_srcCanvas = Canvas.Load(srcImgFile);
-			_destNamePrefix = destNamePrefix;
-			_destAlpha = destAlpha;
-
-			MakeBlock("お邪魔", 1.0, 1.0, 1.0);
-			MakeBlock("黄", 1.0, 1.0, 0.0);
-			MakeBlock("紫", 1.0, 0.5, 1.0);
-			MakeBlock("青", 0.0, 1.0, 1.0);
-			MakeBlock("赤", 1.0, 0.0, 0.0);
-			MakeBlock("緑", 0.5, 1.0, 0.5);
-		}
-
-		private Canvas _canvas;
-
-		private void MakeBlock(string destName, double rRate, double gRate, double bRate)
-		{
-			_canvas = _srcCanvas.Copy();
-
-			_canvas.Fill(dot =>
+			for (int chain = 1; chain <= 22; chain++)
 			{
-				if (
-					dot.R == 255 &&
-					dot.G == 0 &&
-					dot.B == 0 &&
-					dot.A == 255
-					)
-				{
-					dot = new I4Color(0, 0, 0, 0);
-				}
-				else
-				{
-					dot = new I4Color(
-						SCommon.ToInt(dot.R * rRate),
-						SCommon.ToInt(dot.G * gRate),
-						SCommon.ToInt(dot.B * bRate),
-						_destAlpha
-						);
-				}
-				return dot;
-			});
+				MakeChain(chain);
+			}
+		}
 
-			string destImgFile = Path.Combine(Consts.ROOT_DIR, _destNamePrefix + destName + ".png");
-			_canvas.Save(destImgFile);
+		private void MakeChain(int chain)
+		{
+			Canvas canvas = new Canvas(124, 34);
+
+			canvas.Fill(new I4Color(
+				128 * ((chain >> 0) & 1),
+				128 * ((chain >> 1) & 1),
+				128 * ((chain >> 2) & 1), 200));
+			canvas = canvas.DrawString(chain.ToString("D2") + " CHAIN", 20, "Tahoma", new I4Color(255, 255, 255, 255), 0, 0);
+
+			canvas.Save(Path.Combine(Consts.ROOT_DIR, chain.ToString("D2") + "連鎖.png"));
 		}
 	}
 }
