@@ -50,5 +50,14 @@ namespace Charlotte.Commons
 		{
 			return Color.FromArgb(this.A, this.R, this.G, this.B); // 引数の並びは ARGB なので注意すること。
 		}
+
+		public bool IsSame(I4Color other)
+		{
+			return
+				this.R == other.R &&
+				this.G == other.G &&
+				this.B == other.B &&
+				this.A == other.A;
+		}
 	}
 }
