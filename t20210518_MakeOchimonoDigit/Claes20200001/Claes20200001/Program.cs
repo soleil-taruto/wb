@@ -128,7 +128,7 @@ namespace Charlotte
 			}
 		}
 
-		private I4Color BACK_COLOR = new I4Color(0, 255, 255, 255);
+		private I4Color BACK_COLOR = new I4Color(0, 255, 255, 0);
 		private I4Color INNER_COLOR = new I4Color(255, 255, 255, 255);
 		private I4Color OUTER_COLOR = new I4Color(0, 0, 0, 255);
 		private I4Color DARK_SHADOW_COLOR = new I4Color(150, 150, 150, 255);
