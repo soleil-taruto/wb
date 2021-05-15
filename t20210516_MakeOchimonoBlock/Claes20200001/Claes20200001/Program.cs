@@ -51,32 +51,64 @@ namespace Charlotte
 			if (!Directory.Exists(Consts.ROOT_DIR))
 				throw new Exception("no ROOT_DIR");
 
-			ProcMain.WriteLog("*1");
-			MaskAllPicture();
-			ProcMain.WriteLog("*2");
-			MaskAllText();
-			ProcMain.WriteLog("*3");
+			MakeAllBlock("ブロック", "");
+			MakeAllBlock("散り", "散り");
 		}
 
-		private void MaskAllPicture()
-		{
-			foreach (string file in Directory.GetFiles(Consts.ROOT_DIR, "*.png", SearchOption.AllDirectories).ProgressBar())
-			{
-				string relFile = SCommon.ChangeRoot(file, Consts.ROOT_DIR);
+		private Canvas _srcCanvas;
 
-				Canvas canvas = Canvas.Load(file);
-				canvas.Fill(new I4Color(255, 255, 0, 255)); // 黄色で塗り潰す。
-				canvas = canvas.DrawString(relFile, 10, new I4Color(0, 0, 255, 255), 0, 0); // このファイルのパスを(青色で)記述する。
-				canvas.Save(file);
-			}
+		private void MakeAllBlock(string srcName, string destNamePrefix)
+		{
+			string srcImgFile = Path.Combine(Consts.ROOT_DIR, "_orig", srcName + ".png");
+
+			if (!File.Exists(srcImgFile))
+				throw new Exception("no srcImgFile");
+
+			_srcCanvas = Canvas.Load(srcImgFile);
+
+			MakeBlock(destNamePrefix + "お邪魔", 1.0, 1.0, 1.0);
+			MakeBlock(destNamePrefix + "黄", 1.0, 1.0, 0.0);
+			MakeBlock(destNamePrefix + "紫", 1.0, 0.5, 1.0);
+			MakeBlock(destNamePrefix + "青", 0.0, 1.0, 1.0);
+			MakeBlock(destNamePrefix + "赤", 1.0, 0.0, 0.0);
+			MakeBlock(destNamePrefix + "緑", 0.5, 1.0, 0.5);
+
+			_srcCanvas = null;
 		}
 
-		private void MaskAllText()
+		private Canvas _canvas;
+
+		private void MakeBlock(string destName, double rRate, double gRate, double bRate)
 		{
-			foreach (string file in Directory.GetFiles(Consts.ROOT_DIR, "*.txt", SearchOption.AllDirectories).ProgressBar())
+			_canvas = _srcCanvas.Copy();
+
+			_canvas.Fill(dot =>
 			{
-				File.WriteAllText(file, "テキスト削除済み", Encoding.UTF8);
-			}
+				if (
+					dot.R == 255 &&
+					dot.G == 0 &&
+					dot.B == 0 &&
+					dot.A == 255
+					)
+				{
+					dot = new I4Color(0, 0, 0, 0);
+				}
+				else
+				{
+					dot = new I4Color(
+						SCommon.ToInt(dot.R * rRate),
+						SCommon.ToInt(dot.G * gRate),
+						SCommon.ToInt(dot.B * bRate),
+						dot.A
+						);
+				}
+				return dot;
+			});
+
+			string destImgFile = Path.Combine(Consts.ROOT_DIR, destName + ".png");
+			_canvas.Save(destImgFile);
+
+			_canvas = null;
 		}
 	}
 }
