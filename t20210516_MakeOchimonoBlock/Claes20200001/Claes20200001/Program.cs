@@ -51,13 +51,15 @@ namespace Charlotte
 			if (!Directory.Exists(Consts.ROOT_DIR))
 				throw new Exception("no ROOT_DIR");
 
-			MakeAllBlock("ブロック", "");
-			MakeAllBlock("散り", "散り");
+			MakeAllBlock("ブロック", "", 255);
+			MakeAllBlock("散り", "散り", 200);
 		}
 
 		private Canvas _srcCanvas;
+		private string _destNamePrefix;
+		private int _destAlpha;
 
-		private void MakeAllBlock(string srcName, string destNamePrefix)
+		private void MakeAllBlock(string srcName, string destNamePrefix, int destAlpha)
 		{
 			string srcImgFile = Path.Combine(Consts.ROOT_DIR, "_orig", srcName + ".png");
 
@@ -65,15 +67,15 @@ namespace Charlotte
 				throw new Exception("no srcImgFile");
 
 			_srcCanvas = Canvas.Load(srcImgFile);
+			_destNamePrefix = destNamePrefix;
+			_destAlpha = destAlpha;
 
-			MakeBlock(destNamePrefix + "お邪魔", 1.0, 1.0, 1.0);
-			MakeBlock(destNamePrefix + "黄", 1.0, 1.0, 0.0);
-			MakeBlock(destNamePrefix + "紫", 1.0, 0.5, 1.0);
-			MakeBlock(destNamePrefix + "青", 0.0, 1.0, 1.0);
-			MakeBlock(destNamePrefix + "赤", 1.0, 0.0, 0.0);
-			MakeBlock(destNamePrefix + "緑", 0.5, 1.0, 0.5);
-
-			_srcCanvas = null;
+			MakeBlock("お邪魔", 1.0, 1.0, 1.0);
+			MakeBlock("黄", 1.0, 1.0, 0.0);
+			MakeBlock("紫", 1.0, 0.5, 1.0);
+			MakeBlock("青", 0.0, 1.0, 1.0);
+			MakeBlock("赤", 1.0, 0.0, 0.0);
+			MakeBlock("緑", 0.5, 1.0, 0.5);
 		}
 
 		private Canvas _canvas;
@@ -99,16 +101,14 @@ namespace Charlotte
 						SCommon.ToInt(dot.R * rRate),
 						SCommon.ToInt(dot.G * gRate),
 						SCommon.ToInt(dot.B * bRate),
-						dot.A
+						_destAlpha
 						);
 				}
 				return dot;
 			});
 
-			string destImgFile = Path.Combine(Consts.ROOT_DIR, destName + ".png");
+			string destImgFile = Path.Combine(Consts.ROOT_DIR, _destNamePrefix + destName + ".png");
 			_canvas.Save(destImgFile);
-
-			_canvas = null;
 		}
 	}
 }
