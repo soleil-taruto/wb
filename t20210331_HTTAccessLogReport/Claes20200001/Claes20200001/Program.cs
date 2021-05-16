@@ -118,7 +118,8 @@ namespace Charlotte
 					{
 						IEnumerable<RecordInfo> records = LogLinesToRecords(ReadLogLines(reader));
 
-						records = records.Where(record => record.IP != "192.168.123.254"); // 除外：室内(内側)ルータからのリクエストのIPアドレス
+						records = records.Where(record => !record.IP.StartsWith("192.168.")); // 除外：室内からのリクエストのIPアドレス
+						//records = records.Where(record => record.IP != "192.168.123.254"); // 除外：室内(内側)ルータからのリクエストのIPアドレス // old
 
 						records = records.Where(record => record.Host != "barnatsutobi.dip.jp");
 						records = records.Where(record => record.Host != "barnatsutobi.ccsp.mydns.jp");
