@@ -46,38 +46,78 @@ namespace Charlotte
 			//Common.Pause();
 		}
 
-		private string RFile = @"C:\Dev\Henrietta\e20190002_Ochimono\dat\補助\Dummy.png";
-		private string Res_WDirs = @"
-
-C:\Dev\Henrietta\e20190002_Ochimono\dat\Puzzle\Pair
-C:\Dev\Henrietta\e20190002_Ochimono\dat\Puzzle\Solo
-C:\Dev\Henrietta\e20190002_Ochimono\dat\Puzzle\必殺
-C:\Dev\Henrietta\e20190002_Ochimono\dat\System\Config
-C:\Dev\Henrietta\e20190002_Ochimono\dat\カットイン
-C:\Dev\Henrietta\e20190002_Ochimono\dat\シナリオ\System
-C:\Dev\Henrietta\e20190002_Ochimono\dat\シナリオ\エンディング
-C:\Dev\Henrietta\e20190002_Ochimono\dat\シナリオ\画像
-C:\Dev\Henrietta\e20190002_Ochimono\dat\シナリオ\選択肢
-
-";
-
 		private void Main4()
 		{
-			string[] wDirs = SCommon.TextToLines(Res_WDirs)
-				.Where(wDir => wDir != "")
-				.ToArray();
+			if (!Directory.Exists(Consts.ROOT_DIR))
+				throw new Exception("no ROOT_DIR");
 
-			if (!File.Exists(RFile))
-				throw new Exception("no RFile");
+			MakePauseButton(@"System\Button\ゲームに戻る.png", "　ゲームに戻る");
+			MakePauseButton(@"System\Button\ゲームに戻る選択中.png", "◆ゲームに戻る");
+			MakePauseButton(@"System\Button\ゲームを終了する.png", "　ゲームを終了する");
+			MakePauseButton(@"System\Button\ゲームを終了する選択中.png", "◆ゲームを終了する");
+			MakePauseButton(@"System\Button\タイトルに戻る.png", "　タイトルに戻る");
+			MakePauseButton(@"System\Button\タイトルに戻る選択中.png", "◆タイトルに戻る");
 
-			if (wDirs.Any(wDir => !Directory.Exists(wDir)))
-				throw new Exception("Bad wDirs");
+			MakeTextPanel(@"System\ロード中.png", 400, 80, 190, "Impact", FontStyle.Regular, new I3Color(255, 255, 255), "Now Loading...");
 
-			byte[] fileData = File.ReadAllBytes(RFile);
-			string[] wFiles = SCommon.Concat(wDirs.Select(wDir => Directory.GetFiles(wDir, "*.png", SearchOption.AllDirectories))).ToArray();
+			MakeTextPanel(@"画像\ready.png", 800, 600, 800, "Impact", FontStyle.Bold, new I3Color(255, 255, 0), new I3Color(0, 0, 255), 40, "READY", 0, 600);
 
-			foreach (string wFile in wFiles)
-				File.WriteAllBytes(wFile, fileData);
+			MakeTextPanel(@"画像\勝利.png", 400, 600, 300, "Impact", FontStyle.Regular, new I3Color(255, 128, 0), new I3Color(255, 255, 0), 40, "YOU WIN!", -20, 950);
+			MakeTextPanel(@"画像\敗北.png", 400, 600, 300, "Impact", FontStyle.Regular, new I3Color(0, 255, 255), new I3Color(0, 0, 255), 40, "YOU LOSE", 0, 950);
+		}
+
+		private void MakePauseButton(string relFile, string title)
+		{
+			string file = Path.Combine(Consts.ROOT_DIR, relFile);
+			Canvas canvas = new Canvas(226 * 4, 33 * 4);
+
+			canvas.Fill(new I4Color(0, 0, 0, 0));
+			canvas = canvas.DrawString(title, 70, "メイリオ", FontStyle.Bold, new I4Color(255, 255, 255, 255), 0, 0);
+			canvas = canvas.Expand(226, 33);
+
+			canvas.Save(file);
+		}
+
+		private void MakeTextPanel(string relFile, int w, int h, int fontSize, string fontName, FontStyle fontStyle, I3Color color, string text, int x = 0, int y = 0)
+		{
+			const int EXPAND_RATE = 4;
+
+			string file = Path.Combine(Consts.ROOT_DIR, relFile);
+			Canvas canvas = new Canvas(w * EXPAND_RATE, h * EXPAND_RATE);
+
+			canvas.Fill(new I4Color(0, 0, 0, 0)); // 本番
+			//canvas.Fill(new I4Color(0, 0, 0, 255)); // テスト用
+
+			canvas = canvas.DrawString(text, fontSize, fontName, fontStyle, color.WithAlpha(), x, y);
+			canvas = canvas.Expand(w, h);
+
+			canvas.Save(file);
+		}
+
+		private void MakeTextPanel(string relFile, int w, int h, int fontSize, string fontName, FontStyle fontStyle, I3Color color, I3Color borderColor, int borderWidth, string text, int x = 0, int y = 0)
+		{
+			const int EXPAND_RATE = 4;
+
+			string file = Path.Combine(Consts.ROOT_DIR, relFile);
+			Canvas canvas = new Canvas(w * EXPAND_RATE, h * EXPAND_RATE);
+
+			canvas.Fill(new I4Color(0, 0, 0, 0)); // 本番
+			//canvas.Fill(new I4Color(0, 0, 0, 255)); // テスト用
+
+			for (int xc = -1; xc <= 1; xc++)
+			{
+				for (int yc = -1; yc <= 1; yc++)
+				{
+					ProcMain.WriteLog("*1");
+					canvas = canvas.DrawString(text, fontSize, fontName, fontStyle, borderColor.WithAlpha(), x + xc * borderWidth, y + yc * borderWidth);
+				}
+			}
+			ProcMain.WriteLog("*2");
+			canvas = canvas.DrawString(text, fontSize, fontName, fontStyle, color.WithAlpha(), x, y);
+			ProcMain.WriteLog("*3");
+			canvas = canvas.Expand(w, h);
+
+			canvas.Save(file);
 		}
 	}
 }

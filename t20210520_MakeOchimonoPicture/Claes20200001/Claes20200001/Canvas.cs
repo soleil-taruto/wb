@@ -147,17 +147,18 @@ namespace Charlotte
 		/// </summary>
 		/// <param name="text">文字列</param>
 		/// <param name="fontSize">フォントサイズ</param>
+		/// <param name="fontName">フォント名</param>
 		/// <param name="color">色</param>
 		/// <param name="x">描画位置_X-軸</param>
 		/// <param name="y">描画位置_Y-軸</param>
 		/// <returns>新しいキャンパス</returns>
-		public Canvas DrawString(string text, int fontSize, I4Color color, int x, int y)
+		public Canvas DrawString(string text, int fontSize, string fontName, FontStyle fontStyle, I4Color color, int x, int y)
 		{
 			Bitmap bmp = this.ToBitmap();
 
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
-				g.DrawString(text, new Font("メイリオ", fontSize, FontStyle.Regular), new SolidBrush(color.ToColor()), new Point(x, y));
+				g.DrawString(text, new Font(fontName, fontSize, fontStyle), new SolidBrush(color.ToColor()), new Point(x, y));
 			}
 			return Load(bmp);
 		}
