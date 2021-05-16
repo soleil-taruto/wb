@@ -62,8 +62,8 @@ namespace Charlotte
 
 			MakeTextPanel(@"画像\ready.png", 800, 600, 800, "Impact", FontStyle.Bold, new I3Color(255, 255, 0), new I3Color(0, 0, 255), 40, "READY", 0, 600);
 
-			MakeTextPanel(@"画像\勝利.png", 400, 600, 300, "Impact", FontStyle.Regular, new I3Color(255, 128, 0), new I3Color(255, 255, 0), 40, "YOU WIN!", -20, 950);
-			MakeTextPanel(@"画像\敗北.png", 400, 600, 300, "Impact", FontStyle.Regular, new I3Color(0, 255, 255), new I3Color(0, 0, 255), 40, "YOU LOSE", 0, 950);
+			MakeTextPanel(@"画像\勝利.png", 400, 600, 300, "Impact", FontStyle.Regular, new I3Color(255, 128, 0), new I3Color(255, 255, 0), 40, "WINNER!", 20, 950);
+			MakeTextPanel(@"画像\敗北.png", 400, 600, 300, "Impact", FontStyle.Regular, new I3Color(0, 255, 255), new I3Color(0, 0, 255), 40, "LOSER...", 120, 950, new I4Color(0, 0, 0, 100));
 		}
 
 		private void MakePauseButton(string relFile, string title)
@@ -94,15 +94,22 @@ namespace Charlotte
 			canvas.Save(file);
 		}
 
-		private void MakeTextPanel(string relFile, int w, int h, int fontSize, string fontName, FontStyle fontStyle, I3Color color, I3Color borderColor, int borderWidth, string text, int x = 0, int y = 0)
+		private void MakeTextPanel(string relFile, int w, int h, int fontSize, string fontName, FontStyle fontStyle, I3Color color, I3Color borderColor, int borderWidth, string text, int x, int y, I4Color? backColor = null)
 		{
 			const int EXPAND_RATE = 4;
 
 			string file = Path.Combine(Consts.ROOT_DIR, relFile);
 			Canvas canvas = new Canvas(w * EXPAND_RATE, h * EXPAND_RATE);
 
-			canvas.Fill(new I4Color(0, 0, 0, 0)); // 本番
-			//canvas.Fill(new I4Color(0, 0, 0, 255)); // テスト用
+			if (backColor != null)
+			{
+				canvas.Fill(backColor.Value);
+			}
+			else
+			{
+				canvas.Fill(new I4Color(0, 0, 0, 0)); // 本番
+				//canvas.Fill(new I4Color(0, 0, 0, 255)); // テスト用
+			}
 
 			for (int xc = -1; xc <= 1; xc++)
 			{
