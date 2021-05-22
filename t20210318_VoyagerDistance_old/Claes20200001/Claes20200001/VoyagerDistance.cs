@@ -8,8 +8,6 @@ using Charlotte.Commons;
 
 namespace Charlotte
 {
-	// ★注意：他プログラムとデータファイル共有の可能性あり。要連携_必要に応じてコード同期
-
 	public class VoyagerDistance
 	{
 		private const string NASA_DISTANCE_DATA_URL = "https://voyager.jpl.nasa.gov/assets/javascripts/distance_data.js";
@@ -211,7 +209,7 @@ namespace Charlotte
 				throw new Exception("Bad serializedLines");
 		}
 
-		private const string NASA_DATA_FILE = @"C:\appdata\VoyagerDistance.txt"; // zantei
+		private static readonly string NASA_DATA_FILE = string.Format(@"C:\tmp\VoyagerDistance_{0}.txt", ProcMain.APP_IDENT);
 
 		private void SaveToFile()
 		{
